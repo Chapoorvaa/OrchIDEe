@@ -1,10 +1,6 @@
 package fr.epita.assistants.myide.domain.entity;
 
-import fr.epita.assistants.myide.utils.Given;
-
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -15,10 +11,15 @@ public class MyProject {
     private Node rootNode;
     private Set<Aspect> aspect;
 
+    public MyProject(Node rootNode, Set<Aspect> aspect) {
+        this.rootNode = rootNode;
+        this.aspect = aspect;
+    }
+
     /**
      * @return The root node of the project.
      */
-    public Node getRootNode() {
+    public @NotNull Node getRootNode() {
         return rootNode;
     }
 
@@ -31,18 +32,20 @@ public class MyProject {
 
     /**
      * Get an optional feature of the project depending
-     * of its type. Returns an empty optional if the
+     * on its type. Returns an empty optional if the
      * project does not have the features queried.
      *
      * @param featureType Type of the feature to retrieve.
      * @return An optional feature of the project.
      */
-    @NotNull Optional<Feature> getFeature(@NotNull final Feature.Type featureType);
-
-    /**
-     * @return The list of the project features.
-     */
-    default @NotNull List<@NotNull Feature> getFeatures() {
-        return getAspects().stream().map(Aspect::getFeatureList).flatMap(Collection::stream).toList();
+    public @NotNull Optional<Feature> getFeature(@NotNull final Feature.Type featureType) {
+        for (Aspect aspect : aspect) {
+            for (Feature feature : aspect.getFeatureList()) {
+                if (feature.type() == featureType) {
+                    return Optional.of(feature);
+                }
+            }
+        }
+        return Optional.empty();
     }
 }
