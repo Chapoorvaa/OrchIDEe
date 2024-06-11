@@ -5,7 +5,7 @@ public class MavenTree implements Feature {
     public ExecutionReport execute(Project project, Object... params) {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("mvn", "tree");
+            processBuilder.command("mvn", "dependency:tree");
             processBuilder.start();
         } catch (Exception e) {
             return () -> false;
