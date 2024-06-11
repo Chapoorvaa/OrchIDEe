@@ -9,6 +9,9 @@ public class GitAspect implements Aspect {
 
     public GitAspect() {
         featureList_.add(new GitAdd());
+        featureList_.add(new GitPull());
+        featureList_.add(new GitPush());
+        featureList_.add(new GitCommit());
     }
 
     @Override
