@@ -10,7 +10,7 @@ public class FolderNode implements Node {
 
     private final Path path;
 
-    FolderNode(Path path) {
+    public FolderNode(Path path) {
         this.path = path.toAbsolutePath().normalize();
     }
 
@@ -21,7 +21,7 @@ public class FolderNode implements Node {
 
     @Override
     public Type getType() {
-        return Types.FOLDER;
+        return Node.Types.FOLDER;
     }
 
     @Override

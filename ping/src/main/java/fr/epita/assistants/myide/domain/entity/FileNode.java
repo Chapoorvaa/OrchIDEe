@@ -9,7 +9,7 @@ public class FileNode implements Node {
 
     private final Path path;
 
-    FileNode(Path path) {
+    public FileNode(Path path) {
         this.path = path.toAbsolutePath().normalize();
     }
 
@@ -20,7 +20,7 @@ public class FileNode implements Node {
 
     @Override
     public Type getType() {
-        return Types.FILE;
+        return Node.Types.FILE;
     }
 
     @Override
