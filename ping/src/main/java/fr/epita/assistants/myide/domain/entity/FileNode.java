@@ -1,7 +1,6 @@
 package fr.epita.assistants.myide.domain.entity;
 
 import javax.validation.constraints.NotNull;
-import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 

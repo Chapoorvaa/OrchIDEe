@@ -61,10 +61,10 @@ public class MyNodeService implements NodeService {
                 return new FileNode(newPath);
             }
             else {
-                return null;
+                throw new IllegalArgumentException("Invalid node type");
             }
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -77,15 +77,31 @@ public class MyNodeService implements NodeService {
             throw new IllegalArgumentException("File does not exist");
         }
         if (!Files.exists(destFolderPath) || !Files.isDirectory(destFolderPath)) {
-            throw new IllegalArgumentException("File does not exist or isn't a directory");
+            throw new IllegalArgumentException("Destination directory does not exist or isn't a directory");
         }
 
-        Path newDstPath = destFolderPath.resolve(srcPath.getFileName());
-        try {
-            Files.move(srcPath, newDstPath);
-            return new FileNode(newDstPath);
-        } catch (IOException e) {
-            return null;
+        if (nodeToMove.getType() == Node.Types.FOLDER) {
+            for (Node child : nodeToMove.getChildren()) {
+                Path childFileName = srcPath.getFileName().resolve(child.getPath().getFileName());
+                Path newDstPath = destFolderPath.resolve(childFileName);
+                try {
+                    Files.move(child.getPath(),newDstPath);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            Path newFolderPath = destFolderPath.resolve(nodeToMove.getPath().getFileName());
+            return new FolderNode(newFolderPath);
+
+        } else {
+
+            Path newDstPath = destFolderPath.resolve(srcPath.getFileName());
+            try {
+                Files.move(srcPath, newDstPath);
+                return new FileNode(newDstPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

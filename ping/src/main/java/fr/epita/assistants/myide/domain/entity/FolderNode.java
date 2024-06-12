@@ -26,14 +26,14 @@ public class FolderNode implements Node {
 
     @Override
     public List<@NotNull Node> getChildren() {
-        File cur_dir = new File(this.path.toString());
+        File curDir = new File(this.path.toString());
         List<Node> children = new ArrayList<>();
-        File[] listFiles = cur_dir.listFiles();
-        if (listFiles != null) {
-            for (File file : listFiles) {
+        File[] fileList= curDir.listFiles();
+        if (fileList != null) {
+            for (File file : fileList) {
                 if (file.isDirectory()) {
                     children.add(new FolderNode(file.toPath()));
-                } else if (file.isFile()) {
+                } else {
                     children.add(new FileNode(file.toPath()));
                 }
             }
