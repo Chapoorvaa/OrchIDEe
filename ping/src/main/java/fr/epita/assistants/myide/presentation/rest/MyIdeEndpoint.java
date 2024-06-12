@@ -1,13 +1,15 @@
 package fr.epita.assistants.myide.presentation.rest;
 
-import fr.epita.assistants.myide.domain.entity.Node;
-import fr.epita.assistants.myide.domain.entity.Project;
+import fr.epita.assistants.myide.domain.entity.*;
+import fr.epita.assistants.myide.domain.service.MyNodeService;
+import fr.epita.assistants.myide.domain.service.MyProjectService;
+import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.presentation.rest.request.ExecFeatureRequest;
 import fr.epita.assistants.myide.presentation.rest.request.MoveRequest;
 import fr.epita.assistants.myide.presentation.rest.request.SimpleRequest;
 import fr.epita.assistants.myide.presentation.rest.request.UpdateRequest;
-import fr.epita.assistants.myide.domain.service.NodeService;
 import jakarta.inject.Inject;
+
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -20,8 +22,9 @@ import java.nio.file.Paths;
 @Produces(MediaType.APPLICATION_JSON)
 public class MyIdeEndpoint {
 
-    @Inject MyProjectService myProjectService;
-    public MyProject myProject;
+    @Inject
+    MyProjectService myProjectService;
+    public Project myProject;
 
     @GET @Path("/hello")
     public Response helloWorld()
@@ -34,8 +37,7 @@ public class MyIdeEndpoint {
     public Response openProject(SimpleRequest request)
     {
         java.nio.file.Path path = Paths.get(request.getPath());
-        MyProject project = myProjectService.load(path);
-        myProject = project;
+        myProject = myProjectService.load(path);
         Logger.log("open a project!");
         return Response.ok().build();
     }
@@ -53,8 +55,8 @@ public class MyIdeEndpoint {
         java.nio.file.Path path = Paths.get(request.getPath());
         String fileName = path.getFileName().toString();
         String directoryPath = path.getParent().toString() + "/";
-        Node folderNode = new FolderNode(directoryPath);
-        MyNodeService myNodeService = myProjectService.getNodeService();
+        Node folderNode = new FolderNode(java.nio.file.Path.of(directoryPath));
+        NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.create(folderNode, fileName, Node.Types.FILE);
         Logger.log("create a file!");
         return Response.ok().build();
@@ -66,8 +68,8 @@ public class MyIdeEndpoint {
         java.nio.file.Path path = Paths.get(request.getPath());
         String fileName = path.getFileName().toString();
         String directoryPath = path.getParent().toString() + "/";
-        Node folderNode = new FolderNode(directoryPath);
-        MyNodeService myNodeService = myProjectService.getNodeService();
+        Node folderNode = new FolderNode(java.nio.file.Path.of(directoryPath));
+        NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.create(folderNode, fileName, Node.Types.FOLDER);
         Logger.log("create a folder!");
         return Response.ok().build();
@@ -78,7 +80,7 @@ public class MyIdeEndpoint {
     {
         java.nio.file.Path path = Paths.get(request.getPath());
         Node fileNode = new FileNode(path);
-        MyNodeService myNodeService = myProjectService.getNodeService();
+        NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.delete(fileNode);
         Logger.log("delete a file!");
         return Response.ok().build();
@@ -89,7 +91,7 @@ public class MyIdeEndpoint {
     {
         java.nio.file.Path path = Paths.get(request.getPath());
         Node folderNode = new FolderNode(path);
-        MyNodeService myNodeService = myProjectService.getNodeService();
+        NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.delete(folderNode);
         Logger.log("delete a folder!");
         return Response.ok().build();
@@ -98,7 +100,7 @@ public class MyIdeEndpoint {
     @POST
     @Path("/execFeature")
     public Response execFeature(ExecFeatureRequest request) {
-        myProjectService.execute(request.getProject(), request.getFeature().getType(), request.getParams());
+        //myProjectService.execute(request.getProject(), request.getFeature().getType(), request.getParams());
         Logger.log("exec a feature!");
         return Response.ok().build();
     }
@@ -110,7 +112,7 @@ public class MyIdeEndpoint {
         java.nio.file.Path path_dst = Paths.get(request.getDst());
         Node fileNodeSrc = new FileNode(path_src);
         Node folderNodeDst = new FolderNode(path_dst);
-        MyNodeService myNodeService = myProjectService.getNodeService();
+        NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.move(fileNodeSrc, folderNodeDst);
         Logger.log("move a file!");
         return Response.ok().build();
@@ -119,9 +121,9 @@ public class MyIdeEndpoint {
     @POST
     @Path("/update")
     public Response update(UpdateRequest request) {
-        MyNodeService myNodeService = myProjectService.getNodeService();
+        NodeService myNodeService = myProjectService.getNodeService();
         byte[] byteArrray = request.getContent().getBytes();
-        Node fileNode = new FileNode(request.getPath());
+        Node fileNode = new FileNode(java.nio.file.Path.of(request.getPath()));
         myNodeService.update(fileNode, request.getFrom(), request.getTo(), byteArrray);
         Logger.log("update a file!");
         return Response.ok().build();

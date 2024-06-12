@@ -7,15 +7,15 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class GitAdd implements Feature{
+public class GitAdd implements Feature {
     @Override
     public ExecutionReport execute(Project project, Object... params) {
-        Repository newRepo;
         try{
-            newRepo = FileRepositoryBuilder.create(
-                    new File(project.getRootNode().getPath() + "/.git"));
+            Repository newRepo = FileRepositoryBuilder.create(
+                    new File(String.valueOf(project.getRootNode().getPath().resolve(Paths.get("/.git")))));
             newRepo.create();
 
 
