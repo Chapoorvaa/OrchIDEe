@@ -1,7 +1,6 @@
 package fr.epita.assistants.myide.domain.service;
 
 import fr.epita.assistants.myide.domain.entity.Feature;
-import fr.epita.assistants.myide.domain.entity.MyProject;
 import fr.epita.assistants.myide.domain.entity.Project;
 
 import java.nio.file.Path;

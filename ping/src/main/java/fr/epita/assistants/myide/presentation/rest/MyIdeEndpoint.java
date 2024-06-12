@@ -1,14 +1,12 @@
 package fr.epita.assistants.myide.presentation.rest;
 
 import fr.epita.assistants.myide.domain.entity.*;
-import fr.epita.assistants.myide.domain.service.MyNodeService;
-import fr.epita.assistants.myide.domain.service.MyProjectService;
 import fr.epita.assistants.myide.domain.service.NodeService;
+import fr.epita.assistants.myide.domain.service.ProjectService;
 import fr.epita.assistants.myide.presentation.rest.request.ExecFeatureRequest;
 import fr.epita.assistants.myide.presentation.rest.request.MoveRequest;
 import fr.epita.assistants.myide.presentation.rest.request.SimpleRequest;
 import fr.epita.assistants.myide.presentation.rest.request.UpdateRequest;
-import jakarta.inject.Inject;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,9 +19,7 @@ import java.nio.file.Paths;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class MyIdeEndpoint {
-
-    @Inject
-    MyProjectService myProjectService;
+    ProjectService myProjectService;
     public Project myProject;
 
     @GET @Path("/hello")
