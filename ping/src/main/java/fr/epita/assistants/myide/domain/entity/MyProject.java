@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Implementation of the interface Project
  */
-public class MyProject {
+public class MyProject implements Project {
     private Node rootNode;
     private Set<Aspect> aspect;
 

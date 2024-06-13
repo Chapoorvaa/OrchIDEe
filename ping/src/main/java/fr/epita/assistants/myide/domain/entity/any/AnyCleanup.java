@@ -1,8 +1,8 @@
-package fr.epita.assistants.myide.domain.entity;
+package fr.epita.assistants.myide.domain.entity.any;
 
+import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.service.MyNodeService;
 import fr.epita.assistants.myide.domain.service.NodeService;
-import jakarta.ws.rs.Path;
 
 import java.io.BufferedReader;
 import java.io.File;
