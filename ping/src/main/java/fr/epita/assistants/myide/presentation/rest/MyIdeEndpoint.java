@@ -38,9 +38,8 @@ public class MyIdeEndpoint {
     @Path("/open/project")
     public Response openProject(SimpleRequest request) {
         java.nio.file.Path path = Paths.get(request.getPath());
-        myProject = myProjectService.load(path);
         String name = path.getFileName().toString();
-        ProjectsMap.put(name, myProject);
+        ProjectsMap.put(name, myProjectService.load(path));
         Logger.log("open a project!");
         return Response.ok().build();
     }
