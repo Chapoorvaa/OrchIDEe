@@ -156,7 +156,7 @@ public class MyIdeEndpoint {
             return Response.serverError().status(400).build();
         }
 
-        myProjectService.execute(ProjectsMap.get(request.getFeature()), type, request.getParams());
+        myProjectService.execute(ProjectsMap.get(request.getProject()), type, request.getParams()).isSuccess();
         Logger.log("exec a feature!");
         return Response.ok().build();
     }
@@ -171,7 +171,6 @@ public class MyIdeEndpoint {
             Logger.logError("Error in MOVE: from " + request.getSrc() + " to " + request.getDst());
             return Response.serverError().status(400).build();
         }
-
 
         java.nio.file.Path path_src = Paths.get(request.getSrc());
         java.nio.file.Path path_dst = Paths.get(request.getDst());

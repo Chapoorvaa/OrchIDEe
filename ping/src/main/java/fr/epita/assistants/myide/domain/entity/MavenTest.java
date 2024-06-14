@@ -5,7 +5,7 @@ public class MavenTest implements Feature {
     public ExecutionReport execute(Project project, Object... params) {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("mvn", "test");
+            processBuilder.command("mvn", "test", "--file", project.getRootNode().getPath().toString());
             processBuilder.start();
         } catch (Exception e) {
             return () -> false;

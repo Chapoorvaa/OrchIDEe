@@ -5,7 +5,7 @@ public class MavenExec implements Feature {
     public ExecutionReport execute(Project project, Object... params) {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("mvn", "exec:java");
+            processBuilder.command("mvn", "exec:java", "--file", project.getRootNode().getPath().toString());
             processBuilder.start();
         } catch (Exception e) {
             return () -> false;
