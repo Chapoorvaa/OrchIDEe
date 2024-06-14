@@ -2,10 +2,9 @@ package fr.epita.assistants.myide.domain.service;
 
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.any.AnyAspect;
-import fr.epita.assistants.myide.utils.Logger;
+import fr.epita.assistants.myide.domain.entity.maven.MavenAspect;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
