@@ -11,7 +11,7 @@ import fr.epita.assistants.myide.presentation.rest.request.UpdateRequest;
 
 import fr.epita.assistants.myide.presentation.rest.response.FileReponse;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.Path as JaxRsPath;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import fr.epita.assistants.myide.utils.Logger;
@@ -34,7 +34,7 @@ public class MyIdeEndpoint {
     @POST
     @Path("/open/project")
     public Response openProject(SimpleRequest request) {
-        Path path = Paths.get(request.getPath());
+        java.nio.file.Path path = Paths.get(request.getPath());
         myProject = myProjectService.load(path);
         Logger.log("open a project!");
         return Response.ok().build();
@@ -51,10 +51,10 @@ public class MyIdeEndpoint {
     @POST
     @Path("/create/file")
     public Response createFile(SimpleRequest request) {
-        Path path = Paths.get(request.getPath());
+        java.nio.file.Path path = Paths.get(request.getPath());
         String fileName = path.getFileName().toString();
         String directoryPath = path.getParent().toString() + "/";
-        Node folderNode = new FolderNode(Path.of(directoryPath));
+        Node folderNode = new FolderNode(java.nio.file.Path.of(directoryPath));
         NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.create(folderNode, fileName, Node.Types.FILE);
         Logger.log("create a file!");
@@ -64,10 +64,10 @@ public class MyIdeEndpoint {
     @POST
     @Path("/create/folder")
     public Response createFolder(SimpleRequest request) {
-        Path path = Paths.get(request.getPath());
+        java.nio.file.Path path = Paths.get(request.getPath());
         String fileName = path.getFileName().toString();
         String directoryPath = path.getParent().toString() + "/";
-        Node folderNode = new FolderNode(Path.of(directoryPath));
+        Node folderNode = new FolderNode(java.nio.file.Path.of(directoryPath));
         NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.create(folderNode, fileName, Node.Types.FOLDER);
         Logger.log("create a folder!");
@@ -77,7 +77,7 @@ public class MyIdeEndpoint {
     @POST
     @Path("/delete/file")
     public Response deleteFile(SimpleRequest request) {
-        Path path = Paths.get(request.getPath());
+        java.nio.file.Path path = Paths.get(request.getPath());
         Node fileNode = new FileNode(path);
         NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.delete(fileNode);
@@ -88,7 +88,7 @@ public class MyIdeEndpoint {
     @POST
     @Path("/delete/folder")
     public Response deleteFolder(SimpleRequest request) {
-        Path path = Paths.get(request.getPath());
+        java.nio.file.Path path = Paths.get(request.getPath());
         Node folderNode = new FolderNode(path);
         NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.delete(folderNode);
@@ -116,8 +116,8 @@ public class MyIdeEndpoint {
         }
 
 
-        Path path_src = Paths.get(request.getSrc());
-        Path path_dst = Paths.get(request.getDst());
+        java.nio.file.Path path_src = Paths.get(request.getSrc());
+        java.nio.file.Path path_dst = Paths.get(request.getDst());
 
         Node fileNodeSrc = new FileNode(path_src);
         Node folderNodeDst = new FolderNode(path_dst);
@@ -131,7 +131,7 @@ public class MyIdeEndpoint {
     public Response update(UpdateRequest request) {
         NodeService myNodeService = myProjectService.getNodeService();
         byte[] byteArrray = request.getContent().getBytes();
-        Node fileNode = new FileNode(Path.of(request.getPath()));
+        Node fileNode = new FileNode(java.nio.file.Path.of(request.getPath()));
         myNodeService.update(fileNode, request.getFrom(), request.getTo(), byteArrray);
         Logger.log("update a file!");
         return Response.ok().build();
