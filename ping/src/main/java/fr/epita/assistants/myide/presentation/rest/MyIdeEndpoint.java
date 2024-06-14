@@ -105,66 +105,55 @@ public class MyIdeEndpoint {
     public Response execFeature(ExecFeatureRequest request) {
         Feature.Type type = null;
         switch(request.getFeature().toUpperCase()){
-
             case "CLEANUP":
                 type = Mandatory.Features.Any.CLEANUP;
                 break;
-
             case "DIST":
                 type = Mandatory.Features.Any.DIST;
                 break;
-
             case "SEARCH":
                 type = Mandatory.Features.Any.SEARCH;
                 break;
-
             case "PULL":
                 type = Mandatory.Features.Git.PULL;
                 break;
-
             case "ADD":
                 type = Mandatory.Features.Git.ADD;
                 break;
-
             case "COMMIT":
                 type = Mandatory.Features.Git.COMMIT;
                 break;
-
             case "PUSH":
                 type = Mandatory.Features.Git.PUSH;
                 break;
-
             case "COMPILE":
                 type = Mandatory.Features.Maven.COMPILE;
                 break;
-
             case "CLEAN":
                 type = Mandatory.Features.Maven.CLEAN;
                 break;
-
             case "TEST":
                 type = Mandatory.Features.Maven.TEST;
                 break;
-
             case "PACKAGE":
                 type = Mandatory.Features.Maven.PACKAGE;
                 break;
-
             case "INSTALL":
                 type = Mandatory.Features.Maven.INSTALL;
                 break;
-
             case "EXEC":
                 type = Mandatory.Features.Maven.EXEC;
                 break;
-
             case "TREE":
                 type = Mandatory.Features.Maven.TREE;
                 break;
-
             default:
-                System.out.println("Choix incorrect");
                 break;
+        }
+
+        if (type == null) {
+            Logger.logError("Error on EXECFEATURE");
+            return Response.serverError().status(400).build();
         }
 
         myProjectService.execute(ProjectsMap.get(request.getFeature()), type, request.getParams());
@@ -179,7 +168,7 @@ public class MyIdeEndpoint {
 
         if (request.getSrc() == null || request.getSrc().isEmpty() || request.getDst() == null
                 || request.getDst().isEmpty()) {
-            Logger.log("Error in MOVE: from " + request.getSrc() + " to " + request.getDst());
+            Logger.logError("Error in MOVE: from " + request.getSrc() + " to " + request.getDst());
             return Response.serverError().status(400).build();
         }
 
