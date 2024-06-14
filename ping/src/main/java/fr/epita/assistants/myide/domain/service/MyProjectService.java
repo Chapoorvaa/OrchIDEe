@@ -1,23 +1,49 @@
 package fr.epita.assistants.myide.domain.service;
 
-import fr.epita.assistants.myide.domain.entity.Feature;
-import fr.epita.assistants.myide.domain.entity.Project;
+import fr.epita.assistants.myide.domain.entity.*;
+import fr.epita.assistants.myide.domain.entity.any.AnyAspect;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 public class MyProjectService implements ProjectService {
+    private final NodeService myNodeService = new MyNodeService();
+
     @Override
     public Project load(Path root) {
-        return null;
+        Node rootNode = new FolderNode(root);
+
+        Set<Aspect> aspects = new HashSet<>();
+
+        aspects.add(new AnyAspect());
+
+        for (Node node : rootNode.getChildren()) {
+            if (node.getPath().getFileName().toString().equals(".git")) {
+                aspects.add(new GitAspect());
+            }
+            else if (node.getPath().getFileName().toString().equals("pom.xml")) {
+                aspects.add(new MavenAspect());
+            }
+        }
+
+        return new MyProject(rootNode, aspects);
     }
 
     @Override
     public Feature.ExecutionReport execute(Project project, Feature.Type featureType, Object... params) {
-        return null;
+        Optional<Feature> optFeature = project.getFeature(featureType);
+        if (optFeature.isEmpty()) {
+            return () -> false;
+        }
+
+        return optFeature.get().execute(project);
     }
 
     @Override
     public NodeService getNodeService() {
-        return null;
+        return myNodeService;
     }
 }

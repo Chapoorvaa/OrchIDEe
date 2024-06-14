@@ -1,6 +1,9 @@
-package fr.epita.assistants.myide.domain.entity;
+package fr.epita.assistants.myide.domain.entity.any;
 
-import javax.swing.*;
+import fr.epita.assistants.myide.domain.entity.Feature;
+import fr.epita.assistants.myide.domain.entity.Mandatory;
+import fr.epita.assistants.myide.domain.entity.Project;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
