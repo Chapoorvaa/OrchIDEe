@@ -14,6 +14,10 @@ public class MyProjectService implements ProjectService {
 
     @Override
     public Project load(Path root) {
+        if (!root.toFile().isDirectory()) {
+            return null;
+        }
+
         Node rootNode = new FolderNode(root);
 
         Set<Aspect> aspects = new HashSet<>();
