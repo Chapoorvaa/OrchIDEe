@@ -6,7 +6,6 @@ import fr.epita.assistants.myide.domain.entity.git.GitAspect;
 import fr.epita.assistants.myide.domain.entity.maven.MavenAspect;
 import fr.epita.assistants.myide.utils.Logger;
 
-
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Optional;
