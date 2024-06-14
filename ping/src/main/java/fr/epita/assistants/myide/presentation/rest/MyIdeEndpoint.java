@@ -248,6 +248,9 @@ public class MyIdeEndpoint {
             case "PUSH":
                 type = Mandatory.Features.Git.PUSH;
                 break;
+            case "STATUS":
+                type = Mandatory.Features.Git.STATUS;
+                break;
             case "COMPILE":
                 type = Mandatory.Features.Maven.COMPILE;
                 break;
@@ -283,6 +286,7 @@ public class MyIdeEndpoint {
 
         Logger.log("SUCCESS on EXECFEATURE: feature " + request.getFeature() + " in project " + request.getProject());
         return Response.ok(new ExecFeatureResponse(request.getFeature(), request.getProject(), request.getParams())).build();
+
     }
 
     @POST

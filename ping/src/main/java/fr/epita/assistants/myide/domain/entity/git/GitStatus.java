@@ -1,5 +1,8 @@
-package fr.epita.assistants.myide.domain.entity;
+package fr.epita.assistants.myide.domain.entity.git;
 
+import fr.epita.assistants.myide.domain.entity.Feature;
+import fr.epita.assistants.myide.domain.entity.Mandatory;
+import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.utils.Logger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
@@ -9,7 +12,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.IOException;
 
-public class GitStatus implements Feature{
+public class GitStatus implements Feature {
     @Override
     public ExecutionReport execute(Project project, Object... params) {
         System.out.println("hello im gonna git status");
