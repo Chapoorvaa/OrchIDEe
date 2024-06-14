@@ -69,7 +69,12 @@ public enum Mandatory {
             /**
              * Git push (no force).
              */
-            PUSH
+            PUSH,
+
+            /**
+             * Git status
+             */
+            STATUS
         }
 
         /**
