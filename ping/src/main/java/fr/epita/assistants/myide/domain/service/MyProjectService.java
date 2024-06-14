@@ -44,8 +44,7 @@ public class MyProjectService implements ProjectService {
             Logger.logError("ERROR feature " + featureType.toString() + " is not in project " + project.getRootNode().getPath().getFileName().toString());
             return () -> false;
         }
-
-        return optFeature.get().execute(project);
+        return optFeature.get().execute(project, params);
     }
 
     @Override
