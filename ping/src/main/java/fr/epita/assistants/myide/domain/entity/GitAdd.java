@@ -16,34 +16,25 @@ import java.util.Arrays;
 public class GitAdd implements Feature {
     @Override
     public ExecutionReport execute(Project project, Object... params) {
-        try{
-            Logger.log("hey im gonna create create repository with : " + project.getRootNode().getPath().toString());
-//            Repository newRepo = FileRepositoryBuilder.create(
-//                    new File(String.valueOf(project.getRootNode().getPath().resolve(Paths.get("/.git")))));
-//            newRepo.create();
+        try {
             Repository existingRepo = new FileRepositoryBuilder()
-                    .setGitDir(new File(String.valueOf(project.getRootNode().getPath().resolve(Paths.get("/.git"))))).build();
+                    .findGitDir(project.getRootNode().getPath().toFile())
+                    .build();
 
-            Logger.log("lets goooo");
             Git git = new Git(existingRepo);
-            Logger.log("wtffff + " + Arrays.toString(params));
-            for(Object s : params){
-                Logger.log("Trying to add : " + s.toString());
-                git.add().addFilepattern(s.toString()).call();
+
+            System.out.println(Arrays.toString(params));
+
+            // TODO: check if the file we are trying to add exists
+            // Here if the file does not exist, nothing will happen
+            for (Object param : params) {
+                git.add().addFilepattern(param.toString()).call();
             }
-
-//            git.add().addFilepattern(params[0].toString())
-//                    .call();
-
+        }catch (IOException e) {
+            Logger.log("IOException in GitStatus : " + e.getMessage());
         }
-        catch (IOException e)
-        {
-            Logger.log("The repository could not be accessed to configure the rest of the builder's parameters.");
-            return () -> false;
-        } catch (GitAPIException e) {
-            throw new RuntimeException(e);
-        } catch (JGitInternalException e2) {
-            Logger.log(e2.getMessage());
+        catch (GitAPIException e) {
+            Logger.log("GitAPIException in GitStatus : " + e.getMessage());
         }
 
         return () ->  true;
