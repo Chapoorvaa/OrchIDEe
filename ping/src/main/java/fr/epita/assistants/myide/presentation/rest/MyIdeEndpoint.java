@@ -16,12 +16,15 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import fr.epita.assistants.myide.utils.Logger;
 import java.nio.file.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Path("/api")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class MyIdeEndpoint {
     public ProjectService myProjectService = new MyProjectService();
+    public Map<String, Project> ProjectsMap = new HashMap<String, Project>();
     public Project myProject;
 
     @GET
@@ -36,6 +39,8 @@ public class MyIdeEndpoint {
     public Response openProject(SimpleRequest request) {
         java.nio.file.Path path = Paths.get(request.getPath());
         myProject = myProjectService.load(path);
+        String name = path.getFileName().toString();
+        ProjectsMap.put(name, myProject);
         Logger.log("open a project!");
         return Response.ok().build();
     }
@@ -99,7 +104,71 @@ public class MyIdeEndpoint {
     @POST
     @Path("/execFeature")
     public Response execFeature(ExecFeatureRequest request) {
-        //myProjectService.execute(request.getProject(), request.getFeature().getType(), request.getParams());
+        Feature.Type type = null;
+        switch(request.getFeature().toUpperCase()){
+
+            case "CLEANUP":
+                type = Mandatory.Features.Any.CLEANUP;
+                break;
+
+            case "DIST":
+                type = Mandatory.Features.Any.DIST;
+                break;
+
+            case "SEARCH":
+                type = Mandatory.Features.Any.SEARCH;
+                break;
+
+            case "PULL":
+                type = Mandatory.Features.Git.PULL;
+                break;
+
+            case "ADD":
+                type = Mandatory.Features.Git.ADD;
+                break;
+
+            case "COMMIT":
+                type = Mandatory.Features.Git.COMMIT;
+                break;
+
+            case "PUSH":
+                type = Mandatory.Features.Git.PUSH;
+                break;
+
+            case "COMPILE":
+                type = Mandatory.Features.Maven.COMPILE;
+                break;
+
+            case "CLEAN":
+                type = Mandatory.Features.Maven.CLEAN;
+                break;
+
+            case "TEST":
+                type = Mandatory.Features.Maven.TEST;
+                break;
+
+            case "PACKAGE":
+                type = Mandatory.Features.Maven.PACKAGE;
+                break;
+
+            case "INSTALL":
+                type = Mandatory.Features.Maven.INSTALL;
+                break;
+
+            case "EXEC":
+                type = Mandatory.Features.Maven.EXEC;
+                break;
+
+            case "TREE":
+                type = Mandatory.Features.Maven.TREE;
+                break;
+
+            default:
+                System.out.println("Choix incorrect");
+                break;
+        }
+
+        myProjectService.execute(ProjectsMap.get(request.getFeature()), type, request.getParams());
         Logger.log("exec a feature!");
         return Response.ok().build();
     }
