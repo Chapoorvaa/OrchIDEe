@@ -28,7 +28,6 @@ import java.util.Map;
 public class MyIdeEndpoint {
     public ProjectService myProjectService = new MyProjectService();
     public Map<String, Project> ProjectsMap = new HashMap<String, Project>();
-    public Project myProject;
 
     @GET
     @Path("/hello")
@@ -40,9 +39,16 @@ public class MyIdeEndpoint {
     @POST
     @Path("/open/project")
     public Response openProject(SimpleRequest request) {
+        Logger.log("Attempting OPEN/PROJECT");
+
         java.nio.file.Path path = Paths.get(request.getPath());
-        String name = path.getFileName().toString();
-        ProjectsMap.put(name, myProjectService.load(path));
+        Project myProject = myProjectService.load(path);
+        if (myProject == null) {
+            Logger.logError("ERROR on OPEN/PROJECT project not found");
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        ProjectsMap.put(path.getFileName().toString(), myProject);
+
         Logger.log("open a project!");
         return Response.ok(new ProjectResponse(name, path)).build();
     }
@@ -205,7 +211,7 @@ public class MyIdeEndpoint {
             Logger.logError("execute feature failed");
             return Response.serverError().status(500).build();
         }
-
+      
         Logger.log("exec a feature!");
         return Response.ok().build();
     }

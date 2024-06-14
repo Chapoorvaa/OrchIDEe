@@ -1,4 +1,8 @@
-package fr.epita.assistants.myide.domain.entity;
+package fr.epita.assistants.myide.domain.entity.maven;
+
+import fr.epita.assistants.myide.domain.entity.Aspect;
+import fr.epita.assistants.myide.domain.entity.Feature;
+import fr.epita.assistants.myide.domain.entity.Mandatory;
 
 import java.util.ArrayList;
 import java.util.List;

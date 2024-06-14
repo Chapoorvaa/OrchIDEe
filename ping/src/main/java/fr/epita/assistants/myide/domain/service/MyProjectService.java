@@ -2,9 +2,9 @@ package fr.epita.assistants.myide.domain.service;
 
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.any.AnyAspect;
+import fr.epita.assistants.myide.domain.entity.maven.MavenAspect;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +14,10 @@ public class MyProjectService implements ProjectService {
 
     @Override
     public Project load(Path root) {
+        if (!root.toFile().isDirectory()) {
+            return null;
+        }
+
         Node rootNode = new FolderNode(root);
 
         Set<Aspect> aspects = new HashSet<>();
