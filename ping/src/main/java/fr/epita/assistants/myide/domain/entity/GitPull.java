@@ -2,6 +2,8 @@ package fr.epita.assistants.myide.domain.entity;
 
 import fr.epita.assistants.myide.utils.Logger;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PullResult;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
@@ -14,21 +16,27 @@ public class GitPull implements Feature {
 
     @Override
     public ExecutionReport execute(Project project, Object... params) {
-        try{
-            Repository newRepo = FileRepositoryBuilder.create(
-                    new File(String.valueOf(project.getRootNode().getPath().resolve(Paths.get("/.git")))));
-            newRepo.create();
+        try {
+            Repository existingRepo = new FileRepositoryBuilder()
+                    .findGitDir(project.getRootNode().getPath().toFile())
+                    .build();
+
+            Git git = new Git(existingRepo);
 
 
-            Git git = new Git(newRepo);
+            System.out.println("Remote : " + git.pull().getRemote());
+            System.out.println("Remote Branch : " + git.pull().getRemoteBranchName());
+            PullResult res = git.pull().call();
+            System.out.println("Fetch from : " + res.getFetchedFrom());
+            System.out.println("Success : " + res.isSuccessful());
 
-            git.pull();
+        }catch (IOException e) {
+            Logger.log("IOException in GitStatus : " + e.getMessage());
         }
-        catch (IOException e)
-        {
-            Logger.log("The repository could not be accessed to configure the rest of the builder's parameters.");
-            return () -> false;
+        catch (GitAPIException e) {
+            Logger.log("GitAPIException in GitStatus : " + e.getMessage());
         }
+
 
         return () ->  true;
     }
