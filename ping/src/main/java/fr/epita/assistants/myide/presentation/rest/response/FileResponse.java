@@ -5,10 +5,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FileReponse {
+public class FileResponse {
+
+    String name;
+    String path;
     String content;
 
-    public FileReponse(String content) {
+    public FileResponse(String name, String path, String content) {
+        this.name = name;
+        this.path = path;
         this.content = content;
     }
 }

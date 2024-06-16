@@ -9,8 +9,10 @@ import fr.epita.assistants.myide.presentation.rest.request.MoveRequest;
 import fr.epita.assistants.myide.presentation.rest.request.SimpleRequest;
 import fr.epita.assistants.myide.presentation.rest.request.UpdateRequest;
 
-import fr.epita.assistants.myide.presentation.rest.response.FileReponse;
+import fr.epita.assistants.myide.presentation.rest.response.FileResponse;
+import fr.epita.assistants.myide.presentation.rest.response.MoveResponse;
 import fr.epita.assistants.myide.presentation.rest.response.ProjectResponse;
+import fr.epita.assistants.myide.presentation.rest.response.UpdateResponse;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
@@ -43,43 +45,65 @@ public class MyIdeEndpoint {
 
         java.nio.file.Path path = Paths.get(request.getPath());
         Project myProject = myProjectService.load(path);
+        String projectName = path.getFileName().toString();
+
         if (myProject == null) {
-            Logger.logError("ERROR on OPEN/PROJECT project not found");
+            Logger.logError("ERROR on OPEN/PROJECT project " + projectName + " not found");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        ProjectsMap.put(path.getFileName().toString(), myProject);
 
-        Logger.log("open a project!");
-        return Response.ok(new ProjectResponse(name, path)).build();
+        ProjectsMap.put(projectName, myProject);
+        Logger.log("open a project! name: " + projectName + "path: " + path);
+        return Response.ok(new ProjectResponse(projectName, path.toString())).build();
     }
 
     @POST
     @Path("/open/file")
     public Response openFile(SimpleRequest request) {
-        Logger.log("open a file!");
-        FileNode fileNode = new FileNode(Paths.get(request.getPath()));
-        return Response.ok(new FileReponse(fileNode.read())).build();
+        Logger.log("Attempting OPEN/FILE");
+
+        java.nio.file.Path path = Paths.get(request.getPath());
+        String fileName = path.getFileName().toString();
+        File file = new File(path.toString());
+
+        if (file.isFile())
+        {
+            Logger.logError("ERROR on OPEN/FILE: file " + fileName + " not found");
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        FileNode fileNode = new FileNode(path);
+        Logger.log("open a file! name: " + fileName + "path: " + path);
+        return Response.ok(new FileResponse(fileName, path.toString(), fileNode.read())).build();
     }
 
     @POST
     @Path("/create/file")
     public Response createFile(SimpleRequest request) {
+        Logger.log("Attempting CREATE/FILE");
+
         java.nio.file.Path path = Paths.get(request.getPath());
+        String fileName = path.getFileName().toString();
         File file = new File(path.toString());
+
         if (file.isFile())
         {
-            return Response.serverError().status(400).build();
+            Logger.logError("ERROR on CREATE/FILE: file " + fileName + " already exists");
+            return Response.serverError().status(404).build();
         }
-        String fileName = path.getFileName().toString();
+
         String directoryPath = path.getParent().toString() + "/";
         Node folderNode = new FolderNode(java.nio.file.Path.of(directoryPath));
         NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.create(folderNode, fileName, Node.Types.FILE);
         File fileCreated = new File(path.toString());
+
         if (!fileCreated.isFile())
         {
-            return Response.serverError().status(400).build();
+            Logger.logError("ERROR on CREATE/FILE: file " + fileName + " has not been created.");
+            return Response.serverError().status(500).build();
         }
+
         Logger.log("create a file!");
         return Response.ok().build();
     }
@@ -87,71 +111,110 @@ public class MyIdeEndpoint {
     @POST
     @Path("/create/folder")
     public Response createFolder(SimpleRequest request) {
+        Logger.log("Attempting CREATE/FOLDER");
+
+        String pathString = request.getPath();
+        while (pathString.endsWith("/")) {
+            pathString = pathString.substring(0, pathString.length() - 1);
+        }
+
         java.nio.file.Path path = Paths.get(request.getPath());
+        String folderName = path.getFileName().toString();
         File folder = new File(path.toString());
+
         if (folder.isDirectory())
         {
-            return Response.serverError().status(400).build();
+            Logger.logError("ERROR on CREATE/FOLDER: file " + folderName + " already exists");
+            return Response.status(404).build();
         }
-        String fileName = path.getFileName().toString();
+
         String directoryPath = path.getParent().toString() + "/";
         Node folderNode = new FolderNode(java.nio.file.Path.of(directoryPath));
         NodeService myNodeService = myProjectService.getNodeService();
-        myNodeService.create(folderNode, fileName, Node.Types.FOLDER);
+        myNodeService.create(folderNode, folderName, Node.Types.FOLDER);
         File folderCreated = new File(path.toString());
+
         if (!folderCreated.isDirectory())
         {
-            return Response.serverError().status(400).build();
+            Logger.logError("ERROR on CREATE/FOLDER: folder " + folderName + " has not been created.");
+            return Response.serverError().status(500).build();
         }
-        Logger.log("create a folder!");
-        return Response.ok().build();
+
+        Logger.log("create a folder! name:" + folderName + "path:" + path);
+        return Response.ok(new FileResponse(folderName, pathString, "")).build();
     }
 
     @POST
     @Path("/delete/file")
     public Response deleteFile(SimpleRequest request) {
-        java.nio.file.Path path = Paths.get(request.getPath());
+        Logger.log("Attempting DELETE/FILE");
+
+        String pathString = request.getPath();
+
+        java.nio.file.Path path = Paths.get(pathString);
+        String fileName = path.getFileName().toString();
         File file = new File(path.toString());
+
         if (!file.isFile())
         {
+            Logger.logError("ERROR on DELETED/FILE: file " + fileName + " not found");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
         Node fileNode = new FileNode(path);
         NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.delete(fileNode);
         File fileDeleted = new File(path.toString());
+
         if (fileDeleted.isFile())
         {
+            Logger.logError("ERROR on DELETE/FILE: file " + fileName + " has not been deleted.");
             return Response.serverError().status(500).build();
         }
-        Logger.log("delete a file!");
-        return Response.ok().build();
+
+        Logger.log("delete a file! name: " + fileName + "path: " + path);
+        return Response.ok(new FileResponse(fileName, pathString, "")).build();
     }
 
     @POST
     @Path("/delete/folder")
     public Response deleteFolder(SimpleRequest request) {
+        Logger.log("Attempting DELETE/FOLDER");
+
+        String pathString = request.getPath();
+        while (pathString.endsWith("/")) {
+            pathString = pathString.substring(0, pathString.length() - 1);
+        }
+
         java.nio.file.Path path = Paths.get(request.getPath());
         File folder = new File(path.toString());
+        String folderName = path.getFileName().toString();
         if (!folder.isDirectory())
         {
+            Logger.logError("ERROR on DELETED/FILE: file " + folderName + " not found");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
         Node folderNode = new FolderNode(path);
         NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.delete(folderNode);
         File folderDeleted = new File(path.toString());
+
         if (folderDeleted.isDirectory())
         {
+            Logger.logError("ERROR on DELETE/FILE: file " + folderName + " has not been deleted.");
             return Response.serverError().status(500).build();
         }
-        Logger.log("delete a folder!");
-        return Response.ok(new FileReponse(path.getFileName().toString())).build();
+
+        Logger.log("delete a folder!, name: " + folderName + "path: " + path);
+        return Response.ok(new FileResponse(folderName, pathString, "")).build();
     }
 
     @POST
     @Path("/execFeature")
     public Response execFeature(ExecFeatureRequest request) {
+        Logger.log("Attempting EXECFEATURE");
+
         Feature.Type type = null;
         switch(request.getFeature().toUpperCase()){
             case "CLEANUP":
@@ -234,17 +297,20 @@ public class MyIdeEndpoint {
         Node folderNodeDst = new FolderNode(path_dst);
         NodeService myNodeService = myProjectService.getNodeService();
         myNodeService.move(fileNodeSrc, folderNodeDst);
-        return Response.ok().build();
+        Logger.log("move a file: from " + request.getSrc() + " to " + request.getDst());
+        return Response.ok(new MoveResponse(request.getSrc(), request.getDst())).build();
     }
 
     @POST
     @Path("/update")
     public Response update(UpdateRequest request) {
+        Logger.log("Attempting UPDATE");
+
         NodeService myNodeService = myProjectService.getNodeService();
         byte[] byteArrray = request.getContent().getBytes();
         Node fileNode = new FileNode(java.nio.file.Path.of(request.getPath()));
         myNodeService.update(fileNode, request.getFrom(), request.getTo(), byteArrray);
-        Logger.log("update a file!");
-        return Response.ok().build();
+        Logger.log("update a file path: " + request.getPath() + ", to: " + request.getTo() + ", from: " + request.getFrom() + ", content: " + request.getContent());
+        return Response.ok(new UpdateResponse(request.getPath(), request.getFrom(), request.getTo(), request.getContent())).build();
     }
 }
