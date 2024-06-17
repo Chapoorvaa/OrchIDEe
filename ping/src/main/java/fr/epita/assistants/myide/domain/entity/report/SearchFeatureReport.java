@@ -12,6 +12,6 @@ import java.util.List;
  */
 public record SearchFeatureReport(@NotNull List<Node> searchResult, boolean isSuccess) implements Feature.ExecutionReport {
     public List<Node> getResults() {
-        throw new RuntimeException("FIXME");
+        return searchResult;
     }
 }
