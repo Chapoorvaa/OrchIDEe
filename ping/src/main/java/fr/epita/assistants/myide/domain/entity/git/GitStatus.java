@@ -24,6 +24,7 @@ public class GitStatus implements Feature {
 
             Git git = new Git(existingRepo);
             Status status = git.status().call();
+
             // TODO: return or write the Set<String> for git status somewhere
 
             System.out.println("Untracked files : " + status.getUntracked());
