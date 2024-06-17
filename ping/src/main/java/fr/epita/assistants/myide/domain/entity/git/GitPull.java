@@ -24,7 +24,6 @@ public class GitPull implements Feature {
             Git git = new Git(existingRepo);
 
             // TODO: there is an issue with push (get error: git@github.com:emmanuelvln/OrchIDEe.git: remote hung up unexpectedly)
-
             PullResult res = git.pull().call();
 
         } catch (IOException e) {

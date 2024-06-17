@@ -2,7 +2,6 @@ package fr.epita.assistants.myide.domain.entity.git;
 
 import fr.epita.assistants.myide.domain.entity.ExtraMandatory;
 import fr.epita.assistants.myide.domain.entity.Feature;
-import fr.epita.assistants.myide.domain.entity.Mandatory;
 import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.utils.Logger;
 import org.eclipse.jgit.api.Git;
