@@ -9,7 +9,11 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class GitAdd implements Feature {
@@ -22,12 +26,16 @@ public class GitAdd implements Feature {
 
             Git git = new Git(existingRepo);
 
-            System.out.println(Arrays.toString(params));
-
-            // TODO: check if the file we are trying to add exists
-            // Here if the file does not exist, nothing will happen
+            // DONE: check if the file we are trying to add exists
+            Path absolutePath = Paths.get(project.getRootNode().getPath().toFile().getAbsolutePath());
             for (Object param : params) {
-                git.add().addFilepattern(param.toString()).call();
+                Path p = Paths.get(absolutePath.resolve(param.toString()).toUri());
+                if(Files.exists(p)) {
+                    git.add().addFilepattern(param.toString()).call();
+                }
+                else{
+                    Logger.log("Trying to add " + param + " but it doesn't exist");
+                }
             }
         }catch (IOException e) {
             Logger.log("IOException in GitStatus : " + e.getMessage());
