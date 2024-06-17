@@ -336,11 +336,11 @@ public class MyIdeEndpoint {
         }
 
         NodeService myNodeService = myProjectService.getNodeService();
-        byte[] byteArrray = request.getContent().getBytes();
+        byte[] byteArray = request.getContent().getBytes();
         Node fileNode = new FileNode(java.nio.file.Path.of(request.getPath()));
 
         try {
-            myNodeService.update(fileNode, request.getFrom(), request.getTo(), byteArrray);
+            myNodeService.update(fileNode, request.getFrom(), request.getTo(), byteArray);
         } catch (IllegalArgumentException e) {
             Logger.logError("ERROR on UPDATE: file " + fileName + ": invalid argument from " + request.getFrom() + " to " + request.getTo());
             return Response.status(Response.Status.BAD_REQUEST).build();
