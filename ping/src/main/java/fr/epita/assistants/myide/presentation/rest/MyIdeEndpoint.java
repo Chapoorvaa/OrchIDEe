@@ -226,7 +226,7 @@ public class MyIdeEndpoint {
 
         String projectName = request.getProject();
         Feature.Type type = null;
-        switch(request.getFeature().toUpperCase()){
+        switch(request.getFeature().toUpperCase()) {
             case "CLEANUP":
                 type = Mandatory.Features.Any.CLEANUP;
                 break;
@@ -270,12 +270,8 @@ public class MyIdeEndpoint {
                 type = Mandatory.Features.Maven.TREE;
                 break;
             default:
-                break;
-        }
-
-        if (type == null) {
-            Logger.logError("ERROR on EXECFEATURE: feature " + request.getFeature() + " unknown");
-            return Response.status(Response.Status.NOT_FOUND).build();
+                Logger.logError("ERROR on EXECFEATURE: feature " + request.getFeature() + " unknown");
+                return Response.status(Response.Status.NOT_FOUND).build();
         }
 
         boolean result = myProjectService.execute(ProjectsMap.get(projectName), type, request.getParams()).isSuccess();
