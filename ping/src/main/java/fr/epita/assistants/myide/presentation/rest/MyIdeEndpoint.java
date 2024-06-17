@@ -20,7 +20,6 @@ import java.io.File;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Path("/api")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -249,7 +248,7 @@ public class MyIdeEndpoint {
                 type = Mandatory.Features.Git.PUSH;
                 break;
             case "STATUS":
-                type = ExtraMandatory.Features.Git.STATUS;
+                type = ExtraFeatures.Features.Git.STATUS;
                 break;
             case "COMPILE":
                 type = Mandatory.Features.Maven.COMPILE;

@@ -1,6 +1,6 @@
 package fr.epita.assistants.myide.domain.entity.git;
 
-import fr.epita.assistants.myide.domain.entity.ExtraMandatory;
+import fr.epita.assistants.myide.domain.entity.ExtraFeatures;
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.utils.Logger;
@@ -43,6 +43,6 @@ public class GitStatus implements Feature {
 
     @Override
     public Type type() {
-        return ExtraMandatory.Features.Git.STATUS;
+        return ExtraFeatures.Features.Git.STATUS;
     }
 }

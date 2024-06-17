@@ -1,6 +1,6 @@
 package fr.epita.assistants.myide.domain.entity;
 
-public enum ExtraMandatory {
+public enum ExtraFeatures {
     ;
 
     public enum Aspects implements Aspect.Type {
