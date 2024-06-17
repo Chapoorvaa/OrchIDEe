@@ -20,7 +20,6 @@ import java.io.File;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Path("/api")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -248,6 +247,9 @@ public class MyIdeEndpoint {
             case "PUSH":
                 type = Mandatory.Features.Git.PUSH;
                 break;
+            case "STATUS":
+                type = ExtraFeatures.Features.Git.STATUS;
+                break;
             case "COMPILE":
                 type = Mandatory.Features.Maven.COMPILE;
                 break;
@@ -274,7 +276,7 @@ public class MyIdeEndpoint {
                 return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        boolean result = myProjectService.execute(ProjectsMap.get(projectName), type, request.getParams()).isSuccess();
+        boolean result = myProjectService.execute(ProjectsMap.get(projectName), type, request.getParams().toArray()).isSuccess();
         if (!result)
         {
             Logger.logError("ERROR on EXECFEATURE: executing feature " + request.getFeature() + " failed");

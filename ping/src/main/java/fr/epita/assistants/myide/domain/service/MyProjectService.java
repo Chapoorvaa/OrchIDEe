@@ -2,6 +2,7 @@ package fr.epita.assistants.myide.domain.service;
 
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.any.AnyAspect;
+import fr.epita.assistants.myide.domain.entity.git.GitAspect;
 import fr.epita.assistants.myide.domain.entity.maven.MavenAspect;
 import fr.epita.assistants.myide.utils.Logger;
 
@@ -44,8 +45,7 @@ public class MyProjectService implements ProjectService {
             Logger.logError("ERROR feature " + featureType.toString() + " is not in project " + project.getRootNode().getPath().getFileName().toString());
             return () -> false;
         }
-
-        return optFeature.get().execute(project);
+        return optFeature.get().execute(project, params);
     }
 
     @Override

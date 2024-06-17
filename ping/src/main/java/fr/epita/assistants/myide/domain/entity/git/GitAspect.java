@@ -1,4 +1,8 @@
-package fr.epita.assistants.myide.domain.entity;
+package fr.epita.assistants.myide.domain.entity.git;
+
+import fr.epita.assistants.myide.domain.entity.Aspect;
+import fr.epita.assistants.myide.domain.entity.Feature;
+import fr.epita.assistants.myide.domain.entity.Mandatory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +16,7 @@ public class GitAspect implements Aspect {
         featureList_.add(new GitPull());
         featureList_.add(new GitPush());
         featureList_.add(new GitCommit());
+        featureList_.add(new GitStatus());
     }
 
     @Override
