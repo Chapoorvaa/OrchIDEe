@@ -277,7 +277,7 @@ public class MyIdeEndpoint {
                 return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        boolean result = myProjectService.execute(ProjectsMap.get(projectName), type, request.getParams()).isSuccess();
+        boolean result = myProjectService.execute(ProjectsMap.get(projectName), type, request.getParams().toArray()).isSuccess();
         if (!result)
         {
             Logger.logError("ERROR on EXECFEATURE: executing feature " + request.getFeature() + " failed");
@@ -286,7 +286,6 @@ public class MyIdeEndpoint {
 
         Logger.log("SUCCESS on EXECFEATURE: feature " + request.getFeature() + " in project " + request.getProject());
         return Response.ok(new ExecFeatureResponse(request.getFeature(), request.getProject(), request.getParams())).build();
-
     }
 
     @POST

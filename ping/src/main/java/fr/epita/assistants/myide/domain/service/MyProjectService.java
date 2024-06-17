@@ -2,6 +2,7 @@ package fr.epita.assistants.myide.domain.service;
 
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.any.AnyAspect;
+import fr.epita.assistants.myide.domain.entity.git.GitAspect;
 import fr.epita.assistants.myide.domain.entity.maven.MavenAspect;
 import fr.epita.assistants.myide.utils.Logger;
 
