@@ -25,8 +25,7 @@ public class GitAdd implements Feature {
                     .build();
 
             Git git = new Git(existingRepo);
-
-            // DONE: check if the file we are trying to add exists
+            
             Path absolutePath = Paths.get(project.getRootNode().getPath().toFile().getAbsolutePath());
             for (Object param : params) {
                 Path p = Paths.get(absolutePath.resolve(param.toString()).toUri());

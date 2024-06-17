@@ -21,8 +21,13 @@ public class GitCommit implements Feature {
 
             Git git = new Git(existingRepo);
 
-            // TODO: maybe add some checks for what to commit
-            git.commit().setMessage(params[0].toString()).call();
+            if (params.length > 0) {
+                git.commit().setMessage(params[0].toString()).call();
+            }
+            else {
+                Logger.logError("Params is empty");
+                return () -> false;
+            }
 
         }catch (IOException e) {
             Logger.log("IOException in GitStatus : " + e.getMessage());
