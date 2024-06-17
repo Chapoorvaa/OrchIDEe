@@ -10,7 +10,7 @@ public interface NodeService {
      * Update the content in the range [from, to[.
      * The content must be inserted in any case.
      * i.e. : "hello world" -> update(0, 0, "inserted ") -> "inserted hello world"
-     *      : "hello world" -> update(0, 5, "inserted ") -> "inserted world"
+     *      : "hello world" -> update(0, 5, "inserted ") -> "inserted  world"
      *
      * @param node            Node to update (must be a file).
      * @param from            Beginning index of the text to update.
