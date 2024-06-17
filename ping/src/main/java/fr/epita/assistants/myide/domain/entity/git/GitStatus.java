@@ -1,7 +1,7 @@
 package fr.epita.assistants.myide.domain.entity.git;
 
+import fr.epita.assistants.myide.domain.entity.ExtraMandatory;
 import fr.epita.assistants.myide.domain.entity.Feature;
-import fr.epita.assistants.myide.domain.entity.Mandatory;
 import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.utils.Logger;
 import org.eclipse.jgit.api.Git;
@@ -30,17 +30,18 @@ public class GitStatus implements Feature {
             System.out.println("Added files : " + status.getAdded());
             System.out.println("Changed files : " + status.getChanged());
             System.out.println("Uncommited changes: " + status.getUncommittedChanges());
-        }
-        catch (IOException e) {
-            Logger.log("IOException in GitStatus : " + e.getMessage());
+        } catch (IOException e) {
+            Logger.logError("IOException in GitStatus : " + e.getMessage());
+            return () -> false;
         } catch (GitAPIException e) {
-            Logger.log("GitAPIException in GitStatus : " + e.getMessage());
+            Logger.logError("GitAPIException in GitStatus : " + e.getMessage());
+            return () -> false;
         }
         return () -> true;
     }
 
     @Override
     public Type type() {
-        return Mandatory.Features.Git.STATUS;
+        return ExtraMandatory.Features.Git.STATUS;
     }
 }

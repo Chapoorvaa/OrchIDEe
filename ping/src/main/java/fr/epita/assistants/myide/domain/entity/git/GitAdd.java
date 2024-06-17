@@ -25,25 +25,27 @@ public class GitAdd implements Feature {
                     .build();
 
             Git git = new Git(existingRepo);
-            
-            Path absolutePath = Paths.get(project.getRootNode().getPath().toFile().getAbsolutePath());
+
+            Path absolutePath =
+                    Paths.get(project.getRootNode().getPath().toFile().getAbsolutePath());
             for (Object param : params) {
                 Path p = Paths.get(absolutePath.resolve(param.toString()).toUri());
-                if(Files.exists(p)) {
+                if (Files.exists(p)) {
                     git.add().addFilepattern(param.toString()).call();
-                }
-                else{
-                    Logger.log("Trying to add " + param + " but it doesn't exist");
+                } else {
+                    Logger.logError("Trying to add " + param + " but it doesn't exist");
+                    return () -> false;
                 }
             }
-        }catch (IOException e) {
-            Logger.log("IOException in GitStatus : " + e.getMessage());
-        }
-        catch (GitAPIException e) {
-            Logger.log("GitAPIException in GitStatus : " + e.getMessage());
+        } catch (IOException e) {
+            Logger.logError("IOException in GitAdd : " + e.getMessage());
+            return () -> false;
+        } catch (GitAPIException e) {
+            Logger.logError("GitAPIException in GitAdd : " + e.getMessage());
+            return () -> false;
         }
 
-        return () ->  true;
+        return () -> true;
     }
 
     @Override

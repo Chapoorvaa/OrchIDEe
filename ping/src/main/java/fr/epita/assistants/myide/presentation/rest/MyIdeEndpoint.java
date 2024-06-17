@@ -249,7 +249,7 @@ public class MyIdeEndpoint {
                 type = Mandatory.Features.Git.PUSH;
                 break;
             case "STATUS":
-                type = Mandatory.Features.Git.STATUS;
+                type = ExtraMandatory.Features.Git.STATUS;
                 break;
             case "COMPILE":
                 type = Mandatory.Features.Maven.COMPILE;

@@ -23,22 +23,18 @@ public class GitPull implements Feature {
 
             Git git = new Git(existingRepo);
 
-
-            System.out.println("Remote : " + git.pull().getRemote());
-            System.out.println("Remote Branch : " + git.pull().getRemoteBranchName());
+            // TODO: there is an issue with push (get error: git@github.com:emmanuelvln/OrchIDEe.git: remote hung up unexpectedly)
             PullResult res = git.pull().call();
-            System.out.println("Fetch from : " + res.getFetchedFrom());
-            System.out.println("Success : " + res.isSuccessful());
 
-        }catch (IOException e) {
-            Logger.log("IOException in GitStatus : " + e.getMessage());
+        } catch (IOException e) {
+            Logger.logError("IOException in GitPull : " + e.getMessage());
+            return () -> false;
+        } catch (GitAPIException e) {
+            Logger.logError("GitAPIException in GitPull : " + e.getMessage());
+            return () -> false;
         }
-        catch (GitAPIException e) {
-            Logger.log("GitAPIException in GitStatus : " + e.getMessage());
-        }
 
-
-        return () ->  true;
+        return () -> true;
     }
 
     @Override

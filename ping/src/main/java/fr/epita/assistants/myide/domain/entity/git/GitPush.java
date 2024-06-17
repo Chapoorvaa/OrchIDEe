@@ -21,25 +21,20 @@ public class GitPush implements Feature {
 
             Git git = new Git(existingRepo);
 
-            System.out.println(existingRepo.getBranch());
-
-            System.out.println(existingRepo.getRemoteNames());
-            System.out.println(existingRepo.getConfig().toString());
-//            System.out.println(git.remoteList().call().get(0).toString());
-
             // TODO: there is an issue with push (get error: git@github.com:emmanuelvln/OrchIDEe.git: remote hung up unexpectedly)
             // I think it is due to the SSH key or the way we connect to GitHub
 
             git.push().setForce(false).call();
 
-        }catch (IOException e) {
-            Logger.log("IOException in GitStatus : " + e.getMessage());
-        }
-        catch (GitAPIException e) {
-            Logger.log("GitAPIException in GitStatus : " + e.getMessage());
+        } catch (IOException e) {
+            Logger.logError("IOException in GitPush : " + e.getMessage());
+            return () -> false;
+        } catch (GitAPIException e) {
+            Logger.logError("GitAPIException in GitPush : " + e.getMessage());
+            return () -> false;
         }
 
-        return () ->  true;
+        return () -> true;
     }
 
     @Override

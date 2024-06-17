@@ -21,23 +21,25 @@ public class GitCommit implements Feature {
 
             Git git = new Git(existingRepo);
 
-            if (params.length > 0) {
+            if (params.length == 1) {
                 git.commit().setMessage(params[0].toString()).call();
-            }
-            else {
-                Logger.logError("Params is empty");
+            } else if (params.length > 1) {
+                Logger.logError("Too many parameters");
+                return () -> false;
+            } else {
+                Logger.logError("Parameter missing");
                 return () -> false;
             }
 
-        }catch (IOException e) {
-            Logger.log("IOException in GitStatus : " + e.getMessage());
-        }
-        catch (GitAPIException e) {
-            Logger.log("GitAPIException in GitStatus : " + e.getMessage());
+        } catch (IOException e) {
+            Logger.logError("IOException in GitCommit : " + e.getMessage());
+            return () -> false;
+        } catch (GitAPIException e) {
+            Logger.logError("GitAPIException in GitCommit : " + e.getMessage());
+            return () -> false;
         }
 
-
-        return () ->  true;
+        return () -> true;
     }
 
     @Override
