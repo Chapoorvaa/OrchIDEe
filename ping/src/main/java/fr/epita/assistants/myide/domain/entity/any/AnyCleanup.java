@@ -7,9 +7,41 @@ import fr.epita.assistants.myide.domain.service.NodeService;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 public class AnyCleanup implements Feature {
+
+    public void rec_delete(String line, Node root, NodeService myNodeService) {
+        Path rootPath = root.getPath();
+        try (Stream<Path> paths = Files.walk(rootPath)) {
+            String pattern = line.replace("**", ".*").replace("*", "[^/]*");
+            List<Path> matchedPaths = paths.filter(path -> {
+                Path relativePath = rootPath.relativize(path);
+                return relativePath.toString().matches(pattern);
+            }).sorted(Comparator.comparing(Path::getNameCount).reversed()).toList();
+
+            for (Path path : matchedPaths) {
+                if (Files.isDirectory(path)) {
+                    myNodeService.delete(new FolderNode(path));
+                }
+                else {
+                    myNodeService.delete(new FileNode(path));
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     @Override
     public ExecutionReport execute(Project project, Object... params) {
         Node root = project.getRootNode();
@@ -19,7 +51,7 @@ public class AnyCleanup implements Feature {
                 .findFirst()
                 .orElse(null);
 
-        if (ignoreNode == null) {
+        if (ignoreNode == null || Files.isDirectory(ignoreNode.getPath())) {
             return () -> false;
         }
 
@@ -29,17 +61,15 @@ public class AnyCleanup implements Feature {
             BufferedReader reader = new BufferedReader(new FileReader(ignoreNode.getPath().getFileName().toString()));
             String line;
             while ((line = reader.readLine()) != null) {
-                nodeService.delete(new FileNode(Paths.get(root.getPath().toString() + File.separator + line)));
+                rec_delete(line.trim(),root, nodeService);
             }
         } catch (Exception e) {
             return () -> false;
         }
-
         return () -> true;
     }
 
     @Override
     public Type type() {
-        return Mandatory.Features.Any.CLEANUP;
-    }
+        return Mandatory.Features.Any.CLEANUP;}
 }
