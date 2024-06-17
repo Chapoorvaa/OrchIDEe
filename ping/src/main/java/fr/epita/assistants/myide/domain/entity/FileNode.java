@@ -39,7 +39,9 @@ public class FileNode implements Node {
             while ((line = br.readLine()) != null) {
                 resultStringBuilder.append(line).append("\n");
             }
-        } catch (IOException ignored) {}
+        } catch (IOException e) {
+            return "";
+        }
 
         return resultStringBuilder.toString();
     }

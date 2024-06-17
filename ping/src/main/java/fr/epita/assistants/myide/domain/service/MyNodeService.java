@@ -47,7 +47,7 @@ public class MyNodeService implements NodeService {
         Path nodePath = folder.getPath();
 
         if (!Files.exists(nodePath) || !Files.isDirectory(nodePath)) {
-            throw new IllegalArgumentException("Folder does not exist or is a directory");
+            throw new IllegalArgumentException("Folder does not exist or is not a directory");
         }
 
         Path newPath = nodePath.resolve(name);

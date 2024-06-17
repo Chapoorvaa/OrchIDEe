@@ -3,6 +3,7 @@ package fr.epita.assistants.myide.domain.entity.maven;
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Mandatory;
 import fr.epita.assistants.myide.domain.entity.Project;
+import fr.epita.assistants.myide.utils.Logger;
 
 public class MavenTest implements Feature {
     @Override

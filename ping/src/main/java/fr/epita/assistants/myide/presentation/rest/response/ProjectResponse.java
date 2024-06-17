@@ -11,10 +11,10 @@ import java.nio.file.Path;
 public class ProjectResponse {
 
     public String name;
-    public Path rootPath;
+    public String path;
 
-    public ProjectResponse(String name, Path rootPath) {
+    public ProjectResponse(String name, String path) {
         this.name = name;
-        this.rootPath = rootPath;
+        this.path = path;
     }
 }
