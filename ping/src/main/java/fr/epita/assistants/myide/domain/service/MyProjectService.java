@@ -3,6 +3,7 @@ package fr.epita.assistants.myide.domain.service;
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.any.AnyAspect;
 import fr.epita.assistants.myide.domain.entity.maven.MavenAspect;
+import fr.epita.assistants.myide.utils.Logger;
 
 import java.nio.file.Path;
 import java.util.HashSet;
@@ -40,6 +41,7 @@ public class MyProjectService implements ProjectService {
     public Feature.ExecutionReport execute(Project project, Feature.Type featureType, Object... params) {
         Optional<Feature> optFeature = project.getFeature(featureType);
         if (optFeature.isEmpty()) {
+            Logger.logError("ERROR feature " + featureType.toString() + " is not in project " + project.getRootNode().getPath().getFileName().toString());
             return () -> false;
         }
 

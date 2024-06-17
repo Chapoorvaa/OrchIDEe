@@ -16,7 +16,7 @@ public class MavenAspect implements Aspect {
         featureList_.add(new MavenTest());
         featureList_.add(new MavenPackage());
         featureList_.add(new MavenInstall());
-        featureList_.add(new MavenTest());
+        featureList_.add(new MavenTree());
         featureList_.add(new MavenExec());
     }
 
