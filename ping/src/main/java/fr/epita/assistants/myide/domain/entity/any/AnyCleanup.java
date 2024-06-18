@@ -3,6 +3,7 @@ package fr.epita.assistants.myide.domain.entity.any;
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.service.MyNodeService;
 import fr.epita.assistants.myide.domain.service.NodeService;
+import fr.epita.assistants.myide.utils.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,10 +17,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.tngtech.archunit.thirdparty.com.google.common.io.Files.isFile;
+
 
 public class AnyCleanup implements Feature {
 
-    public void rec_delete(String line, Node root, NodeService myNodeService) {
+    public void recDelete(String line, Node root, NodeService myNodeService) {
         Path rootPath = root.getPath();
         try (Stream<Path> paths = Files.walk(rootPath)) {
             String pattern = line.replace("**", ".*").replace("*", "[^/]*");
@@ -37,6 +40,7 @@ public class AnyCleanup implements Feature {
                 }
             }
         } catch (IOException e) {
+            Logger.logError("Failed to get the tree in AnyCleanup");
             throw new RuntimeException(e);
         }
     }
@@ -52,6 +56,7 @@ public class AnyCleanup implements Feature {
                 .orElse(null);
 
         if (ignoreNode == null || Files.isDirectory(ignoreNode.getPath())) {
+            Logger.logError(".myideignore node not found or is not a file");
             return () -> false;
         }
 
@@ -61,9 +66,10 @@ public class AnyCleanup implements Feature {
             BufferedReader reader = new BufferedReader(new FileReader(ignoreNode.getPath().getFileName().toString()));
             String line;
             while ((line = reader.readLine()) != null) {
-                rec_delete(line.trim(),root, nodeService);
+                recDelete(line.trim(),root, nodeService);
             }
         } catch (Exception e) {
+            Logger.logError("Failed to read the ignore file");
             return () -> false;
         }
         return () -> true;
