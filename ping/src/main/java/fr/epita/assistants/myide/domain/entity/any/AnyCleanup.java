@@ -71,5 +71,6 @@ public class AnyCleanup implements Feature {
 
     @Override
     public Type type() {
-        return Mandatory.Features.Any.CLEANUP;}
+        return Mandatory.Features.Any.CLEANUP;
+    }
 }
