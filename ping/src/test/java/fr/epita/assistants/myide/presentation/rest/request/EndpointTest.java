@@ -3,6 +3,10 @@ package fr.epita.assistants.myide.presentation.rest.request;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static io.restassured.RestAssured.*;
+import io.restassured.matcher.RestAssuredMatchers.*;
+import static org.hamcrest.Matchers.*;
+
 @Tag("Endpoint Tests")
 public class EndpointTest {
     @Tag("Endpoint Open Project Test")
@@ -11,7 +15,14 @@ public class EndpointTest {
 
     @Tag("Endpoint Hello World Test")
     @Test
-    public void endpoint_hello_world_test(){}
+    public void endpoint_hello_world_test(){
+        given()
+        .when()
+                .get("/api/hello")
+        .then()
+                .statusCode(200)
+                .body(equalTo("Hello World !"));
+    }
 
     @Tag("Endpoint ExecFeature Project Not Opened Test")
     @Test
