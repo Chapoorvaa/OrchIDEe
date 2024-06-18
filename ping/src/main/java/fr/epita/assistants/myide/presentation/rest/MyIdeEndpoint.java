@@ -1,5 +1,6 @@
 package fr.epita.assistants.myide.presentation.rest;
 
+import fr.epita.assistants.MyIde;
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.service.MyProjectService;
 import fr.epita.assistants.myide.domain.service.NodeService;
@@ -25,8 +26,8 @@ import java.util.Map;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class MyIdeEndpoint {
-    public ProjectService myProjectService = new MyProjectService();
-    public Map<String, Project> ProjectsMap = new HashMap<String, Project>();
+    public ProjectService myProjectService = MyIde.init(null);
+    public Map<String, Project> ProjectsMap = new HashMap<>();
 
     @GET
     @Path("/hello")

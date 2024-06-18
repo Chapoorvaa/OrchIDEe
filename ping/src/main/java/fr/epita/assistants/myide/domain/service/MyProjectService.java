@@ -1,18 +1,26 @@
 package fr.epita.assistants.myide.domain.service;
 
+import fr.epita.assistants.MyIde;
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.any.AnyAspect;
 import fr.epita.assistants.myide.domain.entity.git.GitAspect;
 import fr.epita.assistants.myide.domain.entity.maven.MavenAspect;
 import fr.epita.assistants.myide.utils.Logger;
+import lombok.Getter;
 
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+@Getter
 public class MyProjectService implements ProjectService {
     private final NodeService myNodeService = new MyNodeService();
+    private final MyIde.Configuration config;
+
+    public MyProjectService(MyIde.Configuration config) {
+        this.config = config;
+    }
 
     @Override
     public Project load(Path root) {
