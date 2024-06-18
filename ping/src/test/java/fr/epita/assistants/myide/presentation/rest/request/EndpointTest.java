@@ -13,10 +13,6 @@ import static org.hamcrest.Matchers.*;
  **/
 @Tag("Endpoint Tests")
 public class EndpointTest {
-    @Tag("Endpoint Open Project Test")
-    @Test
-    public void endpoint_open_project_test(){}
-
     @Tag("Endpoint Hello World Test")
     @Test
     public void endpoint_hello_world_test(){
@@ -24,11 +20,23 @@ public class EndpointTest {
         given()
         // Mandatory. Here you can make your requests
         .when()
-                .get("/api/hello")
+            .get("/api/hello")
         // Mandatory. There you check everything you want to test.
         .then()
-                .statusCode(200)
-                .body(equalTo("Hello World !"));
+            .statusCode(200)
+            .body(equalTo("Hello World !"));
+    }
+
+    @Tag("Endpoint Open Project Test")
+    @Test
+    public void endpoint_open_project_test(){
+        given()
+            // TODO: add a testing project
+            .param("path", "")
+        .when()
+            .post("/api/open/project")
+        .then()
+            .statusCode(200);
     }
 
     @Tag("Endpoint ExecFeature Project Not Opened Test")
