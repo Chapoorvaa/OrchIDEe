@@ -12,6 +12,8 @@ public class AnyAspect implements Aspect {
 
     public AnyAspect() {
         features_.add(new AnyCleanup());
+        features_.add(new AnyDist());
+        features_.add(new AnySearch());
     }
 
     @Override
