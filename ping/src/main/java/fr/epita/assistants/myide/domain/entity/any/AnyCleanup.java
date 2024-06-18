@@ -66,7 +66,7 @@ public class AnyCleanup implements Feature {
             BufferedReader reader = new BufferedReader(new FileReader(ignoreNode.getPath().getFileName().toString()));
             String line;
             while ((line = reader.readLine()) != null) {
-                recDelete(line.trim(),root, nodeService);
+                recDelete(line.trim(), root, nodeService);
             }
         } catch (Exception e) {
             Logger.logError("Failed to read the ignore file");
