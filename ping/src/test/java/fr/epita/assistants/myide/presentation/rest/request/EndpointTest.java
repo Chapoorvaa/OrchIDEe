@@ -7,6 +7,10 @@ import static io.restassured.RestAssured.*;
 import io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 
+/** For the endpoints we used to different packages: JUnit and Rest Assured.
+ * Rest Assured is a test unit used primarily for http request.
+ * You can see a simple guide on how to use it with the {@link #endpoint_hello_world_test() hello_world} test.
+ **/
 @Tag("Endpoint Tests")
 public class EndpointTest {
     @Tag("Endpoint Open Project Test")
@@ -16,9 +20,12 @@ public class EndpointTest {
     @Tag("Endpoint Hello World Test")
     @Test
     public void endpoint_hello_world_test(){
+        // Mandatory. It is here to specify what you give to it at the beginning (config file, etc.).
         given()
+        // Mandatory. Here you can make your requests
         .when()
                 .get("/api/hello")
+        // Mandatory. There you check everything you want to test.
         .then()
                 .statusCode(200)
                 .body(equalTo("Hello World !"));
