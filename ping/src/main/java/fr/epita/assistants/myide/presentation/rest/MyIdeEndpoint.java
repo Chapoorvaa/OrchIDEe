@@ -39,11 +39,12 @@ public class MyIdeEndpoint {
     @POST
     @Path("/open/project")
     public Response openProject(SimpleRequest request) {
-        Logger.log("Attempting OPEN/PROJECT");
-
         java.nio.file.Path path = Paths.get(request.getPath());
-        Project myProject = myProjectService.load(path);
         String projectName = path.getFileName().toString();
+
+        Logger.log("Attempting OPEN/PROJECT: project " + projectName + " at " + path);
+
+        Project myProject = myProjectService.load(path);
 
         if (myProject == null) {
             Logger.logError("ERROR on OPEN/PROJECT: project " + projectName + " at " + path + " not found");
@@ -58,10 +59,10 @@ public class MyIdeEndpoint {
     @POST
     @Path("/open/file")
     public Response openFile(SimpleRequest request) {
-        Logger.log("Attempting OPEN/FILE");
-
         java.nio.file.Path path = Paths.get(request.getPath());
         String fileName = path.getFileName().toString();
+
+        Logger.log("Attempting OPEN/FILE: file " + fileName + " at " + path);
 
         File file = new File(path.toString());
         if (!file.isFile())
@@ -78,10 +79,10 @@ public class MyIdeEndpoint {
     @POST
     @Path("/create/file")
     public Response createFile(SimpleRequest request) {
-        Logger.log("Attempting CREATE/FILE");
-
         java.nio.file.Path path = Paths.get(request.getPath());
         String fileName = path.getFileName().toString();
+
+        Logger.log("Attempting CREATE/FILE: file " + fileName + " at " + path);
 
         File file = new File(path.toString());
         if (file.isFile())
@@ -118,11 +119,11 @@ public class MyIdeEndpoint {
     @POST
     @Path("/create/folder")
     public Response createFolder(SimpleRequest request) {
-        Logger.log("Attempting CREATE/FOLDER");
-
         java.nio.file.Path path = Paths.get(request.getPath());
         File folder = new File(path.toString());
         String folderName = folder.getName();
+
+        Logger.log("Attempting CREATE/FOLDER: folder " + folderName + " at " + path);
 
         if (folder.isDirectory())
         {
@@ -157,10 +158,11 @@ public class MyIdeEndpoint {
     @POST
     @Path("/delete/file")
     public Response deleteFile(SimpleRequest request) {
-        Logger.log("Attempting DELETE/FILE");
-
         java.nio.file.Path path = Paths.get(request.getPath());
         String fileName = path.getFileName().toString();
+
+        Logger.log("Attempting DELETE/FILE: file " + fileName + " at " + path);
+
         File file = new File(path.toString());
 
         if (!file.isFile())
@@ -187,11 +189,12 @@ public class MyIdeEndpoint {
     @POST
     @Path("/delete/folder")
     public Response deleteFolder(SimpleRequest request) {
-        Logger.log("Attempting DELETE/FOLDER");
-
         java.nio.file.Path path = Paths.get(request.getPath());
         File folder = new File(path.toString());
         String folderName = path.getFileName().toString();
+
+        Logger.log("Attempting DELETE/FOLDER: folder " + folderName + " at " + path);
+
         if (!folder.isDirectory())
         {
             Logger.logError("ERROR on DELETED/FILE: file " + folderName + " at " + path + " not found");
@@ -205,7 +208,7 @@ public class MyIdeEndpoint {
 
         if (folderDeleted.isDirectory())
         {
-            Logger.logError("ERROR on DELETE/FILE: file " + folderName + " at " + path + " not been deleted.");
+            Logger.logError("ERROR on DELETE/FILE: file " + folderName + " at " + path + " has not been deleted.");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
@@ -216,7 +219,7 @@ public class MyIdeEndpoint {
     @POST
     @Path("/execFeature")
     public Response execFeature(ExecFeatureRequest request) {
-        Logger.log("Attempting EXECFEATURE");
+        Logger.log("Attempting EXECFEATURE: feature " + request.getFeature() + " in project " + request.getProject());
 
         if (!ProjectsMap.containsKey(request.getProject()))
         {
@@ -291,7 +294,7 @@ public class MyIdeEndpoint {
     @POST
     @Path("/move")
     public Response move(MoveRequest request) {
-        Logger.log("Attempting MOVE");
+        Logger.log("Attempting MOVE: from " + request.getSrc() + " to " + request.getDst());
 
         if (request.getSrc() == null || request.getSrc().isEmpty() || request.getDst() == null
                 || request.getDst().isEmpty()) {
@@ -323,10 +326,11 @@ public class MyIdeEndpoint {
     @POST
     @Path("/update")
     public Response update(UpdateRequest request) {
-        Logger.log("Attempting UPDATE");
-
         java.nio.file.Path path = Paths.get(request.getPath());
         String fileName = path.getFileName().toString();
+
+        Logger.log("Attempting UPDATE: file " + fileName + " at " + request.getPath() + " from " + request.getFrom() + " to " + request.getTo() + " with " + request.getContent());
+
         File file = new File(path.toString());
 
         if (!file.isFile()) {
