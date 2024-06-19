@@ -1,5 +1,6 @@
 package fr.epita.assistants.myide.presentation.rest.request;
 
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -30,9 +31,13 @@ public class EndpointTest {
     @Tag("Endpoint Open Project Test")
     @Test
     public void endpoint_open_project_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
         given()
             // TODO: add a testing project
-            .param("path", "")
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
         .when()
             .post("/api/open/project")
         .then()
@@ -41,69 +46,287 @@ public class EndpointTest {
 
     @Tag("Endpoint ExecFeature Project Not Opened Test")
     @Test
-    public void endpoint_execfeature_project_not_opened_test(){}
+    public void endpoint_execfeature_project_not_opened_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n" +
+                "  \"feature\": [],\n" +
+                "  \"project\": \"\" \n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/execFeature")
+        .then()
+            .statusCode(404);
+    }
 
     @Tag("Endpoint ExecFeature Opened No Feature Test")
     @Test
-    public void endpoint_execfeature_opened_no_feature_test(){}
+    public void endpoint_execfeature_opened_no_feature_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n" +
+                "  \"feature\": [],\n" +
+                "  \"project\": \"\" \n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("api/execFeature")
+        .then()
+            .statusCode(500);
+    }
 
     @Tag("Endpoint ExecFeature Test")
     @Test
-    public void endpoint_execfeature_test(){}
+    public void endpoint_execfeature_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n" +
+                "  \"feature\": [],\n" +
+                "  \"project\": \"\" \n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("api/execFeature")
+        .then()
+            .statusCode(200);
+    }
 
     @Tag("Endpoint Open Project Not Exist Test")
     @Test
-    public void endpoint_open_project_not_exist_test(){}
+    public void endpoint_open_project_not_exist_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/open/project")
+        .then()
+            .statusCode(404);
+    }
 
     @Tag("Endpoint Open File Test")
     @Test
-    public void endpoint_open_file_test(){}
+    public void endpoint_open_file_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/open/file")
+        .then()
+            .statusCode(200);
+    }
 
     @Tag("Endpoint Open File Not Exist Test")
     @Test
-    public void endpoint_open_file_not_exist_test(){}
+    public void endpoint_open_file_not_exist_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/open/file")
+        .then()
+            .statusCode(404);
+    }
 
     @Tag("Endpoint Create File Test")
     @Test
-    public void endpoint_create_file_test(){}
+    public void endpoint_create_file_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/create/file")
+        .then()
+            .statusCode(200);
+    }
 
     @Tag("Endpoint Create File Already Exist Test")
     @Test
-    public void endpoint_create_file_already_exist_test(){}
+    public void endpoint_create_file_already_exist_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/create/file")
+        .then()
+            .statusCode(409);
+    }
 
     @Tag("Endpoint Create Folder Test")
     @Test
-    public void endpoint_create_folder_test(){}
+    public void endpoint_create_folder_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/create/folder")
+        .then()
+            .statusCode(200);
+    }
 
     @Tag("Endpoint Create Folder Already Exist Test")
     @Test
-    public void endpoint_create_folder_already_exist_test(){}
+    public void endpoint_create_folder_already_exist_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/create/folder")
+        .then()
+            .statusCode(409);
+    }
 
     @Tag("Endpoint Delete File Test")
     @Test
-    public void endpoint_delete_file_test(){}
+    public void endpoint_delete_file_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/delete/file")
+        .then()
+            .statusCode(200);
+    }
 
     @Tag("Endpoint Delete File Not Exist Test")
     @Test
-    public void endpoint_delete_file_not_exist_test(){}
+    public void endpoint_delete_file_not_exist_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/delete/file")
+        .then()
+            .statusCode(404);
+    }
 
     @Tag("Endpoint Delete Folder Test")
     @Test
-    public void endpoint_delete_folder_test(){}
+    public void endpoint_delete_folder_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/delete/folder")
+        .then()
+            .statusCode(200);
+    }
 
     @Tag("Endpoint Delete Folder Not Exist Test")
     @Test
-    public void endpoint_delete_folder_not_exist_test(){}
+    public void endpoint_delete_folder_not_exist_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("/api/delete/folder")
+        .then()
+            .statusCode(404);
+    }
 
     @Tag("Endpoint Move Test")
     @Test
-    public void endpoint_move_test(){}
+    public void endpoint_move_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n" +
+                "  \"src\": \"\",\n" +
+                "  \"dst\": \"\" \n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("api/move")
+        .then()
+            .statusCode(200);
+    }
 
     @Tag("Endpoint Update File Test")
     @Test
-    public void endpoint_update_file_test(){}
+    public void endpoint_update_file_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n" +
+                "  \"from\": 0,\n" +
+                "  \"to\": 0,\n" +
+                "  \"content\": \"\" \n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("api/update")
+        .then()
+            .statusCode(200);
+    }
 
     @Tag("Endpoint Update Folder Test")
     @Test
-    public void endpoint_update_folder_test(){}
+    public void endpoint_update_folder_test(){
+        String requestBody = "{\n" +
+                "  \"path\": \"\",\n" +
+                "  \"from\": 0,\n" +
+                "  \"to\": 0,\n" +
+                "  \"content\": \"\" \n}";
+        given()
+            // TODO: add a testing project
+            .header("Content-type", "application/json")
+            .and()
+            .body(requestBody)
+        .when()
+            .post("api/update")
+        .then()
+            .statusCode(200);
+    }
 }
