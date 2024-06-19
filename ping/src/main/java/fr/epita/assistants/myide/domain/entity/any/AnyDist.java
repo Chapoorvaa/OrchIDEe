@@ -3,6 +3,7 @@ package fr.epita.assistants.myide.domain.entity.any;
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Mandatory;
 import fr.epita.assistants.myide.domain.entity.Project;
+import fr.epita.assistants.myide.utils.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,17 +55,19 @@ public class AnyDist implements Feature {
         cleanup.execute(project);
 
         try {
+            String projectPath = project.getRootNode().getPath().toString();
 
-            String sourceFile = project.getRootNode().getPath().getFileName().toString();
-            FileOutputStream fos = new FileOutputStream(sourceFile + ".zip");
+            FileOutputStream fos = new FileOutputStream(projectPath + ".zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);
 
-            File fileToZip = new File(sourceFile);
+            File fileToZip = new File(projectPath);
             zipFile(fileToZip, fileToZip.getName(), zipOut);
+
             zipOut.close();
             fos.close();
         }
-        catch (Exception ignored) {
+        catch (Exception e) {
+            Logger.logError("Got error in DIST: " + e.getMessage());
             return () -> false;
         }
 
