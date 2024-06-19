@@ -7,6 +7,7 @@ import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
 import fr.epita.assistants.myide.utils.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,45 +17,49 @@ import java.util.List;
 public class AnySearch implements Feature {
 
     public void recSearch(Node node, String search, List<Node> searchResult) {
-
+        /*
+        I am not too sure about the name search in there
         if (node.getPath().toString().contains(search)) {
             searchResult.add(node);
         }
+         */
+
         if (node.isFolder()) {
             for (Node child : node.getChildren()) {
                 recSearch(child, search, searchResult);
             }
-        }
-        else {
+        } else {
             Path path = node.getPath();
             try {
                 String content = Files.readString(path);
                 if (content.contains(search)) {
                     searchResult.add(node);
                 }
-            } catch (IOException e) {
-                Logger.logError("Failed to read file in AnySearch");
-                throw new RuntimeException(e);
+            } catch (Exception ignored) {
+                // Nothing done because exceptions could arise from unreadable files
+                // like binaries but I think we still want a result
             }
         }
     }
 
     @Override
     public ExecutionReport execute(Project project, Object... params) {
-        if (params.length == 0 ) {
-            Logger.logError("Any search doesn't have any parameters");
-            throw new IllegalArgumentException("The search parameters must not be empty");
+        if (params.length != 1 || !(params[0] instanceof String)) {
+            Logger.logError("Parameters of AnySearch are invalid");
+            return new SearchFeatureReport(new ArrayList<>(), false);
         }
-        if (!(params[0] instanceof String)) {
-            Logger.logError("Any search doesn't contain a parameter of type String");
-            throw new IllegalArgumentException("The search parameters must be a string");
-        }
+
         Node root = project.getRootNode();
-        String search = (String) params[0];
         List<Node> searchResult = new ArrayList<>();
-        recSearch(root, search, searchResult);
-        boolean isSuccess = !searchResult.isEmpty();
-        return new SearchFeatureReport(searchResult, isSuccess);
+
+        try {
+            recSearch(root, params[0].toString(), searchResult);
+        } catch (Exception e) {
+            Logger.logError("AnySearch failed due to: " + e.getMessage());
+            return new SearchFeatureReport(new ArrayList<>(), false);
+        }
+
+        return new SearchFeatureReport(searchResult, true);
     }
 
     @Override
