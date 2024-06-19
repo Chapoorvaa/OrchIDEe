@@ -3,6 +3,7 @@ package fr.epita.assistants.myide.domain.service;
 import fr.epita.assistants.myide.domain.entity.FileNode;
 import fr.epita.assistants.myide.domain.entity.FolderNode;
 import fr.epita.assistants.myide.domain.entity.Node;
+import fr.epita.assistants.myide.utils.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;

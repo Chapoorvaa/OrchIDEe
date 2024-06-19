@@ -2,6 +2,7 @@ package fr.epita.assistants.myide.domain.entity.any;
 
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Mandatory;
+import fr.epita.assistants.myide.domain.entity.Node;
 import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.utils.Logger;
 
@@ -31,6 +32,7 @@ public class AnyDist implements Feature {
             File[] children = fileToZip.listFiles();
             for (File childFile : children) {
                 zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
+
             }
 
             return;
@@ -60,8 +62,9 @@ public class AnyDist implements Feature {
             FileOutputStream fos = new FileOutputStream(projectPath + ".zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);
 
-            File fileToZip = new File(projectPath);
-            zipFile(fileToZip, fileToZip.getName(), zipOut);
+            for (Node child : project.getRootNode().getChildren()) {
+                zipFile(new File(child.getPath().toString()), child.getPath().getFileName().toString(), zipOut);
+            }
 
             zipOut.close();
             fos.close();
