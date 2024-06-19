@@ -305,12 +305,26 @@ public class MyIdeEndpoint {
         java.nio.file.Path path_src = Paths.get(request.getSrc());
         java.nio.file.Path path_dst = Paths.get(request.getDst());
 
+        if (!path_src.toFile().exists() || !path_dst.toFile().exists()) {
+            Logger.logError("ERROR on MOVE: from " + request.getSrc() + " to " + request.getDst() + ", Src or Dst do not exist");
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        Node NodeSrc;
+        if (path_src.toFile().isFile()) {
+
+            NodeSrc = new FileNode(path_src);
+        }
+        else {
+            NodeSrc = new FolderNode(path_src);
+        }
+
         String fileName = path_src.getFileName().toString();
-        Node fileNodeSrc = new FileNode(path_src);
-        Node folderNodeDst = new FolderNode(path_dst);
+        FolderNode folderNodeDst = new FolderNode(path_dst);
         NodeService myNodeService = myProjectService.getNodeService();
+
         try {
-            myNodeService.move(fileNodeSrc, folderNodeDst);
+            myNodeService.move(NodeSrc, folderNodeDst);
         } catch (IllegalArgumentException e) {
             Logger.logError("ERROR on MOVE: from " + request.getSrc() + " to " + request.getDst() + ": " + e.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).build();

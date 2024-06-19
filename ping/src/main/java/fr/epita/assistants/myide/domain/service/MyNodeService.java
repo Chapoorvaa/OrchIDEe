@@ -3,6 +3,7 @@ package fr.epita.assistants.myide.domain.service;
 import fr.epita.assistants.myide.domain.entity.FileNode;
 import fr.epita.assistants.myide.domain.entity.FolderNode;
 import fr.epita.assistants.myide.domain.entity.Node;
+import fr.epita.assistants.myide.utils.Logger;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,6 +39,7 @@ public class MyNodeService implements NodeService {
             Files.delete(nodePath);
             return true;
         } catch (IOException e) {
+            Logger.logError("Deletion of " + nodePath + " failed");
             return false;
         }
     }
@@ -80,28 +82,16 @@ public class MyNodeService implements NodeService {
             throw new IllegalArgumentException("Destination directory does not exist or isn't a directory");
         }
 
-        if (nodeToMove.getType() == Node.Types.FOLDER) {
-            for (Node child : nodeToMove.getChildren()) {
-                Path childFileName = srcPath.getFileName().resolve(child.getPath().getFileName());
-                Path newDstPath = destFolderPath.resolve(childFileName);
-                try {
-                    Files.move(child.getPath(),newDstPath);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            Path newFolderPath = destFolderPath.resolve(nodeToMove.getPath().getFileName());
-            return new FolderNode(newFolderPath);
-
-        } else {
-
-            Path newDstPath = destFolderPath.resolve(srcPath.getFileName());
-            try {
-                Files.move(srcPath, newDstPath);
-                return new FileNode(newDstPath);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        Path newDstPath = destFolderPath.resolve(nodeToMove.getPath().getFileName());
+        try {
+            Files.move(nodeToMove.getPath(), newDstPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        if (nodeToMove.getType() == Node.Types.FOLDER) {
+            return new FolderNode(newDstPath);
+        }
+        return new FileNode(newDstPath);
     }
 }
