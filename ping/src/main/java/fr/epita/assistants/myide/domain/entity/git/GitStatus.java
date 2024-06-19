@@ -3,6 +3,7 @@ package fr.epita.assistants.myide.domain.entity.git;
 import fr.epita.assistants.myide.domain.entity.ExtraFeatures;
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Project;
+import fr.epita.assistants.myide.domain.entity.report.GitStatusFeatureReport;
 import fr.epita.assistants.myide.utils.Logger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
@@ -11,6 +12,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class GitStatus implements Feature {
     @Override
@@ -27,18 +29,14 @@ public class GitStatus implements Feature {
 
             // TODO: return or write the Set<String> for git status somewhere
 
-            System.out.println("Untracked files : " + status.getUntracked());
-            System.out.println("Added files : " + status.getAdded());
-            System.out.println("Changed files : " + status.getChanged());
-            System.out.println("Uncommited changes: " + status.getUncommittedChanges());
+            return new GitStatusFeatureReport(status.getUntracked(), status.getAdded(), status.getChanged(), status.getUncommittedChanges(), true);
         } catch (IOException e) {
             Logger.logError("IOException in GitStatus : " + e.getMessage());
-            return () -> false;
+            return new GitStatusFeatureReport(Collections.emptySet(), Collections.emptySet(), Collections.emptySet(),Collections.emptySet(), false);
         } catch (GitAPIException e) {
             Logger.logError("GitAPIException in GitStatus : " + e.getMessage());
-            return () -> false;
+            return new GitStatusFeatureReport(Collections.emptySet(), Collections.emptySet(), Collections.emptySet(),Collections.emptySet(), false);
         }
-        return () -> true;
     }
 
     @Override
