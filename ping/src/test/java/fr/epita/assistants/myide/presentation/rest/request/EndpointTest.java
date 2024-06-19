@@ -19,7 +19,7 @@ public class EndpointTest {
     public void endpoint_hello_world_test(){
         // Mandatory. It is here to specify what you give to it at the beginning (config file, etc.).
         given()
-        // Mandatory. Here you can make your requests
+        // Mandatory. Here you can make your requests.
         .when()
             .get("/api/hello")
         // Mandatory. There you check everything you want to test.
