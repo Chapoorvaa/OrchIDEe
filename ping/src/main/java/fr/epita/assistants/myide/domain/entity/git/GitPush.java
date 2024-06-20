@@ -29,9 +29,9 @@ public class GitPush implements Feature {
             Iterable<PushResult> results = git.push().setForce(false).call();
             for (PushResult result : results) {
                 for (RemoteRefUpdate update : result.getRemoteUpdates()) {
-                    if (update.getStatus() == RemoteRefUpdate.Status.UP_TO_DATE)
+                    if (update.getStatus() != RemoteRefUpdate.Status.OK)
                     {
-                        Logger.logError("Everything is up-to-date");
+                        Logger.logError("Git push failed : " + update.getMessage());
                         return () -> false;
                     }
                 }
