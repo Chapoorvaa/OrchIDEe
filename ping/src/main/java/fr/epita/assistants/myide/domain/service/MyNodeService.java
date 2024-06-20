@@ -5,6 +5,7 @@ import fr.epita.assistants.myide.domain.entity.FolderNode;
 import fr.epita.assistants.myide.domain.entity.Node;
 import fr.epita.assistants.myide.utils.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,14 +33,31 @@ public class MyNodeService implements NodeService {
         }
     }
 
+    boolean recDelete(File dir) {
+        File[] allContents = dir.listFiles();
+        boolean result = true;
+        if (allContents != null) {
+            for (File file : allContents) {
+                result &= recDelete(file);
+            }
+        }
+        return result && dir.delete();
+    }
+
     @Override
     public boolean delete(Node node) {
         Path nodePath = node.getPath();
-        try {
-            Files.delete(nodePath);
-            return true;
-        } catch (IOException e) {
-            return false;
+        if (node instanceof FileNode) {
+            try {
+                Files.delete(nodePath);
+                return true;
+            } catch (IOException e) {
+                Logger.logError("Deletion of " + nodePath + " failed: " + e.getMessage());
+                return false;
+            }
+        }
+        else {
+            return recDelete(new File(nodePath.toString()));
         }
     }
 
@@ -81,28 +99,16 @@ public class MyNodeService implements NodeService {
             throw new IllegalArgumentException("Destination directory does not exist or isn't a directory");
         }
 
-        if (nodeToMove.getType() == Node.Types.FOLDER) {
-            for (Node child : nodeToMove.getChildren()) {
-                Path childFileName = srcPath.getFileName().resolve(child.getPath().getFileName());
-                Path newDstPath = destFolderPath.resolve(childFileName);
-                try {
-                    Files.move(child.getPath(),newDstPath);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            Path newFolderPath = destFolderPath.resolve(nodeToMove.getPath().getFileName());
-            return new FolderNode(newFolderPath);
-
-        } else {
-
-            Path newDstPath = destFolderPath.resolve(srcPath.getFileName());
-            try {
-                Files.move(srcPath, newDstPath);
-                return new FileNode(newDstPath);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        Path newDstPath = destFolderPath.resolve(nodeToMove.getPath().getFileName());
+        try {
+            Files.move(nodeToMove.getPath(), newDstPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        if (nodeToMove.getType() == Node.Types.FOLDER) {
+            return new FolderNode(newDstPath);
+        }
+        return new FileNode(newDstPath);
     }
 }
