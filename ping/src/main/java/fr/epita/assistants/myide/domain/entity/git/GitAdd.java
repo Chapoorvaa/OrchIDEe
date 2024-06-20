@@ -6,10 +6,12 @@ import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.utils.Logger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,20 +34,27 @@ public class GitAdd implements Feature {
 
             Path absolutePath =
                     Paths.get(project.getRootNode().getPath().toFile().getAbsolutePath());
+
             for (Object param : params) {
                 Path p = Paths.get(absolutePath.resolve(param.toString()).toUri());
-                if (Files.exists(p)) {
-                    git.add().addFilepattern(param.toString()).call();
-                } else {
+                if (!Files.exists(p)) {
                     Logger.logError("Trying to add " + param + " but it doesn't exist");
                     return () -> false;
                 }
             }
+
+            for (Object param : params) {
+                git.add().addFilepattern(param.toString()).call();
+            }
+
         } catch (IOException e) {
             Logger.logError("IOException in GitAdd : " + e.getMessage());
             return () -> false;
         } catch (GitAPIException e) {
             Logger.logError("GitAPIException in GitAdd : " + e.getMessage());
+            return () -> false;
+        } catch (JGitInternalException e) {
+            Logger.logError("JGitInternalException in GitAdd : " + e.getMessage());
             return () -> false;
         }
 
