@@ -2,6 +2,7 @@ package fr.epita.assistants.myide.presentation.rest;
 
 import fr.epita.assistants.MyIde;
 import fr.epita.assistants.myide.domain.entity.*;
+import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
 import fr.epita.assistants.myide.domain.service.MyProjectService;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
@@ -19,7 +20,9 @@ import fr.epita.assistants.myide.utils.Logger;
 
 import java.io.File;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Path("/api")
@@ -280,14 +283,20 @@ public class MyIdeEndpoint {
                 return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        boolean result = myProjectService.execute(ProjectsMap.get(projectName), type, request.getParams().toArray()).isSuccess();
-        if (!result)
+        Feature.ExecutionReport report = myProjectService.execute(ProjectsMap.get(projectName), type, request.getParams().toArray());
+        if (!report.isSuccess())
         {
             Logger.logError("ERROR on EXECFEATURE: executing feature " + request.getFeature() + " failed");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         Logger.log("SUCCESS on EXECFEATURE: feature " + request.getFeature() + " in project " + request.getProject());
+
+        if (report instanceof SearchFeatureReport searchReport) {
+            List<String> result = new ArrayList<>();
+            searchReport.getResults().forEach(e -> result.add(e.getPath().toString()));
+            return Response.ok(new SearchFeatureResponse(request.getFeature(), request.getProject(), request.getParams(), result)).build();
+        }
         return Response.ok(new ExecFeatureResponse(request.getFeature(), request.getProject(), request.getParams())).build();
     }
 

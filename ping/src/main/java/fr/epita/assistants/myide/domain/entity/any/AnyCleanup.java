@@ -24,12 +24,10 @@ public class AnyCleanup implements Feature {
 
     public void recDelete(String line, Node root, NodeService myNodeService) {
         Path rootPath = root.getPath();
+
         try (Stream<Path> paths = Files.walk(rootPath)) {
-            String pattern = line.replace("**", ".*").replace("*", "[^/]*");
-            List<Path> matchedPaths = paths.filter(path -> {
-                Path relativePath = rootPath.relativize(path);
-                return relativePath.toString().matches(pattern);
-            }).sorted(Comparator.comparing(Path::getNameCount).reversed()).toList();
+            List<Path> matchedPaths = paths.filter(path -> path.toString().contains(line))
+                    .sorted(Comparator.comparing(Path::getNameCount).reversed()).toList();
 
             for (Path path : matchedPaths) {
                 if (Files.isDirectory(path)) {
@@ -63,13 +61,13 @@ public class AnyCleanup implements Feature {
         NodeService nodeService = new MyNodeService();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(ignoreNode.getPath().getFileName().toString()));
+            BufferedReader reader = new BufferedReader(new FileReader(ignoreNode.getPath().toString()));
             String line;
             while ((line = reader.readLine()) != null) {
                 recDelete(line.trim(), root, nodeService);
             }
         } catch (Exception e) {
-            Logger.logError("Failed to read the ignore file");
+            Logger.logError("Failed to read the ignore file: " + e.getMessage());
             return () -> false;
         }
         return () -> true;
