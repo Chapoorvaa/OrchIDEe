@@ -310,13 +310,12 @@ public class MyIdeEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Node NodeSrc;
+        Node nodeSrc;
         if (path_src.toFile().isFile()) {
-
-            NodeSrc = new FileNode(path_src);
+            nodeSrc = new FileNode(path_src);
         }
         else {
-            NodeSrc = new FolderNode(path_src);
+            nodeSrc = new FolderNode(path_src);
         }
 
         String fileName = path_src.getFileName().toString();
@@ -324,7 +323,7 @@ public class MyIdeEndpoint {
         NodeService myNodeService = myProjectService.getNodeService();
 
         try {
-            myNodeService.move(NodeSrc, folderNodeDst);
+            myNodeService.move(nodeSrc, folderNodeDst);
         } catch (IllegalArgumentException e) {
             Logger.logError("ERROR on MOVE: from " + request.getSrc() + " to " + request.getDst() + ": " + e.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).build();
