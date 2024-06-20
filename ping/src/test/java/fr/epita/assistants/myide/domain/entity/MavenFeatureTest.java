@@ -66,10 +66,10 @@ public class MavenFeatureTest {
     @Tag("Maven Install Test")
     @Test
     public void maven_install_test(){
-        ProjectService projectService = MyIde.init(new MyIde.Configuration(Path.of(""), Path.of("")));
-        Project project = projectService.load(Path.of(project_file + "OrchIDEe/ping/"));
-        MavenInstall mavenInstall = new MavenInstall();
-        assertTrue(mavenInstall.execute(project).isSuccess());
+            ProjectService projectService = MyIde.init(new MyIde.Configuration(Path.of(""), Path.of("")));
+            Project project = projectService.load(Path.of(project_file + "OrchIDEe/ping/"));
+            MavenInstall mavenInstall = new MavenInstall();
+            assertTrue(mavenInstall.execute(project).isSuccess());
     }
 }
 
