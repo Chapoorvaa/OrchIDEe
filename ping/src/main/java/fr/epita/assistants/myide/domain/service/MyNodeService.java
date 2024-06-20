@@ -5,6 +5,7 @@ import fr.epita.assistants.myide.domain.entity.FolderNode;
 import fr.epita.assistants.myide.domain.entity.Node;
 import fr.epita.assistants.myide.utils.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,15 +33,30 @@ public class MyNodeService implements NodeService {
         }
     }
 
+    boolean recDelete(File dir) {
+        File[] allContents = dir.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                recDelete(file);
+            }
+        }
+        return dir.delete();
+    }
+
     @Override
     public boolean delete(Node node) {
         Path nodePath = node.getPath();
-        try {
-            Files.delete(nodePath);
-            return true;
-        } catch (IOException e) {
-            Logger.logError("Deletion of " + nodePath + " failed");
-            return false;
+        if (node instanceof FileNode) {
+            try {
+                Files.delete(nodePath);
+                return true;
+            } catch (IOException e) {
+                Logger.logError("Deletion of " + nodePath + " failed: " + e.getMessage());
+                return false;
+            }
+        }
+        else {
+            return recDelete(new File(nodePath.toString()));
         }
     }
 
