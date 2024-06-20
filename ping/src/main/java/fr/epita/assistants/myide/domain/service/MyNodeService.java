@@ -35,12 +35,13 @@ public class MyNodeService implements NodeService {
 
     boolean recDelete(File dir) {
         File[] allContents = dir.listFiles();
+        boolean result = true;
         if (allContents != null) {
             for (File file : allContents) {
-                recDelete(file);
+                result &= recDelete(file);
             }
         }
-        return dir.delete();
+        return result && dir.delete();
     }
 
     @Override
