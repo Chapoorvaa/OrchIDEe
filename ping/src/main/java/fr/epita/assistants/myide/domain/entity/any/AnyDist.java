@@ -32,7 +32,6 @@ public class AnyDist implements Feature {
             File[] children = fileToZip.listFiles();
             for (File childFile : children) {
                 zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
-
             }
 
             return;

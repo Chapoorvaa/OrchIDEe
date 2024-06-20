@@ -38,6 +38,7 @@ public class AnySearch implements Feature {
             } catch (Exception ignored) {
                 // Nothing done because exceptions could arise from unreadable files
                 // like binaries but I think we still want a result
+                Logger.log("File " + path.toString() + " was unreadable and was skipped.");
             }
         }
     }
