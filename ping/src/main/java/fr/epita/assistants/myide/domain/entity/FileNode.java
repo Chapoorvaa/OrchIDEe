@@ -9,11 +9,10 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class FileNode implements Node {
-
     private final Path path;
 
     public FileNode(Path path) {
-        this.path = path.toAbsolutePath().normalize();
+        this.path = path;
     }
 
     @Override

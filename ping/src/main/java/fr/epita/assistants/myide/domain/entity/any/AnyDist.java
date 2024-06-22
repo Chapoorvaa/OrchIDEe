@@ -61,9 +61,7 @@ public class AnyDist implements Feature {
             FileOutputStream fos = new FileOutputStream(projectPath + ".zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);
 
-            for (Node child : project.getRootNode().getChildren()) {
-                zipFile(new File(child.getPath().toString()), child.getPath().getFileName().toString(), zipOut);
-            }
+            zipFile(new File(project.getRootNode().getPath().toString()), project.getRootNode().getPath().getFileName().toString(), zipOut);
 
             zipOut.close();
             fos.close();
