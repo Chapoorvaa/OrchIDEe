@@ -1,10 +1,12 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
 import { Message } from './Chat';
 import { fetchBotResponse } from './ChatbotService';
 
 const Chatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
@@ -14,11 +16,15 @@ const Chatbot: React.FC = () => {
     event.preventDefault();
     if (input.trim() === '') return;
 
-    const userMessage: Message = { text: input, isUser: true };
+    const userInput = input;
+    setInput('');
+    setLoading(true);
+
+    const userMessage: Message = { text: userInput, isUser: true };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const botResponse = await fetchBotResponse(input);
+      const botResponse = await fetchBotResponse(userInput);
       const botMessage: Message = { text: botResponse, isUser: false };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
@@ -26,30 +32,37 @@ const Chatbot: React.FC = () => {
       const errorMessage: Message = { text: 'Error fetching response.', isUser: false };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     }
+    
+    setLoading(false);
+  };
 
-    setInput('');
-  }; 
+  useEffect(() => {
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   return (
     <div style={styles.chatbotContainer}>
-    <div style={styles.chatWindow}>
-      {messages.map((message, index) => (
-        <div key={index} style={message.isUser ? styles.userMessage : styles.botMessage}>
-          {message.text}
-        </div>
-      ))}
+      <div ref={chatWindowRef} style={styles.chatWindow}>
+        {messages.map((message, index) => (
+          <div key={index} style={message.isUser ? styles.userMessage : styles.botMessage}>
+            {message.text}
+          </div>
+        ))}
+        {loading && <div style={styles.loadingMessage}><div style={dotTypingStyle}><style>{keyframes}</style></div></div>}
+      </div>
+      <form onSubmit={handleSubmit} style={styles.inputForm}>
+        <input
+          type="text"
+          value={input}
+          onChange={handleInputChange}
+          placeholder="Type your message..."
+          style={styles.inputField}
+        />
+        <button type="submit" style={styles.submitButton}>Send</button>
+      </form>
     </div>
-    <form onSubmit={handleSubmit} style={styles.inputForm}>
-      <input
-        type="text"
-        value={input}
-        onChange={handleInputChange}
-        placeholder="Type your message..."
-        style={styles.inputField}
-      />
-      <button type="submit" style={styles.submitButton}>Send</button>
-    </form>
-  </div>
   );
 };
 
@@ -111,7 +124,54 @@ const styles = {
     backgroundColor: '#007bff',
     color: '#fff',
     cursor: 'pointer'
+  },
+  loadingMessage: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    padding: '32px 0',
+    margin: '0 -5%',
+    overflow: 'hidden'
   }
 };
+
+const dotTypingStyle = {
+  position: 'relative' as const,
+  left: '-9999px',
+  width: '10px',
+  height: '10px',
+  borderRadius: '5px',
+  backgroundColor: 'white',
+  color: 'white',
+  boxShadow: '9984px 0 0 0 white, 9999px 0 0 0 white, 10014px 0 0 0 white',
+  animation: 'dot-typing 1.5s infinite linear'
+};
+
+const keyframes = `
+    @keyframes dot-typing {
+      0% {
+        box-shadow: 9984px 0 0 0 white, 9999px 0 0 0 white, 10014px 0 0 0 white;
+      }
+      16.667% {
+        box-shadow: 9984px -10px 0 0 white, 9999px 0 0 0 white, 10014px 0 0 0 white;
+      }
+      33.333% {
+        box-shadow: 9984px 0 0 0 white, 9999px 0 0 0 white, 10014px 0 0 0 white;
+      }
+      50% {
+        box-shadow: 9984px 0 0 0 white, 9999px -10px 0 0 white, 10014px 0 0 0 white;
+      }
+      66.667% {
+        box-shadow: 9984px 0 0 0 white, 9999px 0 0 0 white, 10014px 0 0 0 white;
+      }
+      83.333% {
+        box-shadow: 9984px 0 0 0 white, 9999px 0 0 0 white, 10014px -10px 0 0 white;
+      }
+      100% {
+        box-shadow: 9984px 0 0 0 white, 9999px 0 0 0 white, 10014px 0 0 0 white;
+      }
+    }
+  `;
 
 export default Chatbot;
