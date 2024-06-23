@@ -2,8 +2,8 @@ package fr.epita.assistants.myide.presentation.rest;
 
 import fr.epita.assistants.MyIde;
 import fr.epita.assistants.myide.domain.entity.*;
+import fr.epita.assistants.myide.domain.entity.report.ChatbotFeatureReport;
 import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
-import fr.epita.assistants.myide.domain.service.MyProjectService;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
 import fr.epita.assistants.myide.presentation.rest.request.ExecFeatureRequest;
@@ -242,6 +242,9 @@ public class MyIdeEndpoint {
             case "SEARCH":
                 type = Mandatory.Features.Any.SEARCH;
                 break;
+            case "CHATBOT":
+                type = ExtraFeatures.Features.Any.CHATBOT;
+                break;
             case "PULL":
                 type = Mandatory.Features.Git.PULL;
                 break;
@@ -296,6 +299,9 @@ public class MyIdeEndpoint {
             List<String> result = new ArrayList<>();
             searchReport.getResults().forEach(e -> result.add(e.getPath().toString()));
             return Response.ok(new SearchFeatureResponse(request.getFeature(), request.getProject(), request.getParams(), result)).build();
+        }
+        else if (report instanceof ChatbotFeatureReport chatbotReport) {
+            return Response.ok(new ChatbotFeatureResponse(chatbotReport.chatbotResponse())).build();
         }
         return Response.ok(new ExecFeatureResponse(request.getFeature(), request.getProject(), request.getParams())).build();
     }

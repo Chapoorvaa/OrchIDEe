@@ -11,6 +11,18 @@ public enum ExtraFeatures {
 
     public enum Features {
         ;
+
+        /**
+         * Extra features for all projects.
+         */
+        public enum Any implements Feature.Type {
+
+            /**
+             * Chatbot
+             */
+            CHATBOT
+        }
+
         /**
          * Extra Features for the git project type.
          */

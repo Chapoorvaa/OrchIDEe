@@ -14,6 +14,7 @@ public class AnyAspect implements Aspect {
         features_.add(new AnyCleanup());
         features_.add(new AnyDist());
         features_.add(new AnySearch());
+        features_.add(new AnyChatbot());
     }
 
     @Override
