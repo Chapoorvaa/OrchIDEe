@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  pingfrontend:
+    build:
+      context: frontend 
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:9000:9000"
+    container_name: pingfrontend
+    hostname: pingfrontend 
+    depends_on:
+      - pingbackend
+
+  pingbackend:
+    build:
+      context: ping 
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8000:8000"
+    container_name: pingbackend 
+    hostname: pingbackend 
