@@ -1,13 +1,18 @@
+import { useRef } from 'react';
+
 export interface ButtonProps {
     label: string;
     setHomepage: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Button: React.FC<ButtonProps> = ({ label, setHomepage }) => {
+    const fileInput = useRef<HTMLInputElement>(null);
+
     const handleClick = () => {
         if (label === "new") {
             setHomepage(false);
         } else if (label === "open") {
+            fileInput.current.click();
         }
     };
     return (
@@ -16,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({ label, setHomepage }) => {
             onClick={handleClick}
         >
             {label}
+        <input type="file" ref={fileInput} className="sr-only" />
         </button>
     );
 }
