@@ -32,7 +32,7 @@ public class AnySearch implements Feature {
             Path path = node.getPath();
             try {
                 String content = Files.readString(path);
-                if (content.contains(search)) {
+                if (content.toLowerCase().contains(search.toLowerCase())) {
                     searchResult.add(node);
                 }
             } catch (Exception ignored) {
@@ -60,6 +60,9 @@ public class AnySearch implements Feature {
             return new SearchFeatureReport(new ArrayList<>(), false);
         }
 
+        if (searchResult.isEmpty()) {
+            return new SearchFeatureReport(searchResult, false);
+        }
         return new SearchFeatureReport(searchResult, true);
     }
 

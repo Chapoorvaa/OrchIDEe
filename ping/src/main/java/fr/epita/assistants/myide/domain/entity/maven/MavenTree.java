@@ -3,18 +3,33 @@ package fr.epita.assistants.myide.domain.entity.maven;
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Mandatory;
 import fr.epita.assistants.myide.domain.entity.Project;
+import fr.epita.assistants.myide.utils.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MavenTree implements Feature {
     @Override
     public ExecutionReport execute(Project project, Object... params) {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("mvn", "dependency:tree", "--file", project.getRootNode().getPath().toString());
-            processBuilder.start();
+            List<String> arguments = new ArrayList<>();
+            arguments.add("mvn");
+            arguments.add("dependency:tree");
+            for (Object str : params) {
+                arguments.add(str.toString());
+            }
+
+            Process process = new ProcessBuilder(arguments)
+                    .directory(project.getRootNode().getPath().toFile())
+                    .start();
+
+            int exitCode = process.waitFor();
+
+            return () -> exitCode == 0;
         } catch (Exception e) {
+            Logger.logError("Maven tree failed: " + e);
             return () -> false;
         }
-        return () -> true;
     }
 
     @Override

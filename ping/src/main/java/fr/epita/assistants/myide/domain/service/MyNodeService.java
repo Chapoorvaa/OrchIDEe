@@ -70,18 +70,21 @@ public class MyNodeService implements NodeService {
         }
 
         Path newPath = nodePath.resolve(name);
+        Node newChild;
         try {
             if (type == Node.Types.FOLDER) {
                 Files.createDirectory(newPath);
-                return new FolderNode(newPath);
+                newChild = new FolderNode(newPath);
 
             } else if (type == Node.Types.FILE) {
                 Files.createFile(newPath);
-                return new FileNode(newPath);
+                newChild = new FileNode(newPath);
             }
             else {
                 throw new IllegalArgumentException("Invalid node type");
             }
+
+            return newChild;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
