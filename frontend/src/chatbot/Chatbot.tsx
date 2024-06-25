@@ -43,8 +43,10 @@ const Chatbot: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="flex flex-col items-center mx-auto border border-gray-300 rounded-10 font-sans w-96">
-      <div style={{ minHeight: '300px' }} className="overflow-y-scroll border border-gray-300 rounded-10 mx-2.5 mt-2.5 bg-silver flex flex-col h-96 w-11/12">
+    <div className="flex flex-col justify-between items-center border border-gray-300 rounded-10 font-sans h-full w-full">
+      <div
+        style={{ minHeight: '300px' }}
+        className="overflow-y-auto border border-gray-300 rounded-10 mx-2.5 mt-2.5 bg-silver flex flex-col h-80 w-11/12">
         {messages.map((message, index) => (
           <div key={index} className={`text-gray-600 ${message.isUser ? 'text-right' : 'text-left'} m-2 py-1 px-2 rounded-lg ${message.isUser ? 'bg-green-200' : 'bg-white'} inline-block`}>
             {message.text}
@@ -56,13 +58,13 @@ const Chatbot: React.FC = () => {
           </div>
         </div>}
       </div>
-      <form onSubmit={handleSubmit} className="flex items-center justify-between my-2.5">
+      <form onSubmit={handleSubmit} className="flex items-center justify-around my-2.5 w-full">
         <input
           type="text"
           value={input}
           onChange={handleInputChange}
           placeholder="Type your message..."
-          className="flex-1 p-2 text-sm rounded-lg border border-gray-300 mr-4 w-1/2"
+          className="flex p-2 text-sm rounded-lg border border-gray-300 w-1/2"
         />
         <button type="submit" className="px-5 py-2 text-sm rounded-lg bg-blue-500 text-white cursor-pointer">Send</button>
       </form>
