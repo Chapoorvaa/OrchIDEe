@@ -17,6 +17,6 @@ services:
       context: ping 
       dockerfile: Dockerfile
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:8000:8080"
     container_name: pingbackend 
     hostname: pingbackend 

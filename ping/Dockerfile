@@ -2,10 +2,12 @@ FROM openjdk:17-jdk-alpine
 
 WORKDIR /app
 
-COPY target/quarkus-app/* ./
+COPY target/quarkus-app/quarkus-run.jar /app/quarkus-run.jar
 
-RUN ls
+COPY target/quarkus-app/lib/ /app/lib/
+COPY target/quarkus-app/app/ /app/app/
+COPY target/quarkus-app/quarkus/ /app/quarkus/
 
 EXPOSE 8000
 
-ENTRYPOINT ["java", "-jar", "quarkus-run.jar"]
+ENTRYPOINT ["java", "-jar", "/app/quarkus-run.jar"]
