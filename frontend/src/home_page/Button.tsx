@@ -21,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({ label, setHomepage }) => {
             onClick={handleClick}
         >
             {label}
-        <input type="file" ref={fileInput} className="sr-only" />
+        <input type="file" ref={fileInput} className="sr-only" webkitdirectory="true" />
         </button>
     );
 }

@@ -1,23 +1,38 @@
 export interface ButtonProps {
     label: string;
-    setHomepage: React.Dispatch<React.SetStateAction<boolean>>;
+    setFunction: React.Dispatch<React.SetStateAction<any>>;
+    projectName?: string;
+    location?: FileList | null;
+    language?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, setHomepage }) => {
+const Button: React.FC<ButtonProps> = ({ label, setFunction, projectName, location, language }) => {
     const handleClick = () => {
         switch(label) {
             case "Cancel": {
-                console.log("here");
-                setHomepage(true);
+                setFunction(true);
                 break;
             }
             case "Create": {
+                console.log(projectName);
+                console.log(location);
+                console.log(language);
+                if (!projectName || !location || location.length === 0 || !language) {
+                    setFunction(true);
+                } else {
+                    setFunction(false);
+                    console.log("Creating project with:", { projectName, location, language });
+                }
                 break;
             }
             case "Java": {
+                console.log("Language set to Java");
+                setFunction("Java");
                 break;
             }
             case "C++": {
+                console.log("Language set to C++");
+                setFunction("C++");
                 break;
             }
         }
