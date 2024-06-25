@@ -1,16 +1,12 @@
 package fr.epita.assistants.myide.presentation.rest.response;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class MoveResponse {
-
     private String src;
     private String dst;
-
-    public MoveResponse(String src, String dst) {
-        this.src = src;
-        this.dst = dst;
-    }
 }
