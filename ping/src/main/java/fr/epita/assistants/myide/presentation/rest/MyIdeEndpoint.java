@@ -2,6 +2,7 @@ package fr.epita.assistants.myide.presentation.rest;
 
 import fr.epita.assistants.MyIde;
 import fr.epita.assistants.myide.domain.entity.*;
+import fr.epita.assistants.myide.domain.entity.report.GitStatusFeatureReport;
 import fr.epita.assistants.myide.domain.entity.report.ChatbotFeatureReport;
 import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
 import fr.epita.assistants.myide.domain.service.NodeService;
@@ -17,6 +18,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import fr.epita.assistants.myide.utils.Logger;
+import org.eclipse.jgit.api.Git;
 
 import java.io.File;
 import java.nio.file.*;
@@ -294,6 +296,11 @@ public class MyIdeEndpoint {
         }
 
         Logger.log("SUCCESS on EXECFEATURE: feature " + request.getFeature() + " in project " + request.getProject());
+
+        if (report instanceof GitStatusFeatureReport gitStatusFeatureReport)
+        {
+            return Response.ok(new GitStatusResponse(gitStatusFeatureReport.untracked(), gitStatusFeatureReport.added(), gitStatusFeatureReport.changed(), gitStatusFeatureReport.uncommited())).build();
+        }
 
         if (report instanceof SearchFeatureReport searchReport) {
             List<String> result = new ArrayList<>();
