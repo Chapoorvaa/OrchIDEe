@@ -43,99 +43,34 @@ const Chatbot: React.FC = () => {
   }, [messages]);
 
   return (
-    <div style={styles.chatbotContainer}>
-      <div ref={chatWindowRef} style={styles.chatWindow}>
+    <div className="flex flex-col items-center mx-auto border border-gray-300 rounded-10 font-sans w-96">
+      <div style={{ minHeight: '300px' }} className="overflow-y-scroll border border-gray-300 rounded-10 mx-2.5 mt-2.5 bg-silver flex flex-col h-96 w-11/12">
         {messages.map((message, index) => (
-          <div key={index} style={message.isUser ? styles.userMessage : styles.botMessage}>
+          <div key={index} className={`text-gray-600 ${message.isUser ? 'text-right' : 'text-left'} m-2 py-1 px-2 rounded-lg ${message.isUser ? 'bg-green-200' : 'bg-white'} inline-block`}>
             {message.text}
           </div>
         ))}
-        {loading && <div style={styles.loadingMessage}><div style={dotTypingStyle}><style>{keyframes}</style></div></div>}
+        {loading && <div className="flex justify-center items-center relative py-8 px-0 mx-[-5%] overflow-hidden">
+          <div style={dotTypingStyle}>
+            <style>{keyframes}</style>
+          </div>
+        </div>}
       </div>
-      <form onSubmit={handleSubmit} style={styles.inputForm}>
+      <form onSubmit={handleSubmit} className="flex items-center justify-between my-2.5">
         <input
           type="text"
           value={input}
           onChange={handleInputChange}
           placeholder="Type your message..."
-          style={styles.inputField}
+          className="flex-1 p-2 text-sm rounded-lg border border-gray-300 mr-4 w-1/2"
         />
-        <button type="submit" style={styles.submitButton}>Send</button>
+        <button type="submit" className="px-5 py-2 text-sm rounded-lg bg-blue-500 text-white cursor-pointer">Send</button>
       </form>
     </div>
   );
 };
 
-const styles = {
-  chatbotContainer: {
-    width: '300px',
-    margin: '0 auto',
-    padding: '20px',
-    border: '1px solid #ccc',
-    borderRadius: '10px',
-    fontFamily: 'Arial, sans-serif'
-  },
-  chatWindow: {
-    height: '400px',
-    overflowY: 'scroll' as const,
-    border: '1px solid #ccc',
-    borderRadius: '10px',
-    padding: '10px',
-    marginBottom: '10px',
-    backgroundColor: 'silver',
-    display: 'flex',
-    flexDirection: 'column' as const
-  },
-  userMessage: {
-    color: 'grey',
-    textAlign: 'right' as const,
-    margin: '5px 0',
-    padding: '5px 10px',
-    borderRadius: '10px',
-    backgroundColor: '#dcf8c6',
-    display: 'inline-block'
-  },
-  botMessage: {
-    color: 'grey',
-    textAlign: 'left' as const,
-    margin: '5px 0',
-    padding: '5px 10px',
-    borderRadius: '10px',
-    backgroundColor: '#fff',
-    display: 'inline-block'
-  },
-  inputForm: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  inputField: {
-    flex: 1,
-    padding: '10px',
-    fontSize: '14px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    marginRight: '10px'
-  },
-  submitButton: {
-    padding: '10px 20px',
-    fontSize: '14px',
-    borderRadius: '5px',
-    border: 'none',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    cursor: 'pointer'
-  },
-  loadingMessage: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    padding: '32px 0',
-    margin: '0 -5%',
-    overflow: 'hidden'
-  }
-};
-
+// I have not found a way to turn this into Tailwind CSS so this stays normal-ish CSS
 const dotTypingStyle = {
   position: 'relative' as const,
   left: '-9999px',
