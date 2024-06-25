@@ -1,5 +1,4 @@
 {
-  "base": "vs-dark",
   "inherit": true,
   "rules": [
     {

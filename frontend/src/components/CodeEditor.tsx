@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { Editor, type Monaco } from "@monaco-editor/react";
-import Monokai_Bright from "../editor-theme/NordFox.json";
+import Monokai_Bright from "../editor-theme/Monokai.json";
 
 interface Config {
   language: string;
@@ -16,6 +16,7 @@ const CodeEditor = (props: Config) => {
 
   const handleEditorDidMount = (monaco: Monaco) => {
     monaco.editor.defineTheme("MonokaiBright", {
+      base: "vs",
       ...Monokai_Bright,
     });
   };
