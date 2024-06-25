@@ -1,20 +1,3 @@
-# FROM maven:3.9.7-eclipse-temurin-17-alpine
-
-# RUN mvn clean package
-
-# RUN ls 
-
-# WORKDIR /app
-
-# # COPY target/quarkus-app/quarkus-run.jar /app/quarkus-run.jar
-
-# # COPY target/quarkus-app/lib/ /app/lib/
-# # COPY target/quarkus-app/app/ /app/app/
-# # COPY target/quarkus-app/quarkus/ /app/quarkus/
-
-# EXPOSE 8000
-
-# ENTRYPOINT ["java", "-jar", "/app/quarkus-run.jar"]
 # Stage 1: Build the application
 FROM maven:3.9.7-eclipse-temurin-17-alpine AS build
 WORKDIR /build
