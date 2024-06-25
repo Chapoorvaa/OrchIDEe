@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FolderNode implements Node {
-
     private final Path path;
 
     public FolderNode(Path path) {
-        this.path = path.toAbsolutePath().normalize();
+        this.path = path;
     }
 
     @Override
@@ -26,8 +25,9 @@ public class FolderNode implements Node {
 
     @Override
     public List<@NotNull Node> getChildren() {
-        File curDir = new File(this.path.toString());
+        File curDir = new File(path.toString());
         List<Node> children = new ArrayList<>();
+
         File[] fileList= curDir.listFiles();
         if (fileList != null) {
             for (File file : fileList) {
@@ -38,6 +38,7 @@ public class FolderNode implements Node {
                 }
             }
         }
+
         return children;
     }
 }
