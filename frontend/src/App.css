@@ -19,9 +19,8 @@
 }
 
 .git-status-section {
-  height: 25%;
+  height: 75px;
   overflow-y: auto;
-  max-height: 25%;
 }
 
 .logo {
