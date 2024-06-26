@@ -17,7 +17,7 @@ export const fetchGitResponse = async (): Promise<string[][]> => {
             body: JSON.stringify({
                 "feature": "STATUS",
                 "params": [],
-                "project": "epita-ing-2026-tui-julie.ducastel"
+                "project": "gittest4ping"
             }),
         });
 
@@ -32,7 +32,7 @@ export const fetchGitResponse = async (): Promise<string[][]> => {
         const changed = Array.from(data.modifiedFiles);
         const uncommited = Array.from(data.uncommittedFiles);
 
-        return new Array(untracked, added, changed, uncommited);
+        return [untracked, added, changed, uncommited];
 
     } catch (error) {
         throw new Error('Failed to fetch response');
@@ -51,7 +51,7 @@ export const commitChanges = async (message: string): Promise<void> => {
             body: JSON.stringify({
                 "feature": "COMMIT",
                 "params": [message],
-                "project": "epita-ing-2026-tui-julie.ducastel"
+                "project": "gittest4ping"
             }),
         });
 
@@ -75,7 +75,7 @@ export const pushChanges = async (): Promise<void> => {
             body: JSON.stringify({
                 "feature": "PUSH",
                 "params": [],
-                "project": "epita-ing-2026-tui-julie.ducastel"
+                "project": "gittest4ping"
             }),
         });
 
@@ -99,7 +99,7 @@ export const fetchPull = async (): Promise<void> => {
             body: JSON.stringify({
                 "feature": "PULL",
                 "params": [],
-                "project": "epita-ing-2026-tui-julie.ducastel"
+                "project": "gittest4ping"
             }),
         });
 

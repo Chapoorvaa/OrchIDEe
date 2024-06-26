@@ -84,72 +84,78 @@ const Git: React.FC = () => {
     }
 
     return (
-        <div className="git-status bg-gray-800 text-white border border-gray-600 justify-between">
-            <div className='text-left'>
-            <h2 className="text-xl font-bold mb-4">Git Status</h2>
-            <div className='git-status-content'>
-                <div className="border-t-2 border-gray-600 git-status-section">
-                    <h3 className="text-lg font-semibold sticky top-0">Added files</h3>
-                    {added.length === 0 ? <p>No added files</p> : (
-                        <ul className="list-disc list-inside">
-                            {added.map(file => <li key={file}>{file}</li>)}
-                        </ul>
-                    )}
-                </div>
-                <div className="border-t-2 border-gray-600 git-status-section">
-                    <h3 className="text-lg font-semibold sticky top-0">Modified files</h3>
-                    {modified.length === 0 ? <p>No modified files</p> : (
-                        <ul className="list-disc list-inside">
-                            {modified.map(file => <li key={file}>{file}</li>)}
-                        </ul>
-                    )}
-                </div>
-                <div className="border-t-2 border-gray-600 git-status-section">
-                    <h3 className="text-lg font-semibold sticky top-0">Untracked files</h3>
-                    {untracked.length === 0 ? <p>No untracked files</p> : (
-                        <ul className="list-disc list-inside">
-                            {untracked.map(file => <li key={file}>{file}</li>)}
-                        </ul>
-                    )}
-                </div>
-                <div className="border-y-2 border-gray-600 git-status-section">
-                    <h3 className="text-lg font-semibold sticky top-0">Uncommitted files</h3>
-                    {uncommitted.length === 0 ? <p>No uncommitted files</p> : (
-                        <ul className="list-disc list-inside">
-                            {uncommitted.map(file => <li key={file}>{file}</li>)}
-                        </ul>
-                    )}
+        <div className="h-full w-full flex justify-between flex-col bg-gray-800 text-white border-4 border-gray-600">
+            <div className='text-left scroll-y-auto'>
+                <div className=''>
+                    <div className="border-gray-600">
+                        <h3 className="text-lg mt-2 ml-2 font-semibold">Added files</h3>
+                        {added.length === 0 ? <p className='ml-2 mb-2'>No added files</p> : (
+                            <div className='ml-2 mb-2 overflow-y-auto max-h-[15vh]'>
+                                <ul className="list-disc list-inside">
+                                    {added.map(file => <li key={file}>{file}</li>)}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                    <div className="border-t-4 border-gray-600">
+                        <h3 className="text-lg mt-2 ml-2 font-semibold">Modified files</h3>
+                        {modified.length === 0 ? <p className='ml-2 mb-2'>No modified files</p> : (
+                            <div className='ml-2 mb-2 overflow-y-auto max-h-[15vh]'>
+                                <ul className="list-disc list-inside">
+                                    {modified.map(file => <li key={file}>{file}</li>)}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                    <div className="border-t-4 border-gray-600">
+                        <h3 className="text-lg font-semibold mt-2 ml-2">Untracked files</h3>
+                        {untracked.length === 0 ? <p className='ml-2 mb-2'>No untracked files</p> : (
+                            <div className='ml-2 mb-2 overflow-y-auto max-h-[15vh]'>
+                                <ul className="list-disc list-inside">
+                                    {untracked.map(file => <li key={file}>{file}</li>)}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                    <div className="border-y-4 border-gray-600">
+                        <h3 className="text-lg font-semibold mt-2 ml-2">Uncommitted files</h3>
+                        {uncommitted.length === 0 ? <p className='ml-2 mb-2'>No uncommitted files</p> : (
+                            <div className='ml-2 mb-2 overflow-y-auto max-h-[15vh]'>
+                                <ul className="list-disc list-inside">
+                                    {uncommitted.map(file => <li key={file}>{file}</li>)}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-            </div>
-            <div className='git-status-footer border border-gray-600'>
-                <div className="mb-4">
-                    <p className='font-semibold text-left'>New commit</p>
+            <div className='flex flex-col border-t-4 border-gray-600'>
+                <div className='flex flex-col items-start p-2 min-h-[15vh]'>
+                    <p className='font-semibold mb-2'>New commit</p>
                     <input
                         type="text"
                         value={commitMessage}
                         onChange={(e) => setCommitMessage(e.target.value)}
                         placeholder="Enter commit message..."
-                        className="w-full h-[20vh] rounded-md bg-gray-700 mr-4"
+                        className="h-full w-full rounded-md bg-gray-700 mb-2 text-start p-2"
                     />
-                </div>
-                <div>
                     <button
                         onClick={handleCommit}
-                        className="bg-gray-600 text-white p-2 rounded-md mr-2"
+                        className="bg-gray-600 text-white p-1 rounded-md self-end"
                     >
                         Commit
                     </button>
+                </div>
+                <div className='flex justify-evenly border-t-4 border-gray-600 p-2'>
                     <button
                         onClick={handlePull}
-                        className="bg-gray-600 text-white p-2 rounded-md mr-2"
+                        className="bg-gray-600 text-white p-1 rounded-md mr-2"
                     >
                         Pull
                     </button>
-
                     <button
                         onClick={handlePush}
-                        className="bg-gray-600 text-white p-2 rounded-md"
+                        className="bg-gray-600 text-white p-1 rounded-md"
                     >
                         Push
                     </button>
