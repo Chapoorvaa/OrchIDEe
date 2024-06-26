@@ -84,7 +84,7 @@ const Git: React.FC = () => {
     }
 
     return (
-        <div className="h-full w-full flex justify-between flex-col bg-gray-800 text-white border-4 border-gray-600">
+        <div className="h-full w-full flex justify-between flex-col bg-gray-800 text-gray-100 border-4 border-gray-600">
             <div className='text-left scroll-y-auto'>
                 <div className=''>
                     <div className="border-gray-600">
@@ -141,7 +141,7 @@ const Git: React.FC = () => {
                     />
                     <button
                         onClick={handleCommit}
-                        className="bg-gray-600 text-white p-1 rounded-md self-end"
+                        className="bg-gray-600 text-gray-100 p-1 rounded-md self-end"
                     >
                         Commit
                     </button>
@@ -149,13 +149,13 @@ const Git: React.FC = () => {
                 <div className='flex justify-evenly border-t-4 border-gray-600 p-2'>
                     <button
                         onClick={handlePull}
-                        className="bg-gray-600 text-white p-1 rounded-md mr-2"
+                        className="bg-gray-600 text-gray-100 p-1 rounded-md mr-2"
                     >
                         Pull
                     </button>
                     <button
                         onClick={handlePush}
-                        className="bg-gray-600 text-white p-1 rounded-md"
+                        className="bg-gray-600 text-gray-100 p-1 rounded-md"
                     >
                         Push
                     </button>
