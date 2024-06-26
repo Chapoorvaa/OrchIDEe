@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { Editor, type Monaco } from "@monaco-editor/react";
 import Monokai_Bright from "../editor-theme/Monokai.json";
 
@@ -22,17 +21,15 @@ const CodeEditor = (props: Config) => {
   };
 
   return (
-    <Box>
-      <Editor
-        height="90vh"
-        width="100%"
-        theme="MonokaiBright"
-        defaultLanguage={props.language}
-        defaultValue="// idk "
-        options={options}
-        beforeMount={handleEditorDidMount}
-      />
-    </Box>
+    <Editor
+      height="90vh"
+      width="100%"
+      theme="MonokaiBright"
+      defaultLanguage={props.language}
+      defaultValue="// idk "
+      options={options}
+      beforeMount={handleEditorDidMount}
+    />
   );
 };
 
