@@ -1,6 +1,6 @@
 import React from 'react';
 import Chatbot from './chatbot/Chatbot';
-import GitStatus from './components/GitStatus';
+import GitStatus from './git/Git';
 
 export const HomePage: React.FC = () => {
   return (
