@@ -55,4 +55,14 @@ public interface NodeService {
      */
     Node move(final Node nodeToMove,
               final Node destinationFolder);
+
+    /**
+     * Rename node with new name.
+     *
+     * @param nodeToRename Node to rename.
+     * @param newName   Name of the new node.
+     * @return the node that has been  renamed.
+     */
+    Node rename(final Node nodeToRename,
+                final String newName);
 }

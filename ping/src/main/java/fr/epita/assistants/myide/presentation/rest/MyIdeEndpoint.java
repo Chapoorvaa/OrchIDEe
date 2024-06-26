@@ -458,4 +458,12 @@ public class MyIdeEndpoint {
         Logger.log("SUCCESS on UPDATE: updated " + fileName + " at " + request.getPath() + " from " + request.getFrom() + " to " + request.getTo() + " with " + request.getContent());
         return Response.ok(new UpdateResponse(request.getPath(), request.getFrom(), request.getTo(), request.getContent())).build();
     }
+
+    /*
+    @POST
+    @Path("/rename")
+    public Response rename(RenameRequest request) {
+
+
+    }*/
 }
