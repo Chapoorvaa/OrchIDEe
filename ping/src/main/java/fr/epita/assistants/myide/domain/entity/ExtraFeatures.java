@@ -33,14 +33,17 @@ public enum ExtraFeatures {
         }
 
         /**
-         * Extra Features for the git project type.
+         * Extra Features for the make project type.
          */
         public enum Make implements Feature.Type {
 
             /**
-             * Git status
+             * Make
              */
             MAKEMAKE,
+            /**
+             * Make clean
+             */
             MAKECLEAN
         }
     }
