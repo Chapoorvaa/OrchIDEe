@@ -36,6 +36,7 @@ const Button: React.FC<ButtonProps> = ({ label, setFunction, setName, setPath, s
                     console.log("Language: C++");
                     setLanguage("C++");
                 } else {
+                    setPath("");
                     setFunction(true);
                 }
 
