@@ -1,4 +1,3 @@
-import './App.css'
 import { BasePage } from './BasePage'
 import HomePage from "./home_page/HomePage";
 
