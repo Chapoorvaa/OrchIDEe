@@ -1,14 +1,18 @@
 import { Project, createProject  } from '../api';
 
 export interface ButtonProps {
+    setBasePage: React.Dispatch<React.SetStateAction<boolean>>;
     label: string;
     setFunction: React.Dispatch<React.SetStateAction<any>>;
     projectName?: string;
     location?: string;
     language?: string;
+    setName: React.Dispatch<React.SetStateAction<string>>;
+    setPath: React.Dispatch<React.SetStateAction<string>>;
+    setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, setFunction, projectName, location, language }) => {
+const Button: React.FC<ButtonProps> = ({ setBasePage, label, setFunction, projectName, location, language, setName, setPath, setLanguage }) => {
 
     const handleClick = async () => {
         switch(label) {
@@ -25,6 +29,10 @@ const Button: React.FC<ButtonProps> = ({ label, setFunction, projectName, locati
                     try {
                         const fetching = await createProject(location, projectName, language);
                         console.log("Sended the project!");
+                        setName(projectName);
+                        setPath(location);
+                        setLanguage(language);
+                        setBasePage(true);
                     } catch (e) {
                         console.log(e);
                     }

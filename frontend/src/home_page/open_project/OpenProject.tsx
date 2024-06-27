@@ -2,14 +2,18 @@ import Button from "./Button";
 import { useState } from "react";
 
 export interface OpenProjectProps {
+    setBasePage: React.Dispatch<React.SetStateAction<boolean>>;
+    projectName: string;
+    path: string;
+    language: string;
     setHomepage: React.Dispatch<React.SetStateAction<boolean>>;
+    setProjectName: React.Dispatch<React.SetStateAction<string>>;
+    setPath: React.Dispatch<React.SetStateAction<string>>;
+    setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const OpenProject: React.FC<OpenProjectProps> = ({ setHomepage }) => {
-    const [language, setLanguage] = useState("");
+const OpenProject: React.FC<OpenProjectProps> = ({ setBasePage, projectName, path, language, setHomepage, setProjectName, setPath, setLanguage }) => {
     const [error, setError] = useState(false);
-    const [projectName, setProjectName] = useState("");
-    const [path, setPath] = useState("");
 
     return (
         <div className="flex flex-col justify-center m-auto drop-shadow-lg rounded-xl border-2 border-gray-600 bg-gray-800 h-1/3 w-2/5">
@@ -42,9 +46,13 @@ const OpenProject: React.FC<OpenProjectProps> = ({ setHomepage }) => {
             <div className="m-5 flex justify-between">
                 <Button label="Cancel" setFunction={setHomepage}/>
                 <Button label="Create" setFunction={setError}
+                    setBasePage={setBasePage}
                     language={language}
                     projectName={projectName}
                     location={path}
+                    setName={setProjectName}
+                    setPath={setPath}
+                    setLanguage={setLanguage}
                 />
             </div>
         </div>

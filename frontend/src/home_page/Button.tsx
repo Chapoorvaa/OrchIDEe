@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Project, sendProject  } from './api';
 
 export interface ButtonProps {
+    setBasePage: React.Dispatch<React.SetStateAction<boolean>>;
     label: string;
     setFunction: React.Dispatch<React.SetStateAction<boolean>>;
     setName: React.Dispatch<React.SetStateAction<string>>;
@@ -9,7 +10,7 @@ export interface ButtonProps {
     setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, setFunction, setName, setPath, setLanguage }) => {
+const Button: React.FC<ButtonProps> = ({ setBasePage, label, setFunction, setName, setPath, setLanguage }) => {
     const fileInput = useRef<HTMLInputElement>(null);
     const handleClick = async () => {
         if (label === "new") {
@@ -49,6 +50,7 @@ const Button: React.FC<ButtonProps> = ({ label, setFunction, setName, setPath, s
                 try {
                     const fetching = await sendProject(path);
                     console.log("Sended the project!");
+                    setBasePage(true);
                 } catch (e) {
                     console.log(e);
                 }

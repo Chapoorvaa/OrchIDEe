@@ -6,10 +6,18 @@ function App() {
   const [name, setName] = useState("");
   const [path, setPath] = useState("");
   const [language, setLanguage] = useState("");
+  const [basepage, setBasePage] = useState(false);
   return (
     <div>
-        { path === "" && <HomePage setName={setName} setPath={setPath} setLanguage={setLanguage}/> }
-        { path !== "" && <BasePage /> }
+        { !basepage && <HomePage
+            projectName={name}
+            path={path}
+            language={language}
+            setName={setName}
+            setPath={setPath}
+            setLanguage={setLanguage}
+            setBasePage={setBasePage}/> }
+        { basepage && <BasePage /> }
     </div>
   );
 }
