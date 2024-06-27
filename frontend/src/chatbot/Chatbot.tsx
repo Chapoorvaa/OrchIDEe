@@ -43,7 +43,7 @@ const Chatbot: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="flex flex-col justify-between items-center border-4 border-gray-600 rounded-10 font-sans h-full w-full">
+    <div className="flex flex-col justify-between items-center border border-gray-300 rounded-10 h-full w-full">
       <div
         style={{ minHeight: '300px' }}
         className="overflow-y-auto border-4 border-gray-600 rounded-10 mx-2.5 mt-2.5 bg-silver flex flex-col h-80 w-11/12">
