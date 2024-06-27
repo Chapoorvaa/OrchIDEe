@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Project, sendProject  } from './api';
 
 export interface ButtonProps {
     label: string;
@@ -10,7 +11,6 @@ export interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ label, setHomepage, setName, setPath, setLanguage }) => {
     const fileInput = useRef<HTMLInputElement>(null);
-
     const handleClick = async () => {
         if (label === "new") {
             setHomepage(false);
@@ -42,6 +42,13 @@ const Button: React.FC<ButtonProps> = ({ label, setHomepage, setName, setPath, s
                 setName(name);
 
                 console.log("Opening project with:", { name, path });
+
+                try {
+                    const fetching = await sendProject(path);
+                    console.log("Sended the project!");
+                } catch (e) {
+                    console.log(e);
+                }
             }).catch((err: any) => {
                 console.log(err)
             })
