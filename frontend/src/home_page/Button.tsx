@@ -3,16 +3,49 @@ import { useRef } from 'react';
 export interface ButtonProps {
     label: string;
     setHomepage: React.Dispatch<React.SetStateAction<boolean>>;
+    setName: React.Dispatch<React.SetStateAction<string>>;
+    setPath: React.Dispatch<React.SetStateAction<string>>;
+    setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, setHomepage }) => {
+const Button: React.FC<ButtonProps> = ({ label, setHomepage, setName, setPath, setLanguage }) => {
     const fileInput = useRef<HTMLInputElement>(null);
 
-    const handleClick = () => {
+    const handleClick = async () => {
         if (label === "new") {
             setHomepage(false);
         } else if (label === "open") {
-            fileInput.current.click();
+            const options = {
+                title: 'Open a directory',
+                buttonLabel: 'Select',
+                properties: ['openDirectory']
+            };
+
+            const {dialog} = require("@electron/remote");
+            await dialog.showOpenDialog(options).
+            then(async (result: { filePaths: string; }) => {
+                var path = result.filePaths[0];
+                console.log(path + " a ete choisit !");
+                setPath(path);
+
+                const fs = require("fs");
+                if (fs.existsSync(`${path}/pom.xml`)) {
+                    console.log("Language: Java");
+                    setLanguage("Java");
+                } else {
+                    console.log("Language: C++");
+                    setLanguage("C++");
+                }
+
+                var dirs = path.split("/");
+                var name = dirs[dirs.length - 1];
+                setName(name);
+
+                console.log("Creating project with:", { name, path });
+            }).catch((err: any) => {
+                console.log(err)
+            })
+
         }
     };
     return (
@@ -21,7 +54,6 @@ const Button: React.FC<ButtonProps> = ({ label, setHomepage }) => {
             onClick={handleClick}
         >
             {label}
-        <input type="file" ref={fileInput} className="sr-only" webkitdirectory="true" />
         </button>
     );
 }
