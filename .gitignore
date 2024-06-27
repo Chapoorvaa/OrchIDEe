@@ -25,6 +25,8 @@ replay_pid*
 
 .idea/
 *.swp
+.vscode/
 
 # do not add the node_module
 frontend/node_modules/
+frontend/package-lock.json
