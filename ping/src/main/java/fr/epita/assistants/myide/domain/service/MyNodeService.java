@@ -120,10 +120,6 @@ public class MyNodeService implements NodeService {
         Path nodePath = node.getPath();
         Path newPath = nodePath.resolveSibling(newName);
 
-        if (!Files.exists(nodePath)) {
-            throw new IllegalArgumentException("Source path does not exist");
-        }
-
         if (Files.exists(newPath)) {
             throw new IllegalArgumentException("Destination path already exists");
         }

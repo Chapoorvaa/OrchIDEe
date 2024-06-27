@@ -459,11 +459,43 @@ public class MyIdeEndpoint {
         return Response.ok(new UpdateResponse(request.getPath(), request.getFrom(), request.getTo(), request.getContent())).build();
     }
 
-    /*
+
     @POST
     @Path("/rename")
     public Response rename(RenameRequest request) {
+        java.nio.file.Path path = Paths.get(request.getPath());
+        String newName = request.getNewName();
 
+        Logger.log("Attempting RENAME: " + path + " to " + newName);
 
-    }*/
+        File file = new File(path.toString());
+
+        if (!file.exists()) {
+            Logger.logError("ERROR on RENAME: " + path + " does not exist");
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        NodeService myNodeService = myProjectService.getNodeService();
+        Node nodeToRename;
+        if (Files.isDirectory(path)) {
+            nodeToRename = new FolderNode(path);
+        }
+        else {
+            nodeToRename = new FileNode(path);
+        }
+
+        try {
+            myNodeService.rename(nodeToRename, newName);
+        } catch (IllegalArgumentException e) {
+            Logger.logError("ERROR on RENAME: file " + path + " to " + newName + " failed");
+            return Response.status(Response.Status.BAD_REQUEST).build();
+
+        } catch (RuntimeException e) {
+            Logger.logError("ERROR on RENAME: rename failed on " + path + "with" + newName);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+        Logger.log("SUCCESS on RENAME: renamed " + path + " with " + newName);
+        return Response.ok(new RenameResponse(path.toString(), newName)).build();
+    }
 }
