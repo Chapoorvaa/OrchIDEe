@@ -1,38 +1,38 @@
-package fr.epita.assistants.myide.domain.entity.make;
+package fr.epita.assistants.myide.domain.entity.maven;
 
 import fr.epita.assistants.myide.domain.entity.ExtraFeatures;
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Mandatory;
 import fr.epita.assistants.myide.domain.entity.Project;
+import fr.epita.assistants.myide.domain.entity.any.AnyCleanup;
 import fr.epita.assistants.myide.domain.entity.report.RunReport;
 import fr.epita.assistants.myide.utils.Logger;
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MakeMake implements Feature {
+public class MavenRun implements Feature {
     @Override
     public ExecutionReport execute(Project project, Object... params) {
+        MavenClean clean = new MavenClean();
+        clean.execute(project);
+        MavenPackage pack = new MavenPackage();
+        pack.execute(project);
+
         try {
             List<String> arguments = new ArrayList<>();
-            arguments.add("make");
-            for (Object str : params) {
-                arguments.add(str.toString());
-            }
+            arguments.add("java");
+            arguments.add("-jar");
+            arguments.add("target/" + project
+                    .getRootNode()
+                    .getPath()
+                    .getFileName() + ".jar");
 
             Process process = new ProcessBuilder(arguments)
                     .directory(project.getRootNode().getPath().toFile())
+                    .redirectErrorStream(true)
                     .start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -46,13 +46,13 @@ public class MakeMake implements Feature {
 
             return new RunReport(output.toString(), exitCode == 0);
         } catch (Exception e) {
-            Logger.logError("Make failed: " + e);
+            Logger.logError("Maven clean failed: " + e);
             return new RunReport("", false);
         }
     }
 
     @Override
     public Type type() {
-        return ExtraFeatures.Features.Make.MAKE;
+        return ExtraFeatures.Features.Maven.RUN;
     }
 }

@@ -5,13 +5,17 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++20
 
 # Define the list of source files
-SRCS = main.cc file1.cc file2.cc
+SRCS =
 
 # Define the name of the executable
 TARGET = TITLE_PLACEHOLDER
 
 # Default target: Build the executable
-all: $(TARGET)
+all: run
+	./$(TARGET)
+
+# Run target: run the program
+run: $(TARGET)
 
 # Rule to build the executable
 $(TARGET): $(SRCS)
@@ -21,4 +25,4 @@ $(TARGET): $(SRCS)
 clean:
 	rm -f $(TARGET)
 
-.PHONY: all clean
+.PHONY: all run clean

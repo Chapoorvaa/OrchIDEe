@@ -79,7 +79,7 @@ public class MyIdeEndpoint {
                         new InputStreamReader(input, StandardCharsets.UTF_8))
                         .lines()
                         .collect(Collectors.joining("\n"))
-                        .replaceFirst("TITLE_PLACEHOLDER", request.getName());
+                        .replace("TITLE_PLACEHOLDER", request.getName());
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(path.resolve("pom.xml").toString()));
                 writer.write(content);
@@ -97,7 +97,7 @@ public class MyIdeEndpoint {
                         new InputStreamReader(input, StandardCharsets.UTF_8))
                         .lines()
                         .collect(Collectors.joining("\n"))
-                        .replaceFirst("TITLE_PLACEHOLDER", request.getName());
+                        .replace("TITLE_PLACEHOLDER", request.getName());
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(path.resolve("Makefile").toString()));
                 writer.write(content);
@@ -343,11 +343,11 @@ public class MyIdeEndpoint {
             case "TREE":
                 type = Mandatory.Features.Maven.TREE;
                 break;
-            case "MAKEMAKE":
-                type = ExtraFeatures.Features.Make.MAKEMAKE;
+            case "RUN":
+                type = ExtraFeatures.Features.Maven.RUN;
                 break;
-            case "MAKECLEAN":
-                type = ExtraFeatures.Features.Make.MAKECLEAN;
+            case "MAKE":
+                type = ExtraFeatures.Features.Make.MAKE;
                 break;
             default:
                 Logger.logError("ERROR on EXECFEATURE: feature " + request.getFeature() + " unknown");

@@ -22,6 +22,17 @@ public enum ExtraFeatures {
         }
 
         /**
+         * Extra features for maven projects.
+         */
+        public enum Maven implements Feature.Type {
+
+            /**
+             * Run
+             */
+            RUN
+        }
+
+        /**
          * Extra Features for the git project type.
          */
         public enum Git implements Feature.Type {
@@ -40,11 +51,7 @@ public enum ExtraFeatures {
             /**
              * Make
              */
-            MAKEMAKE,
-            /**
-             * Make clean
-             */
-            MAKECLEAN
+            MAKE,
         }
     }
 }
