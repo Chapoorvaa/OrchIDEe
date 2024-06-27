@@ -13,6 +13,6 @@ import java.util.Set;
 public class GitStatusResponse {
     private Set<String> untrackedFiles;
     private Set<String> addedFiles;
-    private Set<String> changedFile;
+    private Set<String> modifiedFiles;
     private Set<String> uncommittedFiles;
 }
