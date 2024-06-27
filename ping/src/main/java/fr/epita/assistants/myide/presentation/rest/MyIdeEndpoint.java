@@ -222,66 +222,43 @@ public class MyIdeEndpoint {
     }
 
     @POST
-    @Path("/delete/file")
-    public Response deleteFile(SimpleRequest request) {
+    @Path("/delete")
+    public Response delete(SimpleRequest request) {
         java.nio.file.Path path = Paths.get(request.getPath());
-        String fileName = path.getFileName().toString();
+        String fName = path.getFileName().toString();
 
-        Logger.log("Attempting DELETE/FILE: file " + fileName + " at " + path);
+        File f = new File(path.toString());
 
-        File file = new File(path.toString());
+        Logger.log("Attempting DELETE/FILE-FOLDER: " + fName + " at " + path);
 
-        if (!file.isFile())
-        {
-            Logger.logError("ERROR on DELETED/FILE: file " + fileName + " at " + path + " not found");
+        if (!f.exists()) {
+            Logger.logError("ERROR on DELETED/FILE-FOLDER: " + fName + " at " + path + " not found");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        Node fileNode = new FileNode(path);
-        NodeService myNodeService = myProjectService.getNodeService();
-        myNodeService.delete(fileNode);
-        File fileDeleted = new File(path.toString());
+        Node fNode;
 
-        if (fileDeleted.isFile())
+        if (Files.isDirectory(path)) {
+            fNode = new FolderNode(path);
+        }
+        else {
+            fNode = new FileNode(path);
+        }
+
+        NodeService myNodeService = myProjectService.getNodeService();
+        myNodeService.delete(fNode);
+        File fDeleted = new File(path.toString());
+
+        if (fDeleted.isDirectory() || fDeleted.isFile())
         {
-            Logger.logError("ERROR on DELETE/FILE: file " + fileName + " at " + path + " has not been deleted.");
+            Logger.logError("ERROR on DELETE/FILE-FOLDER: " + fName + " at " + path + " has not been deleted.");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        Logger.log("SUCCESS on DELETE/FILE: file " + fileName + " at " + path);
-        return Response.ok(new FileResponse(fileName, request.getPath(), "")).build();
+        Logger.log("SUCCESS on DELETE/FILE-FOLDER: " + fName + " at " + path);
+        return Response.ok(new FileResponse(fName, request.getPath(), "")).build();
     }
-
-    @POST
-    @Path("/delete/folder")
-    public Response deleteFolder(SimpleRequest request) {
-        java.nio.file.Path path = Paths.get(request.getPath());
-        File folder = new File(path.toString());
-        String folderName = path.getFileName().toString();
-
-        Logger.log("Attempting DELETE/FOLDER: folder " + folderName + " at " + path);
-
-        if (!folder.isDirectory())
-        {
-            Logger.logError("ERROR on DELETED/FILE: file " + folderName + " at " + path + " not found");
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        Node folderNode = new FolderNode(path);
-        NodeService myNodeService = myProjectService.getNodeService();
-        myNodeService.delete(folderNode);
-        File folderDeleted = new File(path.toString());
-
-        if (folderDeleted.isDirectory())
-        {
-            Logger.logError("ERROR on DELETE/FILE: file " + folderName + " at " + path + " has not been deleted.");
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-        Logger.log("SUCCESS on DELETE/FOLDER: folder " + folderName + " at " + path);
-        return Response.ok(new FileResponse(folderName, request.getPath(), "")).build();
-    }
-
+    
     @POST
     @Path("/execFeature")
     public Response execFeature(ExecFeatureRequest request) {
