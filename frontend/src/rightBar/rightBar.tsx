@@ -11,8 +11,8 @@ const RightBar: React.FC<RightBarProps> = ({ onShowBot }) => {
         <button 
           type='button' 
           onClick={onShowBot} 
-          className='flex text-white font-semibold h-[10vh] w-full rounded-none bg-gray-800 p-0'>
-          <img src='../gitButton.png' alt="Git Button"/>
+          className='flex text-white font-semibold h-[15vh] w-full rounded-none bg-gray-800 p-0'>
+          <img src='../botButton.png' alt="Bot Button"/>
         </button>
       </div>
     </div>
