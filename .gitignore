@@ -31,3 +31,4 @@ frontend/package-lock.json
 # do not add the node_module
 frontend/node_modules/
 node_modules/
+ping/target/
