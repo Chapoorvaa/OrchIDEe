@@ -8,7 +8,8 @@ function App() {
   const [language, setLanguage] = useState("");
   return (
     <div>
-        <HomePage setName={setName} setPath={setPath} setLanguage={setLanguage}/>
+        { path === "" && <HomePage setName={setName} setPath={setPath} setLanguage={setLanguage}/> }
+        { path !== "" && <BasePage /> }
     </div>
   );
 }
