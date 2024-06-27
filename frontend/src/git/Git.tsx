@@ -80,7 +80,9 @@ const Git: React.FC = () => {
     }
 
     if (error) {
-        return <p className="text-center text-red-500">{error}</p>;
+        return (
+        <div className="h-full w-full flex flex-col bg-gray-800 border-4 border-gray-600 items-center justify-center">
+        <p className="text-gray-100 d">{error}</p></div>);
     }
 
     return (

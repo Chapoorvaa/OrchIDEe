@@ -6,6 +6,10 @@ import FileTree from './fileTree/fileTree';
 import RightBar from './rightBar/rightBar';
 
 export const BasePage: React.FC = () => {
+
+  const [visibleComponent, setVisibleComponent] = useState<string>("");
+  const [visibleComponent2, setVisibleComponent2] = useState<string>("");
+
   const openFileDialog = async () => {
     const options = {
       title: 'Open a file',
@@ -21,8 +25,6 @@ export const BasePage: React.FC = () => {
         console.log(err)
       });
    };
-
-  const [visibleComponent, setVisibleComponent] = useState<string>("");
 
   const handleShowFileTree = () => {
     if (visibleComponent === "fileTree") {
@@ -41,10 +43,10 @@ export const BasePage: React.FC = () => {
   };
 
   const handleShowBot = () => {
-    if (visibleComponent === "chatBot") {
-      setVisibleComponent("");
+    if (visibleComponent2 === "chatBot") {
+      setVisibleComponent2("");
     } else {
-      setVisibleComponent("chatBot");
+      setVisibleComponent2("chatBot");
     }
   };
 
@@ -68,12 +70,12 @@ export const BasePage: React.FC = () => {
         />
       </div>
       <div className="col-start-4 row-start-2">
-        {visibleComponent === "chatBot" && <Chatbot/>}
+        {visibleComponent2 === "chatBot" && <Chatbot/>}
       </div>
       <div className="col-span-5 col-start-1 row-start-3">Terminal</div>
       <div className="col-span-5 row-start-4">Bottom bar</div>
       <div className="col-start-1 row-start-5">
-        <button onClick={openFileDialog}>Open File Dialog</button>
+        {/* <button onClick={openFileDialog}>Open File Dialog</button> */}
       </div>
     </div>
   );

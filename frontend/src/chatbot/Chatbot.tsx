@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
-import { Message } from './Chat';
 import { fetchBotResponse } from './ChatbotService';
+
+interface Message {
+  text: string;
+  isUser: boolean;
+}
 
 const Chatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
