@@ -1,3 +1,5 @@
+import { Project, createProject  } from '../api';
+
 export interface ButtonProps {
     label: string;
     setFunction: React.Dispatch<React.SetStateAction<any>>;
@@ -20,6 +22,12 @@ const Button: React.FC<ButtonProps> = ({ label, setFunction, projectName, locati
                 } else {
                     setFunction(false);
                     console.log("Creating project with:", { projectName, location, language });
+                    try {
+                        const fetching = await createProject(location, projectName, language);
+                        console.log("Sended the project!");
+                    } catch (e) {
+                        console.log(e);
+                    }
                 }
                 break;
             }
@@ -43,12 +51,12 @@ const Button: React.FC<ButtonProps> = ({ label, setFunction, projectName, locati
             }
             case "Java": {
                 console.log("Language set to Java");
-                setFunction("Java");
+                setFunction("JAVA");
                 break;
             }
             case "C++": {
                 console.log("Language set to C++");
-                setFunction("C++");
+                setFunction("CPP");
                 break;
             }
         }

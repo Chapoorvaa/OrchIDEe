@@ -10,7 +10,6 @@ export const BasePage: React.FC = () => {
   const [visibleComponent, setVisibleComponent] = useState<string>("");
   const [visibleComponent2, setVisibleComponent2] = useState<string>("");
 
-export const BasePage: React.FC = () => {
   const openFileDialog = async () => {
     const options = {
       title: 'Open a file',

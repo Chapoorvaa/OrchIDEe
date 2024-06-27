@@ -31,10 +31,10 @@ const Button: React.FC<ButtonProps> = ({ label, setFunction, setName, setPath, s
                 const fs = require("fs");
                 if (fs.existsSync(`${path}/pom.xml`)) {
                     console.log("Language: Java");
-                    setLanguage("Java");
+                    setLanguage("JAVA");
                 } else if (fs.existsSync(`${path}/Makefile`)) {
                     console.log("Language: C++");
-                    setLanguage("C++");
+                    setLanguage("CPP");
                 } else {
                     setPath("");
                     setFunction(true);
