@@ -1,7 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import electron from 'vite-plugin-electron/simple'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    electron({
+      main: {
+        // Shortcut of `build.lib.entry`
+        entry: 'main.js',
+      },
+      preload: {
+        // Shortcut of `build.rollupOptions.input`
+        input: 'preload.mjs',
+      },
+      // Optional: Use Node.js API in the Renderer process
+      renderer: {},
+    }),
+  ],
 })

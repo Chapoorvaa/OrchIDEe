@@ -25,6 +25,8 @@ replay_pid*
 
 .idea/
 *.swp
+frontend/dist-electron/
+frontend/package-lock.json
 
 # do not add the node_module
 frontend/node_modules/
