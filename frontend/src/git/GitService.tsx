@@ -17,7 +17,7 @@ export const fetchGitResponse = async (): Promise<string[][]> => {
             body: JSON.stringify({
                 "feature": "STATUS",
                 "params": [],
-                "project": "gittest4ping"
+                "project": "epita-ing-2026-tui-julie.ducastel"
             }),
         });
 
@@ -51,7 +51,7 @@ export const commitChanges = async (message: string): Promise<void> => {
             body: JSON.stringify({
                 "feature": "COMMIT",
                 "params": [message],
-                "project": "gittest4ping"
+                "project": "epita-ing-2026-tui-julie.ducastel"
             }),
         });
 
@@ -75,7 +75,7 @@ export const pushChanges = async (): Promise<void> => {
             body: JSON.stringify({
                 "feature": "PUSH",
                 "params": [],
-                "project": "gittest4ping"
+                "project": "epita-ing-2026-tui-julie.ducastel"
             }),
         });
 
@@ -99,7 +99,7 @@ export const fetchPull = async (): Promise<void> => {
             body: JSON.stringify({
                 "feature": "PULL",
                 "params": [],
-                "project": "gittest4ping"
+                "project": "epita-ing-2026-tui-julie.ducastel"
             }),
         });
 

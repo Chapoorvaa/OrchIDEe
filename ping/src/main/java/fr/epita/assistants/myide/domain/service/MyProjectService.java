@@ -4,6 +4,7 @@ import fr.epita.assistants.MyIde;
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.any.AnyAspect;
 import fr.epita.assistants.myide.domain.entity.git.GitAspect;
+import fr.epita.assistants.myide.domain.entity.make.MakeAspect;
 import fr.epita.assistants.myide.domain.entity.maven.MavenAspect;
 import fr.epita.assistants.myide.utils.Logger;
 import lombok.Getter;
@@ -40,6 +41,9 @@ public class MyProjectService implements ProjectService {
             }
             else if (node.getPath().getFileName().toString().equals("pom.xml")) {
                 aspects.add(new MavenAspect());
+            }
+            else if (node.getPath().getFileName().toString().equals("Makefile")) {
+                aspects.add(new MakeAspect());
             }
         }
 

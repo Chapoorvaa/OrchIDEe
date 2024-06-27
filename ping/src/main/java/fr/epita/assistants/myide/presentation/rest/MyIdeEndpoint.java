@@ -7,10 +7,7 @@ import fr.epita.assistants.myide.domain.entity.report.ChatbotFeatureReport;
 import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
-import fr.epita.assistants.myide.presentation.rest.request.ExecFeatureRequest;
-import fr.epita.assistants.myide.presentation.rest.request.MoveRequest;
-import fr.epita.assistants.myide.presentation.rest.request.SimpleRequest;
-import fr.epita.assistants.myide.presentation.rest.request.UpdateRequest;
+import fr.epita.assistants.myide.presentation.rest.request.*;
 
 import fr.epita.assistants.myide.presentation.rest.response.*;
 import jakarta.ws.rs.*;
@@ -18,14 +15,12 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import fr.epita.assistants.myide.utils.Logger;
-import org.eclipse.jgit.api.Git;
 
-import java.io.File;
+import java.io.*;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.nio.charset.StandardCharsets;
 
 @Path("/api")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -59,6 +54,71 @@ public class MyIdeEndpoint {
         ProjectsMap.put(projectName, myProject);
         Logger.log("SUCCESS on OPEN/PROJECT: project " + projectName + " at " + path);
         return Response.ok(new ProjectResponse(projectName, path.toString())).build();
+    }
+
+    @POST
+    @Path("/create/project")
+    public Response createProject(CreateProjectRequest request) {
+        Logger.log("Attempting CREATE/PROJECT: project " + request.getName() + " at " + request.getPath());
+
+        java.nio.file.Path path = Paths.get(request.getPath()).resolve(request.getName());
+
+        File rootDir = new File(path.toString());
+        if (!rootDir.exists()){
+            rootDir.mkdirs();
+        }
+        else {
+            Logger.logError("ERROR on CREATE/PROJECT: project " + request.getName() + " at " + request.getPath());
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+        if (Objects.equals(request.getLanguage(), "JAVA")) {
+            try {
+                InputStream input = getClass().getClassLoader().getResourceAsStream("pom.txt");
+                String content = new BufferedReader(
+                        new InputStreamReader(input, StandardCharsets.UTF_8))
+                        .lines()
+                        .collect(Collectors.joining("\n"))
+                        .replaceFirst("TITLE_PLACEHOLDER", request.getName());
+
+                BufferedWriter writer = new BufferedWriter(new FileWriter(path.resolve("pom.xml").toString()));
+                writer.write(content);
+                writer.close();
+            }
+            catch (IOException e) {
+                Logger.logError("ERROR on CREATE/PROJECT: project " + request.getName() + " at " + request.getPath());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+        else if (Objects.equals(request.getLanguage(), "CPP")) {
+            try {
+                InputStream input = getClass().getClassLoader().getResourceAsStream("Makefile.txt");
+                String content = new BufferedReader(
+                        new InputStreamReader(input, StandardCharsets.UTF_8))
+                        .lines()
+                        .collect(Collectors.joining("\n"))
+                        .replaceFirst("TITLE_PLACEHOLDER", request.getName());
+
+                BufferedWriter writer = new BufferedWriter(new FileWriter(path.resolve("Makefile").toString()));
+                writer.write(content);
+                writer.close();
+            }
+            catch (IOException e) {
+                Logger.logError("ERROR on CREATE/PROJECT: project " + request.getName() + " at " + request.getPath());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
+        Project myProject = myProjectService.load(path);
+
+        if (myProject == null) {
+            Logger.logError("ERROR on CREATE/PROJECT: project " + request.getName() + " at " + request.getPath());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+        ProjectsMap.put(request.getName(), myProject);
+        Logger.log("SUCCESS on CREATE/PROJECT: project " + request.getName()+ " at " + request.getPath());
+        return Response.ok(new ProjectResponse(request.getName(), path.toString())).build();
     }
 
     @POST
@@ -282,6 +342,12 @@ public class MyIdeEndpoint {
                 break;
             case "TREE":
                 type = Mandatory.Features.Maven.TREE;
+                break;
+            case "MAKEMAKE":
+                type = ExtraFeatures.Features.Make.MAKEMAKE;
+                break;
+            case "MAKECLEAN":
+                type = ExtraFeatures.Features.Make.MAKECLEAN;
                 break;
             default:
                 Logger.logError("ERROR on EXECFEATURE: feature " + request.getFeature() + " unknown");

@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
-import { Message } from './Chat';
 import { fetchBotResponse } from './ChatbotService';
+
+interface Message {
+  text: string;
+  isUser: boolean;
+}
 
 const Chatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -32,7 +36,7 @@ const Chatbot: React.FC = () => {
       const errorMessage: Message = { text: 'Error fetching response.', isUser: false };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     }
-    
+
     setLoading(false);
   };
 
@@ -43,12 +47,12 @@ const Chatbot: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="flex flex-col justify-between items-center border-4 border-gray-600 rounded-10 font-sans h-full w-full">
+    <div className="flex flex-col justify-between items-center border-4 border-gray-600 bg-gray-800 rounded-10 h-full w-full">
       <div
         style={{ minHeight: '300px' }}
-        className="overflow-y-auto border-4 border-gray-600 rounded-10 mx-2.5 mt-2.5 bg-silver flex flex-col h-80 w-11/12">
+        className="overflow-y-auto border border-gray-600 rounded-10 mx-2.5 mt-2.5 bg-gray-700 flex flex-col h-80 w-11/12">
         {messages.map((message, index) => (
-          <div key={index} className={`text-gray-600 ${message.isUser ? 'text-right' : 'text-left'} m-2 py-1 px-2 rounded-lg ${message.isUser ? 'bg-green-200' : 'bg-white'} inline-block`}>
+          <div key={index} className={`text-gray-800 ${message.isUser ? 'text-right' : 'text-left'} m-2 py-1 px-2 rounded-lg ${message.isUser ? 'bg-green-200' : 'bg-white'} inline-block`}>
             {message.text}
           </div>
         ))}
@@ -64,9 +68,9 @@ const Chatbot: React.FC = () => {
           value={input}
           onChange={handleInputChange}
           placeholder="Type your message..."
-          className="flex p-2 text-sm rounded-lg border border-gray-300 w-1/2"
+          className="flex p-2 text-sm rounded-lg border border-gray-100 w-1/2 bg-gray-700 text-gray-100"
         />
-        <button type="submit" className="px-5 py-2 text-sm rounded-lg bg-blue-500 text-white cursor-pointer">Send</button>
+        <button type="submit" className="px-5 py-2 rounded-lg border-gray-100 bg-gray-700 text-white cursor-pointer hover:border-gray-100 hover:bg-gray-600">Send</button>
       </form>
     </div>
   );
