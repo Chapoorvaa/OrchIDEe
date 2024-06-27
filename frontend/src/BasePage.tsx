@@ -20,7 +20,7 @@ export const BasePage: React.FC = () => {
     const {dialog} = require("@electron/remote");
     await dialog.showOpenDialog({options})
       .then(async (result: { filePaths: string; }) => {
-        console.log(result.filePaths + " a ete choisit !")
+        console.log(result.filePaths + " was picked!")
       }).catch((err: any) => {
         console.log(err)
       });
