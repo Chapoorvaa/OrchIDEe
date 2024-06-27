@@ -475,4 +475,11 @@ public class MyIdeEndpoint {
         Logger.log("SUCCESS on RENAME: renamed " + path + " with " + newName);
         return Response.ok(new RenameResponse(path.toString(), newName)).build();
     }
+
+
+    @POST
+    @Path("/filetree")
+    public Response filetree() {
+       return null;
+    }
 }
