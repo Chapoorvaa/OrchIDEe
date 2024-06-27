@@ -14,7 +14,7 @@ export const fetchBotResponse = async (userInput: string): Promise<string> => {
       body: JSON.stringify({
         "feature":"CHATBOT",
         "params":["tinyllama",userInput],
-        "project":"gittest4ping"
+        "project":"epita-ing-2026-tui-julie.ducastel"
         }),
     });
 

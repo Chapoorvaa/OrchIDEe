@@ -1,10 +1,10 @@
 import './App.css'
-import { HomePage } from './BasePage'
+import { BasePage } from './BasePage'
 
 function App() {
   return (
     <>
-      <HomePage/>
+      <BasePage/>
     </>
   )
 }
