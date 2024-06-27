@@ -75,7 +75,6 @@ export const BasePage: React.FC = () => {
       <div className="col-span-5 col-start-1 row-start-3">Terminal</div>
       <div className="col-span-5 row-start-4">Bottom bar</div>
       <div className="col-start-1 row-start-5">
-        {/* <button onClick={openFileDialog}>Open File Dialog</button> */}
       </div>
     </div>
   );
