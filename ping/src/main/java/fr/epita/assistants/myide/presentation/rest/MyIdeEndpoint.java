@@ -299,7 +299,7 @@ public class MyIdeEndpoint {
 
         if (report instanceof GitStatusFeatureReport gitStatusFeatureReport)
         {
-            return Response.ok(new GitStatusResponse(gitStatusFeatureReport.untracked(), gitStatusFeatureReport.added(), gitStatusFeatureReport.changed(), gitStatusFeatureReport.uncommited())).build();
+            return Response.ok(new GitStatusResponse(gitStatusFeatureReport.untracked(), gitStatusFeatureReport.added(), gitStatusFeatureReport.modified(), gitStatusFeatureReport.uncommited())).build();
         }
 
         if (report instanceof SearchFeatureReport searchReport) {
