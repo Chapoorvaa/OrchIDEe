@@ -3,17 +3,17 @@ import { Project, sendProject  } from './api';
 
 export interface ButtonProps {
     label: string;
-    setHomepage: React.Dispatch<React.SetStateAction<boolean>>;
+    setFunction: React.Dispatch<React.SetStateAction<boolean>>;
     setName: React.Dispatch<React.SetStateAction<string>>;
     setPath: React.Dispatch<React.SetStateAction<string>>;
     setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, setHomepage, setName, setPath, setLanguage }) => {
+const Button: React.FC<ButtonProps> = ({ label, setFunction, setName, setPath, setLanguage }) => {
     const fileInput = useRef<HTMLInputElement>(null);
     const handleClick = async () => {
         if (label === "new") {
-            setHomepage(false);
+            setFunction(false);
         } else if (label === "open") {
             const options = {
                 title: 'Open a directory',
@@ -32,9 +32,11 @@ const Button: React.FC<ButtonProps> = ({ label, setHomepage, setName, setPath, s
                 if (fs.existsSync(`${path}/pom.xml`)) {
                     console.log("Language: Java");
                     setLanguage("Java");
-                } else {
+                } else if (fs.existsSync(`${path}/Makefile`)) {
                     console.log("Language: C++");
                     setLanguage("C++");
+                } else {
+                    setFunction(true);
                 }
 
                 var dirs = path.split("/");
