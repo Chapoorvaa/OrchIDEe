@@ -9,3 +9,7 @@ export default {
   },
   plugins: [],
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7a724df (feat(home-page): added the full layout of the home page)

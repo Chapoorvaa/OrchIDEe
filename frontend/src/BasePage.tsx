@@ -2,7 +2,7 @@ import React from 'react';
 import Chatbot from './chatbot/Chatbot';
 import GitStatus from './git/Git';
 
-export const HomePage: React.FC = () => {
+export const BasePage: React.FC = () => {
   const openFileDialog = async () => {
     const options = {
       title: 'Open a file',
