@@ -283,6 +283,12 @@ public class MyIdeEndpoint {
             case "TREE":
                 type = Mandatory.Features.Maven.TREE;
                 break;
+            case "MAKEMAKE":
+                type = ExtraFeatures.Features.Make.MAKEMAKE;
+                break;
+            case "MAKECLEAN":
+                type = ExtraFeatures.Features.Make.MAKECLEAN;
+                break;
             default:
                 Logger.logError("ERROR on EXECFEATURE: feature " + request.getFeature() + " unknown");
                 return Response.status(Response.Status.NOT_FOUND).build();
