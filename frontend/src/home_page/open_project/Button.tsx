@@ -2,27 +2,43 @@ export interface ButtonProps {
     label: string;
     setFunction: React.Dispatch<React.SetStateAction<any>>;
     projectName?: string;
-    location?: FileList | null;
+    location?: string;
     language?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({ label, setFunction, projectName, location, language }) => {
-    const handleClick = () => {
+
+    const handleClick = async () => {
         switch(label) {
             case "Cancel": {
                 setFunction(true);
                 break;
             }
             case "Create": {
-                console.log(projectName);
-                console.log(location);
-                console.log(language);
                 if (!projectName || !location || location.length === 0 || !language) {
                     setFunction(true);
                 } else {
                     setFunction(false);
                     console.log("Creating project with:", { projectName, location, language });
                 }
+                break;
+            }
+            case "Browse": {
+                const options = {
+                    title: 'Open a directory',
+                    buttonLabel: 'Select',
+                    properties: ['openDirectory']
+                };
+
+                const {dialog} = require("@electron/remote");
+                await dialog.showOpenDialog(options)
+                .then(async (result: { filePaths: string; }) => {
+                    var path = result.filePaths[0];
+                    console.log(path + " a ete choisit !");
+                    setFunction(path);
+                }).catch((err: any) => {
+                    console.log(err)
+                })
                 break;
             }
             case "Java": {

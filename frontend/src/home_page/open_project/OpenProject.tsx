@@ -9,13 +9,7 @@ const OpenProject: React.FC<OpenProjectProps> = ({ setHomepage }) => {
     const [language, setLanguage] = useState("");
     const [error, setError] = useState(false);
     const [projectName, setProjectName] = useState("");
-    const [directory, setDirectory] = useState<FileList | null>(null);
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            setDirectory(event.target.files);
-        }
-    };
+    const [path, setPath] = useState("");
 
     return (
         <div className="flex flex-col justify-center m-auto drop-shadow-lg rounded-xl border-2 border-gray-600 bg-gray-800 h-1/3 w-2/5">
@@ -34,15 +28,7 @@ const OpenProject: React.FC<OpenProjectProps> = ({ setHomepage }) => {
                 />
 
                 <label className="row-start-2 flex justify-evenly" htmlFor="location-input">Location:</label>
-                <input className="col-span-3 block w-full text-sm text-gray-900
-                                border border-gray-300 rounded-lg cursor-pointer
-                                bg-gray-50 dark:text-gray-400 focus:outline-none
-                                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    id="location-input"
-                    type="file"
-                    webkitdirectory="true"
-                    onChange={handleFileChange}
-                />
+                <Button label="Browse" setFunction={setPath}/>
 
                 <label className="row-start-3 flex justify-evenly">Language:</label>
                 <div className="col-span-3 row-start-3 flex justify-evenly w-full">
@@ -58,7 +44,7 @@ const OpenProject: React.FC<OpenProjectProps> = ({ setHomepage }) => {
                 <Button label="Create" setFunction={setError}
                     language={language}
                     projectName={projectName}
-                    location={directory}
+                    location={path}
                 />
             </div>
         </div>

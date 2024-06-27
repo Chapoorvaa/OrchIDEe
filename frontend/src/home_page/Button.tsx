@@ -41,7 +41,7 @@ const Button: React.FC<ButtonProps> = ({ label, setHomepage, setName, setPath, s
                 var name = dirs[dirs.length - 1];
                 setName(name);
 
-                console.log("Creating project with:", { name, path });
+                console.log("Opening project with:", { name, path });
             }).catch((err: any) => {
                 console.log(err)
             })
