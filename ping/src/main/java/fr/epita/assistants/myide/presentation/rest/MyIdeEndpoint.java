@@ -8,6 +8,7 @@ import fr.epita.assistants.myide.domain.entity.report.RunReport;
 import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
+import fr.epita.assistants.myide.domain.service.FileTreeBuilder;
 import fr.epita.assistants.myide.presentation.rest.request.*;
 
 import fr.epita.assistants.myide.presentation.rest.response.*;
@@ -479,7 +480,26 @@ public class MyIdeEndpoint {
 
     @POST
     @Path("/filetree")
-    public Response filetree() {
-       return null;
+    public Response filetree(SimpleRequest request) {
+        java.nio.file.Path path = Paths.get(request.getPath());
+        if (!Files.exists(path)) {
+            Logger.logError("ERROR on FILETREE: " + path);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if (!Files.isDirectory(path)) {
+            Logger.logError("ERROR on FILETREE: filetree failed on " + path);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        try {
+            FileTreeBuilder fTreeBuilder = new FileTreeBuilder();
+            FileTree fTree = fTreeBuilder.buildTree(path);
+            String json = fTreeBuilder.convertToJson(fTree);
+            Logger.log("SUCCESS on FILETREE: filetree of" + path.getFileName().toString());
+            return Response.ok(new FiletreeResponse(json)).build();
+        } catch (RuntimeException e) {
+            Logger.logError("ERROR on FILETREE: filetree failed on " + path);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
