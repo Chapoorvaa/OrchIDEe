@@ -90,6 +90,24 @@ public class MyIdeEndpoint {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             }
         }
+        else if (Objects.equals(request.getLanguage(), "CPP")) {
+            try {
+                InputStream input = getClass().getClassLoader().getResourceAsStream("Makefile.txt");
+                String content = new BufferedReader(
+                        new InputStreamReader(input, StandardCharsets.UTF_8))
+                        .lines()
+                        .collect(Collectors.joining("\n"))
+                        .replaceFirst("TITLE_PLACEHOLDER", request.getName());
+
+                BufferedWriter writer = new BufferedWriter(new FileWriter(path.resolve("Makefile").toString()));
+                writer.write(content);
+                writer.close();
+            }
+            catch (IOException e) {
+                Logger.logError("ERROR on CREATE/PROJECT: project " + request.getName() + " at " + request.getPath());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+        }
 
         Project myProject = myProjectService.load(path);
 
