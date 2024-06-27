@@ -4,9 +4,7 @@ public enum ExtraFeatures {
     ;
 
     public enum Aspects implements Aspect.Type {
-        ANY,
-        MAVEN,
-        GIT
+        MAKE
     }
 
     public enum Features {
@@ -32,6 +30,21 @@ public enum ExtraFeatures {
              * Git status
              */
             STATUS
+        }
+
+        /**
+         * Extra Features for the make project type.
+         */
+        public enum Make implements Feature.Type {
+
+            /**
+             * Make
+             */
+            MAKEMAKE,
+            /**
+             * Make clean
+             */
+            MAKECLEAN
         }
     }
 }
