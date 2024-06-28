@@ -18,7 +18,7 @@ interface Config {
 
 // pour apoorvaa a bouger dans ton fichier
 
-interface File {
+export interface File {
   path: string;
   content: string;
 }
