@@ -1,10 +1,6 @@
-interface FileTreeResponse {
-    json: string;
-  }
+export const deleteFileorFolder = async (pathToDelete: string): Promise<void> => {
+    const apiUrl = 'http://localhost:8080/api/delete';
 
-
-export const buildFileTree = async(rootPath: string): Promise<string> => {
-    const apiUrl = 'http://localhost:8080/api/filetree';
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -12,7 +8,7 @@ export const buildFileTree = async(rootPath: string): Promise<string> => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "path": rootPath
+                "path": pathToDelete
             }),
         });
 
@@ -20,10 +16,7 @@ export const buildFileTree = async(rootPath: string): Promise<string> => {
             throw new Error('Failed to fetch response');
         }
 
-        const data: FileTreeResponse = await response.json();
-        return data.json;
-
     } catch (error) {
         throw new Error('Failed to fetch response');
     }
-}
+};
