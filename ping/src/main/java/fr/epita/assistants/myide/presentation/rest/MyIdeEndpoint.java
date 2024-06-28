@@ -4,6 +4,7 @@ import fr.epita.assistants.MyIde;
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.report.GitStatusFeatureReport;
 import fr.epita.assistants.myide.domain.entity.report.ChatbotFeatureReport;
+import fr.epita.assistants.myide.domain.entity.report.RunReport;
 import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
@@ -363,18 +364,19 @@ public class MyIdeEndpoint {
 
         Logger.log("SUCCESS on EXECFEATURE: feature " + request.getFeature() + " in project " + request.getProject());
 
-        if (report instanceof GitStatusFeatureReport gitStatusFeatureReport)
-        {
+        if (report instanceof GitStatusFeatureReport gitStatusFeatureReport) {
             return Response.ok(new GitStatusResponse(gitStatusFeatureReport.untracked(), gitStatusFeatureReport.added(), gitStatusFeatureReport.modified(), gitStatusFeatureReport.uncommited())).build();
         }
-
-        if (report instanceof SearchFeatureReport searchReport) {
+        else if (report instanceof SearchFeatureReport searchReport) {
             List<String> result = new ArrayList<>();
             searchReport.getResults().forEach(e -> result.add(e.getPath().toString()));
             return Response.ok(new SearchFeatureResponse(request.getFeature(), request.getProject(), request.getParams(), result)).build();
         }
         else if (report instanceof ChatbotFeatureReport chatbotReport) {
             return Response.ok(new ChatbotFeatureResponse(chatbotReport.chatbotResponse())).build();
+        }
+        else if (report instanceof RunReport runReport) {
+            return Response.ok(new RunResponse(runReport.output())).build();
         }
         return Response.ok(new ExecFeatureResponse(request.getFeature(), request.getProject(), request.getParams())).build();
     }
