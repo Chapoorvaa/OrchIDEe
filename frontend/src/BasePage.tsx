@@ -7,13 +7,14 @@ import RightBar from "./rightBar/rightBar";
 import CodeEditor, { File } from "./codeEditor/CodeEditor";
 import { ProjectDescProps } from "./App";
 import { BottomBar } from "./bottomBar/bottomBar";
+import { Terminal } from "./terminal/terminal";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
 ) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [visibleComponent, setVisibleComponent] = useState<string>("");
-  const [visibleComponent2, setVisibleComponent2] = useState<string>("");
+  const [leftComponent, setLeftComponent] = useState<string>("");
+  const [rightComponent, setRightComponent] = useState<string>("");
 
   const File1 = {
     path: "tqt",
@@ -29,26 +30,26 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [openedFiles, setOpenedFiles] = useState<File[]>([File1, File2, File3]);
 
   const handleShowFileTree = () => {
-    if (visibleComponent === "fileTree") {
-      setVisibleComponent("");
+    if (leftComponent === "fileTree") {
+      setLeftComponent("");
     } else {
-      setVisibleComponent("fileTree");
+      setLeftComponent("fileTree");
     }
   };
 
   const handleShowGitInterface = () => {
-    if (visibleComponent === "gitInterface") {
-      setVisibleComponent("");
+    if (leftComponent === "gitInterface") {
+      setLeftComponent("");
     } else {
-      setVisibleComponent("gitInterface");
+      setLeftComponent("gitInterface");
     }
   };
 
   const handleShowBot = () => {
-    if (visibleComponent2 === "chatBot") {
-      setVisibleComponent2("");
+    if (rightComponent === "chatBot") {
+      setRightComponent("");
     } else {
-      setVisibleComponent2("chatBot");
+      setRightComponent("chatBot");
     }
   };
 
@@ -67,8 +68,25 @@ export const BasePage: React.FC<ProjectDescProps> = (
     path,
   };
 
+  function giveMeGrid(left: boolean, right: boolean) {
+    if (left && right) {
+      return "grid-cols-[50px_300px_1fr_45vw_50px]";
+    } else if (left) {
+      return "grid-cols-[50px_300px_1fr_0vw_50px]";
+    } else if (right) {
+      return "grid-cols-[50px_0px_1fr_45vw_50px]";
+    } else {
+      return "grid-cols-[50px_0px_1fr_0vw_50px]";
+    }
+  }
+
   return (
-    <div className="m-0 grid h-screen w-screen grid-cols-[50px_300px_1fr_45vw_50px] grid-rows-[50px_1fr_repeat(2,50px)] bg-gray-700 text-gray-100">
+    <div
+      className={`m-0 grid h-screen w-screen ${giveMeGrid(
+        leftComponent !== "",
+        rightComponent !== ""
+      )} grid-rows-[50px_1fr_300px_50px] bg-gray-700 text-gray-100`}
+    >
       <div className="col-span-5">Status bar</div>
       <div className="col-start-1 row-start-2">
         <LeftBar
@@ -77,8 +95,8 @@ export const BasePage: React.FC<ProjectDescProps> = (
         />
       </div>
       <div className="col-start-2 row-start-2">
-        {visibleComponent === "fileTree" && <FileTree />}
-        {visibleComponent === "gitInterface" && <Git {...desc} />}
+        {leftComponent === "fileTree" && <FileTree />}
+        {leftComponent === "gitInterface" && <Git {...desc} />}
       </div>
       <div className="col-start-3 row-start-2">
         <CodeEditor language="java" tabSize={4} opened={openedFiles} />
@@ -87,9 +105,11 @@ export const BasePage: React.FC<ProjectDescProps> = (
         <RightBar onShowBot={handleShowBot} />
       </div>
       <div className="col-start-4 row-start-2">
-        {visibleComponent2 === "chatBot" && <Chatbot {...chatbotProp} />}
+        {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}
       </div>
-      <div className="col-span-5 col-start-1 row-start-3">Terminal</div>
+      <div className="col-span-5 col-start-1 row-start-3">
+        <Terminal />
+      </div>
       <div className="col-span-5 row-start-4">
         <BottomBar {...bottomProp} />
       </div>

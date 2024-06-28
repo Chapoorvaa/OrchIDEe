@@ -6,7 +6,7 @@ interface RightBarProps {
 
 const RightBar: React.FC<RightBarProps> = ({ onShowBot }) => {
   return (
-    <div className='h-full border-2 border-gray-600 bg-gray-800'>
+    <div className='h-full border-x-2 border-gray-600 bg-gray-800'>
       <div className='flex border-b-2 border-gray-600'>
         <button 
           type='button' 

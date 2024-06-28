@@ -7,7 +7,7 @@ interface LeftBarProps {
 
 const LeftBar: React.FC<LeftBarProps> = ({ onShowFileTree, onShowGitInterface }) => {
   return (
-    <div className='h-full border-2 border-gray-600 bg-gray-800'>
+    <div className='h-full border-x-2 border-gray-600 bg-gray-800'>
       <div className='flex border-b-2 border-gray-600'>
         <button 
           type='button' 

@@ -60,9 +60,8 @@ const Chatbot: React.FC<ChatbotProps> = (prop: ChatbotProps) => {
   return (
     <div className="flex flex-col justify-between items-center border-2 border-gray-600 bg-gray-800 rounded-10 h-full w-full">
       <div
-        style={{ minHeight: "300px" }}
-        className="overflow-y-auto border border-gray-600 rounded-10 mx-2.5 mt-2.5 bg-gray-700 flex flex-col h-[70vh] w-11/12"
-      >
+        style={{ minHeight: '300px' }}
+        className="overflow-y-auto border border-gray-600 rounded-10 mx-2.5 mt-2.5 bg-gray-700 flex flex-col max-h-[70vh] w-11/12">
         {prop.messages.map((message, index) => (
           <div
             key={index}
