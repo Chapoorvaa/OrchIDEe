@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Chatbot from "./chatbot/Chatbot";
+import Chatbot, { Message } from "./chatbot/Chatbot";
 import Git from "./git/Git";
 import LeftBar from "./leftBar/LeftBar";
 import FileTree from "./fileTree/fileTree";
@@ -10,6 +10,7 @@ import { ProjectDescProps } from "./App";
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
 ) => {
+  const [messages, setMessages] = useState<Message[]>([]);
   const [visibleComponent, setVisibleComponent] = useState<string>("");
   const [visibleComponent2, setVisibleComponent2] = useState<string>("");
 
@@ -50,8 +51,18 @@ export const BasePage: React.FC<ProjectDescProps> = (
     }
   };
 
+  const appendMessage = (message: Message) => {
+    setMessages((prevMessages) => [...prevMessages, message]);
+  };
+
+  const chatbotProp = {
+    messages: messages,
+    appendMessage: appendMessage,
+    projProp: desc,
+  };
+
   return (
-    <div className="m-0 grid h-screen w-screen grid-cols-[50px_300px_1fr_300px_50px] grid-rows-[50px_1fr_repeat(2,50px)] bg-gray-700 text-gray-100">
+    <div className="m-0 grid h-screen w-screen grid-cols-[50px_300px_1fr_45vw_50px] grid-rows-[50px_1fr_repeat(2,50px)] bg-gray-700 text-gray-100">
       <div className="col-span-5">Status bar</div>
       <div className="col-start-1 row-start-2">
         <LeftBar
@@ -70,7 +81,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
         <RightBar onShowBot={handleShowBot} />
       </div>
       <div className="col-start-4 row-start-2">
-        {visibleComponent2 === "chatBot" && <Chatbot {...desc} />}
+        {visibleComponent2 === "chatBot" && <Chatbot {...chatbotProp} />}
       </div>
       <div className="col-span-5 row-start-4">Bottom bar</div>
       <div className="col-start-1 row-start-5"></div>
