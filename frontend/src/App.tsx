@@ -1,13 +1,12 @@
-import React from 'react'
-import './App.css'
-import { BasePage } from './BasePage'
+import "./App.css";
+import { BasePage } from "./BasePage";
 
 function App() {
   return (
     <>
-      <BasePage/>
+      <BasePage />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

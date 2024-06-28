@@ -10,24 +10,6 @@ export const BasePage: React.FC = () => {
   const [visibleComponent, setVisibleComponent] = useState<string>("");
   const [visibleComponent2, setVisibleComponent2] = useState<string>("");
 
-  const openFileDialog = async () => {
-    const options = {
-      title: "Open a file",
-      buttonLabel: "Select",
-      properties: ["openFile", "multiSelections"],
-    };
-
-    const { dialog } = require("@electron/remote");
-    await dialog
-      .showOpenDialog({ options })
-      .then(async (result: { filePaths: string }) => {
-        console.log(result.filePaths + " was picked!");
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  };
-
   const handleShowFileTree = () => {
     if (visibleComponent === "fileTree") {
       setVisibleComponent("");
