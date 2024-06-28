@@ -33,6 +33,7 @@ public class MakeMake implements Feature {
 
             Process process = new ProcessBuilder(arguments)
                     .directory(project.getRootNode().getPath().toFile())
+                    .redirectErrorStream(true)
                     .start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
