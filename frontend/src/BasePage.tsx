@@ -60,6 +60,10 @@ export const BasePage: React.FC<ProjectDescProps> = (
     setMessages((prevMessages) => [...prevMessages, message]);
   };
 
+  const toggleSettings = (): void => {
+    setShowSettings(!showSettings);
+  };
+
   const chatbotProp = {
     messages: messages,
     appendMessage: appendMessage,
@@ -69,6 +73,10 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const path = "/home/emmanuel/gittest4ping";
   const bottomProp = {
     path,
+  };
+
+  const settingsProp = {
+    toggleInterface: toggleSettings,
   };
 
   function giveMeGrid(left: boolean, right: boolean) {
@@ -118,7 +126,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           <BottomBar {...bottomProp} />
         </div>
       </div>
-      <div>{showSettings && <Settings />}</div>
+      <div>{showSettings && <Settings {...settingsProp} />}</div>
     </>
   );
 };
