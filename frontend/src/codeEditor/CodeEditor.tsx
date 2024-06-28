@@ -13,7 +13,14 @@ loader.config({
 interface Config {
   language: string;
   tabSize: number;
-  opened: string[];
+  opened: File[];
+}
+
+// pour apoorvaa a bouger dans ton fichier
+
+interface File {
+  path: string;
+  content: string;
 }
 
 // TODO: load the theme that in the config file
@@ -36,8 +43,14 @@ const CodeEditor = (props: Config) => {
     const handleChangePage = (index: number) => {
       setCurrentPage(index);
       console.log(currentPage);
+      console.log(props.opened[currentPage].content);
     };
 
+    const handleEditorChange = (value: string | undefined) => {
+      if (typeof value === "string") {
+        props.opened[currentPage].content = value;
+      }
+    };
     return (
       <>
         <div className="block ">
@@ -51,7 +64,7 @@ const CodeEditor = (props: Config) => {
                     handleChangePage(props.opened.indexOf(content))
                   }
                 >
-                  {content}
+                  {content.path}
                 </li>
               ))
             ) : (
@@ -64,10 +77,11 @@ const CodeEditor = (props: Config) => {
           width="100%"
           theme="MonokaiBright"
           defaultLanguage={props.language}
-          value={props.opened[currentPage]}
-          defaultValue={props.opened[currentPage]}
+          value={props.opened[currentPage].content}
+          defaultValue={props.opened[currentPage].content}
           options={options}
           beforeMount={handleEditorDidMount}
+          onChange={handleEditorChange}
         />
       </>
     );
