@@ -467,7 +467,6 @@ public class MyIdeEndpoint {
         } catch (IllegalArgumentException e) {
             Logger.logError("ERROR on RENAME: file " + path + " to " + newName + " failed");
             return Response.status(Response.Status.BAD_REQUEST).build();
-
         } catch (RuntimeException e) {
             Logger.logError("ERROR on RENAME: rename failed on " + path + "with" + newName);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -482,10 +481,13 @@ public class MyIdeEndpoint {
     @Path("/filetree")
     public Response filetree(SimpleRequest request) {
         java.nio.file.Path path = Paths.get(request.getPath());
+        Logger.log("Attempting FILETREE: " + path);
+
         if (!Files.exists(path)) {
             Logger.logError("ERROR on FILETREE: " + path);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
         if (!Files.isDirectory(path)) {
             Logger.logError("ERROR on FILETREE: filetree failed on " + path);
             return Response.status(Response.Status.BAD_REQUEST).build();
