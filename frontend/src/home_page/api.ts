@@ -19,8 +19,6 @@ export const sendProject = async (path: string): Promise<Project> => {
         throw new Error('Failed to open/create project');
     }
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
     const data: Project = await resp.json();
 
     return data;
@@ -43,8 +41,6 @@ export const createProject = async (path: string, name: string, language: string
     if (!resp.ok) {
         throw new Error('Failed to open/create project');
     }
-
-    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const data: Project = await resp.json();
 

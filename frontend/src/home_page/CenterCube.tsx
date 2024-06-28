@@ -18,7 +18,7 @@ const CenterCube: React.FC<CenterCubeProps> = ({ setBasePage, setHomepage, setNa
             { error && <p className="text-red-500">The directory selected is not a project</p> }
             <div className="flex justify-around">
                 <Button label="new" setBasePage={setBasePage} setFunction={setHomepage}/>
-                <Button label="open" setFunction={setError} setName={setName} setPath={setPath} setLanguage={setLanguage}/>
+                <Button label="open" setBasePage={setBasePage} setFunction={setError} setName={setName} setPath={setPath} setLanguage={setLanguage}/>
             </div>
         </div>
     );

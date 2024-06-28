@@ -32,12 +32,19 @@ const OpenProject: React.FC<OpenProjectProps> = ({ setBasePage, projectName, pat
                 />
 
                 <label className="row-start-2 flex justify-evenly" htmlFor="location-input">Location:</label>
-                <Button label="Browse" setFunction={setPath}/>
+                <div className="col-span-3 row-start-2 flex items-center">
+                    <Button label="Browse" setFunction={setPath} />
+                    {path && <span className="ml-2 text-gray-300">{path}</span>}
+                </div>
 
                 <label className="row-start-3 flex justify-evenly">Language:</label>
                 <div className="col-span-3 row-start-3 flex justify-evenly w-full">
-                    <Button label="Java" setFunction={setLanguage}/>
-                    <Button label="C++" setFunction={setLanguage}/>
+                    <Button label="Java"
+                        setFunction={setLanguage}
+                        isHighlighted={language === "JAVA"} />
+                    <Button label="C++"
+                        setFunction={setLanguage}
+                        isHighlighted={language === "CPP"} />
                 </div>
 
                 { error && <p className="row-start-4 col-start-2 col-span-3 text-red-500">One or more property is not specified</p> }

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { Project, sendProject  } from './api';
+import { dialog } from '@electron/remote'
 
 export interface ButtonProps {
     setBasePage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,16 +18,15 @@ const Button: React.FC<ButtonProps> = ({ setBasePage, label, setFunction, setNam
             setFunction(false);
         } else if (label === "open") {
             const options = {
-                title: 'Open a directory',
+                title: 'Select a project',
                 buttonLabel: 'Select',
                 properties: ['openDirectory']
             };
 
-            const {dialog} = require("@electron/remote");
             await dialog.showOpenDialog(options).
             then(async (result: { filePaths: string; }) => {
                 var path = result.filePaths[0];
-                console.log(path + " a ete choisit !");
+                console.log(path + " has been chosen !");
                 setPath(path);
 
                 const fs = require("fs");
@@ -49,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({ setBasePage, label, setFunction, setNam
 
                 try {
                     const fetching = await sendProject(path);
-                    console.log("Sended the project!");
+                    console.log("Sent the project!");
                     setBasePage(true);
                 } catch (e) {
                     console.log(e);

@@ -2,6 +2,7 @@ import { Project, createProject  } from '../api';
 
 export interface ButtonProps {
     setBasePage: React.Dispatch<React.SetStateAction<boolean>>;
+    isHighlighted?: boolean;
     label: string;
     setFunction: React.Dispatch<React.SetStateAction<any>>;
     projectName?: string;
@@ -12,7 +13,7 @@ export interface ButtonProps {
     setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Button: React.FC<ButtonProps> = ({ setBasePage, label, setFunction, projectName, location, language, setName, setPath, setLanguage }) => {
+const Button: React.FC<ButtonProps> = ({ setBasePage, isHighlighted, label, setFunction, projectName, location, language, setName, setPath, setLanguage }) => {
 
     const handleClick = async () => {
         switch(label) {
@@ -60,18 +61,23 @@ const Button: React.FC<ButtonProps> = ({ setBasePage, label, setFunction, projec
             case "Java": {
                 console.log("Language set to Java");
                 setFunction("JAVA");
+                isHighlighted = true;
                 break;
             }
             case "C++": {
                 console.log("Language set to C++");
                 setFunction("CPP");
+                isHighlighted = true;
                 break;
             }
         }
     };
     return (
         <button
-            className="w-1/8 h-6/7 bg-transparent text-gray-100 ring-2 ring-gray-100 rounded-lg hover:bg-gray-600 hover:border-transparent focus:ring-gray-500"
+            className={`w-1/8 h-6/7 text-gray-100 ring-2
+                ring-gray-100 rounded-lg hover:bg-gray-600
+                hover:border-transparent focus:ring-gray-500
+                ${isHighlighted ? 'bg-gray-600 text-white ' : 'bg-transparent'}`}
             onClick={handleClick}
         >
             {label}
