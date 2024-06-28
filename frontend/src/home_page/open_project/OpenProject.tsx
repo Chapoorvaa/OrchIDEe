@@ -34,7 +34,7 @@ const OpenProject: React.FC<OpenProjectProps> = ({ setBasePage, projectName, pat
                 <label className="row-start-2 flex justify-evenly" htmlFor="location-input">Location:</label>
                 <div className="col-span-3 row-start-2 flex items-center">
                     <Button label="Browse" setFunction={setPath} />
-                    {path && <span className="ml-2 text-gray-300">{path}</span>}
+                    {path && <span className="ml-2 text-gray-300 overflow-x-auto">{path}</span>}
                 </div>
 
                 <label className="row-start-3 flex justify-evenly">Language:</label>
