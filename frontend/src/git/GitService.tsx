@@ -5,7 +5,7 @@ interface GitStatusResponse {
     uncommittedFiles: Set<string>;
 }
 
-export const fetchGitResponse = async (): Promise<string[][]> => {
+export const fetchGitResponse = async (name: string): Promise<string[][]> => {
     const apiUrl = 'http://localhost:8080/api/execFeature';
 
     try {
@@ -17,7 +17,7 @@ export const fetchGitResponse = async (): Promise<string[][]> => {
             body: JSON.stringify({
                 "feature": "STATUS",
                 "params": [],
-                "project": "epita-ing-2026-tui-julie.ducastel"
+                "project": name 
             }),
         });
 
@@ -39,7 +39,7 @@ export const fetchGitResponse = async (): Promise<string[][]> => {
     }
 };
 
-export const commitChanges = async (message: string): Promise<void> => {
+export const commitChanges = async (message: string, name: string): Promise<void> => {
     const apiUrl = 'http://localhost:8080/api/execFeature';
 
     try {
@@ -51,7 +51,7 @@ export const commitChanges = async (message: string): Promise<void> => {
             body: JSON.stringify({
                 "feature": "COMMIT",
                 "params": [message],
-                "project": "epita-ing-2026-tui-julie.ducastel"
+                "project": name 
             }),
         });
 
@@ -63,7 +63,7 @@ export const commitChanges = async (message: string): Promise<void> => {
     }
 };
 
-export const pushChanges = async (): Promise<void> => {
+export const pushChanges = async (name: string): Promise<void> => {
     const apiUrl = 'http://localhost:8080/api/execFeature';
 
     try {
@@ -75,7 +75,7 @@ export const pushChanges = async (): Promise<void> => {
             body: JSON.stringify({
                 "feature": "PUSH",
                 "params": [],
-                "project": "epita-ing-2026-tui-julie.ducastel"
+                "project": name
             }),
         });
 
@@ -87,7 +87,7 @@ export const pushChanges = async (): Promise<void> => {
     }
 };
 
-export const fetchPull = async (): Promise<void> => {
+export const fetchPull = async (name: string): Promise<void> => {
     const apiUrl = 'http://localhost:8080/api/execFeature';
 
     try {
@@ -99,7 +99,7 @@ export const fetchPull = async (): Promise<void> => {
             body: JSON.stringify({
                 "feature": "PULL",
                 "params": [],
-                "project": "epita-ing-2026-tui-julie.ducastel"
+                "project": name 
             }),
         });
 

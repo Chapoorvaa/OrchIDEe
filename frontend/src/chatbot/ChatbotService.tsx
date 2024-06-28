@@ -2,8 +2,9 @@ interface BotResponse {
   content: string;
 }
 
-export const fetchBotResponse = async (userInput: string): Promise<string> => {
+export const fetchBotResponse = async (userInput: string, name: string): Promise<string> => {
   const apiUrl = 'http://localhost:8080/api/execFeature';
+  const model = "tinyllama";
 
   try {
     const response = await fetch(apiUrl, {
@@ -13,8 +14,8 @@ export const fetchBotResponse = async (userInput: string): Promise<string> => {
       },
       body: JSON.stringify({
         "feature":"CHATBOT",
-        "params":["tinyllama",userInput],
-        "project":"epita-ing-2026-tui-julie.ducastel"
+        "params": [model, userInput],
+        "project": name
         }),
     });
 
