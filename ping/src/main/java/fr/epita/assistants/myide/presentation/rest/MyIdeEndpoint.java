@@ -4,6 +4,7 @@ import fr.epita.assistants.MyIde;
 import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.entity.report.GitStatusFeatureReport;
 import fr.epita.assistants.myide.domain.entity.report.ChatbotFeatureReport;
+import fr.epita.assistants.myide.domain.entity.report.RunReport;
 import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
@@ -79,7 +80,7 @@ public class MyIdeEndpoint {
                         new InputStreamReader(input, StandardCharsets.UTF_8))
                         .lines()
                         .collect(Collectors.joining("\n"))
-                        .replaceFirst("TITLE_PLACEHOLDER", request.getName());
+                        .replace("TITLE_PLACEHOLDER", request.getName());
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(path.resolve("pom.xml").toString()));
                 writer.write(content);
@@ -97,7 +98,7 @@ public class MyIdeEndpoint {
                         new InputStreamReader(input, StandardCharsets.UTF_8))
                         .lines()
                         .collect(Collectors.joining("\n"))
-                        .replaceFirst("TITLE_PLACEHOLDER", request.getName());
+                        .replace("TITLE_PLACEHOLDER", request.getName());
 
                 BufferedWriter writer = new BufferedWriter(new FileWriter(path.resolve("Makefile").toString()));
                 writer.write(content);
@@ -343,11 +344,11 @@ public class MyIdeEndpoint {
             case "TREE":
                 type = Mandatory.Features.Maven.TREE;
                 break;
-            case "MAKEMAKE":
-                type = ExtraFeatures.Features.Make.MAKEMAKE;
+            case "RUN":
+                type = ExtraFeatures.Features.Maven.RUN;
                 break;
-            case "MAKECLEAN":
-                type = ExtraFeatures.Features.Make.MAKECLEAN;
+            case "MAKE":
+                type = ExtraFeatures.Features.Make.MAKE;
                 break;
             default:
                 Logger.logError("ERROR on EXECFEATURE: feature " + request.getFeature() + " unknown");
@@ -363,18 +364,19 @@ public class MyIdeEndpoint {
 
         Logger.log("SUCCESS on EXECFEATURE: feature " + request.getFeature() + " in project " + request.getProject());
 
-        if (report instanceof GitStatusFeatureReport gitStatusFeatureReport)
-        {
+        if (report instanceof GitStatusFeatureReport gitStatusFeatureReport) {
             return Response.ok(new GitStatusResponse(gitStatusFeatureReport.untracked(), gitStatusFeatureReport.added(), gitStatusFeatureReport.modified(), gitStatusFeatureReport.uncommited())).build();
         }
-
-        if (report instanceof SearchFeatureReport searchReport) {
+        else if (report instanceof SearchFeatureReport searchReport) {
             List<String> result = new ArrayList<>();
             searchReport.getResults().forEach(e -> result.add(e.getPath().toString()));
             return Response.ok(new SearchFeatureResponse(request.getFeature(), request.getProject(), request.getParams(), result)).build();
         }
         else if (report instanceof ChatbotFeatureReport chatbotReport) {
             return Response.ok(new ChatbotFeatureResponse(chatbotReport.chatbotResponse())).build();
+        }
+        else if (report instanceof RunReport runReport) {
+            return Response.ok(new RunResponse(runReport.output())).build();
         }
         return Response.ok(new ExecFeatureResponse(request.getFeature(), request.getProject(), request.getParams())).build();
     }

@@ -15,7 +15,6 @@ public class MakeAspect implements Aspect {
 
     public MakeAspect() {
         featureList_.add(new MakeMake());
-        featureList_.add(new MakeClean());
     }
 
     @Override
