@@ -8,13 +8,16 @@ import CodeEditor, { File } from "./codeEditor/CodeEditor";
 import { ProjectDescProps } from "./App";
 import { BottomBar } from "./bottomBar/bottomBar";
 import { Terminal } from "./terminal/terminal";
+import { Settings } from "./settings/Settings";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
 ) => {
   const [messages, setMessages] = useState<Message[]>([]);
+
   const [leftComponent, setLeftComponent] = useState<string>("");
   const [rightComponent, setRightComponent] = useState<string>("");
+  const [showSettings, setShowSettings] = useState<boolean>(false);
 
   const File1 = {
     path: "tqt",
@@ -81,39 +84,42 @@ export const BasePage: React.FC<ProjectDescProps> = (
   }
 
   return (
-    <div
-      className={`m-0 grid h-screen w-screen ${giveMeGrid(
-        leftComponent !== "",
-        rightComponent !== ""
-      )} grid-rows-[50px_1fr_300px_50px] bg-gray-700 text-gray-100`}
-    >
-      <div className="col-span-5">Status bar</div>
-      <div className="col-start-1 row-start-2">
-        <LeftBar
-          onShowFileTree={handleShowFileTree}
-          onShowGitInterface={handleShowGitInterface}
-        />
+    <>
+      <div
+        className={`m-0 grid h-screen w-screen ${giveMeGrid(
+          leftComponent !== "",
+          rightComponent !== ""
+        )} grid-rows-[50px_1fr_300px_50px] bg-gray-700 text-gray-100`}
+      >
+        <div className="col-span-5">Status bar</div>
+        <div className="col-start-1 row-start-2">
+          <LeftBar
+            onShowFileTree={handleShowFileTree}
+            onShowGitInterface={handleShowGitInterface}
+          />
+        </div>
+        <div className="col-start-2 row-start-2">
+          {leftComponent === "fileTree" && <FileTree />}
+          {leftComponent === "gitInterface" && <Git {...desc} />}
+        </div>
+        <div className="col-start-3 row-start-2">
+          <CodeEditor language="java" tabSize={4} opened={openedFiles} />
+        </div>
+        <div className="col-start-5 row-start-2">
+          <RightBar onShowBot={handleShowBot} />
+        </div>
+        <div className="col-start-4 row-start-2">
+          {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}
+        </div>
+        <div className="col-span-5 col-start-1 row-start-3">
+          <Terminal />
+        </div>
+        <div className="col-span-5 row-start-4">
+          <BottomBar {...bottomProp} />
+        </div>
       </div>
-      <div className="col-start-2 row-start-2">
-        {leftComponent === "fileTree" && <FileTree />}
-        {leftComponent === "gitInterface" && <Git {...desc} />}
-      </div>
-      <div className="col-start-3 row-start-2">
-        <CodeEditor language="java" tabSize={4} opened={openedFiles} />
-      </div>
-      <div className="col-start-5 row-start-2">
-        <RightBar onShowBot={handleShowBot} />
-      </div>
-      <div className="col-start-4 row-start-2">
-        {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}
-      </div>
-      <div className="col-span-5 col-start-1 row-start-3">
-        <Terminal />
-      </div>
-      <div className="col-span-5 row-start-4">
-        <BottomBar {...bottomProp} />
-      </div>
-    </div>
+      <div>{showSettings && <Settings />}</div>
+    </>
   );
 };
 
