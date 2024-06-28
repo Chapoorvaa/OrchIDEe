@@ -9,7 +9,7 @@ import { ProjectDescProps } from "./App";
 import { BottomBar } from "./bottomBar/bottomBar";
 import { Terminal } from "./terminal/terminal";
 import { Settings } from "./settings/Settings";
-import StatusBar from './statusBar/StatusBar';
+import StatusBar from "./statusBar/StatusBar";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
@@ -80,27 +80,37 @@ export const BasePage: React.FC<ProjectDescProps> = (
     toggleInterface: toggleSettings,
   };
 
-  function giveMeGrid(left: boolean, right: boolean) {
+  function giveMeGridCol(left: boolean, right: boolean) {
     if (left && right) {
-      return "grid-cols-[50px_300px_1fr_45vw_50px]";
+      return "grid-cols-[50px_300px_calc(100vw-45vw-400px)_45vw_50px]";
     } else if (left) {
-      return "grid-cols-[50px_300px_1fr_0vw_50px]";
+      return "grid-cols-[50px_300px_calc(100vw-400px)_0vw_50px]";
     } else if (right) {
-      return "grid-cols-[50px_0px_1fr_45vw_50px]";
+      return "grid-cols-[50px_0px_calc(100vw-45vw-100px)_45vw_50px]";
     } else {
-      return "grid-cols-[50px_0px_1fr_0vw_50px]";
+      return "grid-cols-[50px_0px_calc(100vw-100px)_0vw_50px]";
+    }
+  }
+
+  function giveMeGridRow(terminal: boolean) {
+    if (terminal) {
+      return "grid-rows-[50px_calc(100vh-400px)_300px_50px]";
+    } else {
+      return "grid-rows-[50px_calc(100vh-100px)_0px_50px]";
     }
   }
 
   return (
     <>
       <div
-        className={`m-0 grid h-screen w-screen ${giveMeGrid(
+        className={`m-0 grid h-screen w-screen ${giveMeGridCol(
           leftComponent !== "",
           rightComponent !== ""
-        )} grid-rows-[50px_1fr_300px_50px] bg-gray-700 text-gray-100`}
+        )} ${giveMeGridRow(true)} bg-gray-700 text-gray-100`}
       >
-      <div className="col-span-5"><StatusBar/></div>
+        <div className="col-span-5">
+          <StatusBar />
+        </div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}

@@ -53,7 +53,7 @@ const CodeEditor = (props: Config) => {
     };
     return (
       <>
-        <div className="block ">
+        {/* <div className="block ">
           <ul className="flex justify-start overflow-x-scroll no-scrollbar">
             {props.opened && props.opened.length > 0 ? (
               props.opened.map((content) => (
@@ -71,9 +71,9 @@ const CodeEditor = (props: Config) => {
               <li></li>
             )}
           </ul>
-        </div>
+        </div> */}
         <Editor
-          height="90vh"
+          height="100%"
           width="100%"
           theme="MonokaiBright"
           defaultLanguage={props.language}
