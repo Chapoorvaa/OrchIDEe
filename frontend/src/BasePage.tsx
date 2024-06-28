@@ -9,6 +9,7 @@ import { ProjectDescProps } from "./App";
 import { BottomBar } from "./bottomBar/bottomBar";
 import { Terminal } from "./terminal/terminal";
 import { Settings } from "./settings/Settings";
+import StatusBar from './statusBar/StatusBar';
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
@@ -99,7 +100,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           rightComponent !== ""
         )} grid-rows-[50px_1fr_300px_50px] bg-gray-700 text-gray-100`}
       >
-        <div className="col-span-5">Status bar</div>
+      <div className="col-span-5"><StatusBar/></div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}

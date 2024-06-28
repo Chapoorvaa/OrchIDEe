@@ -72,8 +72,8 @@ const Chatbot: React.FC<ChatbotProps> = (prop: ChatbotProps) => {
             } inline-block overflow-hidden`}
           >
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {message.text}
-            </ReactMarkdown>
+                     </ReactMarkdown>
+     {message.text}
           </div>
         ))}
         {loading && (
