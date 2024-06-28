@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react';
 import { fetchBotResponse } from './ChatbotService';
+import { ProjectDescProps } from '../App';
 
 interface Message {
   text: string;
   isUser: boolean;
 }
 
-const Chatbot: React.FC = () => {
+const Chatbot: React.FC<ProjectDescProps> = (desc: ProjectDescProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -28,7 +29,7 @@ const Chatbot: React.FC = () => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const botResponse = await fetchBotResponse(userInput);
+      const botResponse = await fetchBotResponse(userInput, desc.name);
       const botMessage: Message = { text: botResponse, isUser: false };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {

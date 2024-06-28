@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { fetchGitResponse, commitChanges, pushChanges, fetchPull } from './GitService';
+import { ProjectDescProps } from '../App';
 
-const Git: React.FC = () => {
+const Git: React.FC<ProjectDescProps> = (desc: ProjectDescProps) => {
     const [untracked, setUntracked] = useState<string[]>([]);
     const [added, setAdded] = useState<string[]>([]);
     const [modified, setModified] = useState<string[]>([]);
@@ -13,7 +14,7 @@ const Git: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchGitResponse();
+                const response = await fetchGitResponse(desc.name);
                 setUntracked(response[0]);
                 setAdded(response[1]);
                 setModified(response[2]);
@@ -36,9 +37,9 @@ const Git: React.FC = () => {
         }
         try {
             setLoading(true);
-            await commitChanges(commitMessage);
+            await commitChanges(commitMessage, desc.name);
             setCommitMessage('');
-            const response = await fetchGitResponse();
+            const response = await fetchGitResponse(desc.path);
             setUntracked(response[0]);
             setAdded(response[1]);
             setModified(response[2]);
@@ -54,7 +55,7 @@ const Git: React.FC = () => {
     const handlePull = async () => {
         try {
             setLoading(true);
-            await fetchPull();
+            await fetchPull(desc.name);
             setLoading(false);
         } catch (error) {
             console.error('Error pulling changes:', error);
@@ -66,7 +67,7 @@ const Git: React.FC = () => {
     const handlePush = async () => {
         try {
             setLoading(true);
-            await pushChanges();
+            await pushChanges(desc.name);
             setLoading(false);
         } catch (error) {
             console.error('Error pushing changes:', error);

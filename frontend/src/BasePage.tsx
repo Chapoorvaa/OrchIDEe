@@ -5,8 +5,9 @@ import LeftBar from "./leftBar/LeftBar";
 import FileTree from "./fileTree/fileTree";
 import RightBar from "./rightBar/rightBar";
 import CodeEditor from "./codeEditor/CodeEditor";
+import { ProjectDescProps } from './App';
 
-export const BasePage: React.FC = () => {
+export const BasePage: React.FC<ProjectDescProps> = (desc: ProjectDescProps) => {
   const [visibleComponent, setVisibleComponent] = useState<string>("");
   const [visibleComponent2, setVisibleComponent2] = useState<string>("");
   const File1 = {
@@ -56,7 +57,7 @@ export const BasePage: React.FC = () => {
       </div>
       <div className="col-start-2 row-start-2">
         {visibleComponent === "fileTree" && <FileTree />}
-        {visibleComponent === "gitInterface" && <Git />}
+        {visibleComponent === "gitInterface" && <Git {...desc} />}
       </div>
       <div className="col-start-3 row-start-2">
         <CodeEditor
@@ -69,7 +70,7 @@ export const BasePage: React.FC = () => {
         <RightBar onShowBot={handleShowBot} />
       </div>
       <div className="col-start-4 row-start-2">
-        {visibleComponent2 === "chatBot" && <Chatbot />}
+        {visibleComponent2 === "chatBot" && <Chatbot {...desc} />}
       </div>
       <div className="col-span-5 row-start-4">Bottom bar</div>
       <div className="col-start-1 row-start-5"></div>
