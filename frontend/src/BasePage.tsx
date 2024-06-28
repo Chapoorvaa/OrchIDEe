@@ -6,6 +6,7 @@ import FileTree from "./fileTree/fileTree";
 import RightBar from "./rightBar/rightBar";
 import CodeEditor, { File } from "./codeEditor/CodeEditor";
 import { ProjectDescProps } from "./App";
+import { BottomBar } from "./bottomBar/bottomBar";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
@@ -61,6 +62,11 @@ export const BasePage: React.FC<ProjectDescProps> = (
     projProp: desc,
   };
 
+  const path = "/home/emmanuel/gittest4ping";
+  const bottomProp = {
+    path,
+  };
+
   return (
     <div className="m-0 grid h-screen w-screen grid-cols-[50px_300px_1fr_45vw_50px] grid-rows-[50px_1fr_repeat(2,50px)] bg-gray-700 text-gray-100">
       <div className="col-span-5">Status bar</div>
@@ -83,8 +89,10 @@ export const BasePage: React.FC<ProjectDescProps> = (
       <div className="col-start-4 row-start-2">
         {visibleComponent2 === "chatBot" && <Chatbot {...chatbotProp} />}
       </div>
-      <div className="col-span-5 row-start-4">Bottom bar</div>
-      <div className="col-start-1 row-start-5"></div>
+      <div className="col-span-5 col-start-1 row-start-3">Terminal</div>
+      <div className="col-span-5 row-start-4">
+        <BottomBar {...bottomProp} />
+      </div>
     </div>
   );
 };
