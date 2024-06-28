@@ -18,7 +18,8 @@ export const BasePage: React.FC<ProjectDescProps> = (
 
   const [leftComponent, setLeftComponent] = useState<string>("");
   const [rightComponent, setRightComponent] = useState<string>("");
-  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [showSettings, setShowSettings] = useState<boolean>(true);
+  const [showTerminal, setShowTerminal] = useState<boolean>(false);
 
   const File1 = {
     path: "tqt",
@@ -106,7 +107,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
         className={`m-0 grid h-screen w-screen ${giveMeGridCol(
           leftComponent !== "",
           rightComponent !== ""
-        )} ${giveMeGridRow(true)} bg-gray-700 text-gray-100`}
+        )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
       >
         <div className="col-span-5">
           <StatusBar />
@@ -131,7 +132,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}
         </div>
         <div className="col-span-5 col-start-1 row-start-3">
-          <Terminal />
+          {showTerminal && <Terminal />}
         </div>
         <div className="col-span-5 row-start-4">
           <BottomBar {...bottomProp} />
