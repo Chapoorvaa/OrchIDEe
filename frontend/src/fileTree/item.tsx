@@ -17,9 +17,9 @@ const getFileIcon = (fileName) => {
     }
 };
 
-const Item = ({item}) => {
+const Item = ({item, expandedFolder, toggleFolder}) => {
 
-    const [isOpened,setIsOpened] = useState(false);
+    const isOpened = expandedFolder.includes(item.path);
     const fileIcon = getFileIcon(item.name);
 
 
@@ -27,7 +27,7 @@ const Item = ({item}) => {
         <div className="menu-item">
             <div
                 className="flex items-center cursor-pointer pl-4"
-                onClick={() => item.type === "folder" && setIsOpened(!isOpened)}
+                onClick={() => item.type === "folder" && toggleFolder(item.path)}
             >
                 {item.type === "folder" && (
                     <>
@@ -53,7 +53,13 @@ const Item = ({item}) => {
             {item.children && isOpened && (
                 <div className="ml-4">
                     {item.children.map((subitem, index) => (
-                        <Item key={index} item={subitem} />
+                        <Item
+                            key={index}
+                            item={subitem}
+                            expandedFolder={expandedFolder}
+                            toggleFolder={toggleFolder}
+                        />
+
                     ))}
                 </div>
             )}

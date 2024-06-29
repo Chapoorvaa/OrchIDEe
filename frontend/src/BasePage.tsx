@@ -23,6 +23,18 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showTerminal, setShowTerminal] = useState<boolean>(false);
   const [terminalContent, setTerminalContent] = useState<string>("");
+  const [visibleComponent, setVisibleComponent] = useState<string>("");
+  const [visibleComponent2, setVisibleComponent2] = useState<string>("");
+  const [expandedFolder, setExpandedFolder] = useState<string[]>([]);
+
+  const toggleFolder = (path: string) => {
+        setExpandedFolder((prevExpandedFolder) =>
+            prevExpandedFolder.includes(path)
+                ? prevExpandedFolder.filter((folder) => folder !== path)
+                : [...prevExpandedFolder, path]
+        );
+    };
+
 
   const File1 = {
     path: "tqt",
@@ -193,7 +205,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     </>
 
       <div className="col-start-2 row-start-2">
-        {visibleComponent === "fileTree" && <FileTree {...desc} />}
+        {visibleComponent === "fileTree" && <FileTree {...desc} expandedFolder={expandedFolder} toggleFolder={toggleFolder} />}
         {visibleComponent === "gitInterface" && <Git {...desc} />}
       </div>
       <div className="col-start-3 row-start-2">
