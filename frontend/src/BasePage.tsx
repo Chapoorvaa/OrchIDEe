@@ -11,6 +11,7 @@ import { BottomBar } from "./bottomBar/bottomBar";
 import { Terminal } from "./terminal/Terminal";
 import { Settings } from "./settings/Settings";
 import StatusBar from "./statusBar/StatusBar";
+import Shortcut from "./Shortcuts";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
@@ -118,6 +119,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
 
   return (
     <>
+      <Shortcut />
       <div
         className={`m-0 grid h-screen w-screen ${giveMeGridCol(
           leftComponent !== "",
