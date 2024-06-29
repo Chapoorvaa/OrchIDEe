@@ -67,10 +67,10 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
               Shortcuts
             </div>
           </div>
-          <div className="flex flex-col w-[66%]">
+          <div className="flex flex-col w-[66%] overflow-auto">
             {settingTab === "appearance" && (
               <div className="flex flex-col">
-                <div className="mt-4 ml-8">
+                <div className="my-4 mx-8">
                   <label className="flex items-center text-2xl text-gray-100">
                     Theme:
                     <select
@@ -141,7 +141,34 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
                 </div>
               </div>
             )}
-            {settingTab === "shortcuts" && <div>Shortcuts</div>}
+            {settingTab === "shortcuts" && (
+              <div className="grid grid-cols-2 grid-rows-4 gap-4 text-xl my-4 mx-8">
+                <div>
+                  <b>Zoom-in:</b> Ctrl, +
+                </div>
+                <div>
+                  <b>Zoom-out:</b> Ctrl, -
+                </div>
+                <div className="row-start-2">
+                  <b>Run:</b> Ctrl, F5
+                </div>
+                <div className="row-start-2">
+                  <b>Build:</b> Ctrl, F6
+                </div>
+                <div className="row-start-3">
+                  <b>New file:</b> Ctrl, N
+                </div>
+                <div className="row-start-3">
+                  <b>New folder:</b> Ctrl, D
+                </div>
+                <div className="row-start-4">
+                  <b>Open settings:</b> Ctrl, Shift, S
+                </div>
+                <div className="row-start-4">
+                  <b>Save:</b> Ctrl, S
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
