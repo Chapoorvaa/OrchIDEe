@@ -10,10 +10,13 @@ loader.config({
   },
 });
 
-interface Config {
+export interface Config {
   language: string;
   tabSize: number;
   opened: File[];
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setOpenedFiles: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
 // pour apoorvaa a bouger dans ton fichier
@@ -25,8 +28,7 @@ export interface File {
 
 // TODO: load the theme that in the config file
 
-const CodeEditor = (props: Config) => {
-  const [currentPage, setCurrentPage] = useState(0);
+export const CodeEditor = (props: Config) => {
 
   if (props.opened.length != 0) {
     const options = {
@@ -40,45 +42,22 @@ const CodeEditor = (props: Config) => {
       });
     };
 
-    const handleChangePage = (index: number) => {
-      setCurrentPage(index);
-      console.log(currentPage);
-      console.log(props.opened[currentPage].content);
-    };
 
     const handleEditorChange = (value: string | undefined) => {
       if (typeof value === "string") {
-        props.opened[currentPage].content = value;
+        props.opened[props.currentPage].content = value;
       }
     };
+
     return (
       <>
-        {/* <div className="block ">
-          <ul className="flex justify-start overflow-x-scroll no-scrollbar">
-            {props.opened && props.opened.length > 0 ? (
-              props.opened.map((content) => (
-                <li
-                  className=" bg-slate-500 px-10"
-                  key={props.opened.indexOf(content)}
-                  onClick={() =>
-                    handleChangePage(props.opened.indexOf(content))
-                  }
-                >
-                  {content.path}
-                </li>
-              ))
-            ) : (
-              <li></li>
-            )}
-          </ul>
-        </div> */}
         <Editor
           height="100%"
           width="100%"
           theme="MonokaiBright"
           defaultLanguage={props.language}
-          value={props.opened[currentPage].content}
-          defaultValue={props.opened[currentPage].content}
+          value={props.opened[props.currentPage].content}
+          defaultValue={props.opened[props.currentPage].content}
           options={options}
           beforeMount={handleEditorDidMount}
           onChange={handleEditorChange}
@@ -87,5 +66,3 @@ const CodeEditor = (props: Config) => {
     );
   }
 };
-
-export default CodeEditor;

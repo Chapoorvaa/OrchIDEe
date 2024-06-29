@@ -1,9 +1,36 @@
 import React from 'react';
+import { Config } from '../codeEditor/CodeEditor';
 
-const StatusBar: React.FC = () => {
+const StatusBar: React.FC<Config> = (props: Config) => {
+
+    const handleChangePage = (index: number) => {
+      props.setCurrentPage(index);
+      console.log(props.currentPage);
+      console.log(props.opened[props.currentPage].content);
+    };
+
     return (
         <div className="flex h-full w-full bg-gray-800 text-gray-100 border-2 border-gray-600 justify-between pr-[50px] pl-[150px]">
             <div className='border-2 border-gray-600 w-[1500px]'>
+                <div className="block ">
+                    <ul className="flex justify-start overflow-x-scroll no-scrollbar">
+                        {props.opened && props.opened.length > 0 ? (
+                            props.opened.map((content) => (
+                                <li
+                                    className=" bg-slate-500 px-10"
+                                    key={props.opened.indexOf(content)}
+                                    onClick={() =>
+                                        handleChangePage(props.opened.indexOf(content))
+                                    }
+                                >
+                                    {content.path}
+                                </li>
+                            ))
+                        ) : (
+                            <li></li>
+                        )}
+                    </ul>
+                </div>
                 coucou
             </div>
             <div className='flex justify-end'>

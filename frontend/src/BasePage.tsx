@@ -4,18 +4,20 @@ import Git from "./git/Git";
 import LeftBar from "./leftBar/LeftBar";
 import FileTree from "./fileTree/fileTree";
 import RightBar from "./rightBar/rightBar";
-import CodeEditor, { File } from "./codeEditor/CodeEditor";
+import { CodeEditor } from "./codeEditor/CodeEditor";
+import { File } from "./codeEditor/CodeEditor";
 import { ProjectDescProps } from "./App";
 import { BottomBar } from "./bottomBar/bottomBar";
 import { Terminal } from "./terminal/terminal";
 import { Settings } from "./settings/Settings";
-import StatusBar from "./statusBar/StatusBar";
+import StatusBar from './statusBar/StatusBar';
+import { Config } from "./codeEditor/CodeEditor"
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
 ) => {
   const [messages, setMessages] = useState<Message[]>([]);
-
+  const [currentPage, setCurrentPage] = useState(0);
   const [leftComponent, setLeftComponent] = useState<string>("");
   const [rightComponent, setRightComponent] = useState<string>("");
   const [showSettings, setShowSettings] = useState<boolean>(true);
@@ -101,6 +103,15 @@ export const BasePage: React.FC<ProjectDescProps> = (
     }
   }
 
+  const configProp = {
+    language: "java",
+    tabSize: 4,
+    opened: openedFiles,
+    currentPage: 0,
+    setCurrentPage: setCurrentPage,
+    setOpenedFiles: setOpenedFiles,
+  }
+
   return (
     <>
       <div
@@ -109,9 +120,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           rightComponent !== ""
         )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
       >
-        <div className="col-span-5">
-          <StatusBar />
-        </div>
+      <div className="col-span-5"><StatusBar {...configProp} /></div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}
@@ -123,7 +132,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           {leftComponent === "gitInterface" && <Git {...desc} />}
         </div>
         <div className="col-start-3 row-start-2">
-          <CodeEditor language="java" tabSize={4} opened={openedFiles} />
+          <CodeEditor {...configProp}/>
         </div>
         <div className="col-start-5 row-start-2">
           <RightBar onShowBot={handleShowBot} />
