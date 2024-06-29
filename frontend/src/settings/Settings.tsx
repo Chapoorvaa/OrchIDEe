@@ -6,6 +6,32 @@ export interface SettingsProps {
 
 export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
   const [settingTab, setSettingTab] = useState<string>("appearance");
+  const [theme, setTheme] = useState<string>("default");
+  const [font, setFont] = useState<string>("arial");
+  const [fontSize, setFontSize] = useState<string>("16");
+  const [spacing, setSpacing] = useState<string>("1.5");
+  const [zoom, setZoom] = useState<string>("100");
+
+  const handleFontSize = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (/^\d*$/.test(newValue)) {
+      setFontSize(newValue);
+    }
+  };
+
+  const handleSpacing = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (/^\d+\.?\d*?$/.test(newValue)) {
+      setSpacing(newValue);
+    }
+  };
+
+  const handleZoom = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (/^\d*$/.test(newValue)) {
+      setZoom(newValue);
+    }
+  };
 
   return (
     <>
@@ -42,7 +68,79 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
             </div>
           </div>
           <div className="flex flex-col w-[66%]">
-            {settingTab === "appearance" && <div>Appearance</div>}
+            {settingTab === "appearance" && (
+              <div className="flex flex-col">
+                <div className="mt-4 ml-8">
+                  <label className="flex items-center text-2xl text-gray-100">
+                    Theme:
+                    <select
+                      value={theme}
+                      onChange={(e) => setTheme(e.target.value)}
+                      className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                    >
+                      <option value="default">Default</option>
+                      <option value="monokailight">MonokaiLight</option>
+                      <option value="theme42">Theme42</option>
+                    </select>
+                  </label>
+                </div>
+                <div className="flex flex-col">
+                  <div className="mt-4 ml-8">
+                    <label className="flex items-center text-2xl text-gray-100">
+                      Font:
+                      <select
+                        value={font}
+                        onChange={(e) => setFont(e.target.value)}
+                        className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                      >
+                        <option value="arial">Arial</option>
+                        <option value="opendys">OpenDys</option>
+                        <option value="font42">Font42</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="mt-4 ml-8">
+                    <label className="flex items-center text-2xl text-gray-100">
+                      Font size:
+                      <input
+                        type="text"
+                        value={fontSize}
+                        onChange={handleFontSize}
+                        className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="mt-4 ml-8">
+                    <label className="flex items-center text-2xl text-gray-100">
+                      Line spacing:
+                      <input
+                        type="text"
+                        value={spacing}
+                        onChange={handleSpacing}
+                        className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="mt-4 ml-8">
+                    <label className="flex items-center text-2xl text-gray-100">
+                      Zoom:
+                      <input
+                        type="text"
+                        value={zoom}
+                        onChange={handleZoom}
+                        className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+            )}
             {settingTab === "shortcuts" && <div>Shortcuts</div>}
           </div>
         </div>
