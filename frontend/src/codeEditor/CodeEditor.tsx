@@ -42,7 +42,6 @@ export const CodeEditor = (props: Config) => {
       });
     };
 
-
     const handleEditorChange = (value: string | undefined) => {
       if (typeof value === "string") {
         props.opened[props.currentPage].content = value;

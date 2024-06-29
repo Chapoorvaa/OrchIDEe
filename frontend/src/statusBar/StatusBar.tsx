@@ -6,6 +6,8 @@ import { ProjectDescProps } from "../App";
 
 export interface StatusBarProps {
     path: string,
+    config: Config,
+    keyy: number,
 }
 
 const StatusBar: React.FC<Config & { desc: ProjectDescProps;
@@ -15,8 +17,9 @@ const StatusBar: React.FC<Config & { desc: ProjectDescProps;
 
     const handleChangePage = (index: number) => {
       props.setCurrentPage(index);
-      console.log(props.currentPage);
-      console.log(props.opened[props.currentPage].content);
+    //    console.log(index);
+    //    console.log(props.currentPage);
+    //    console.log(props.opened[props.currentPage].content);
     };
 
     const handleRun = async () => {
@@ -33,27 +36,24 @@ const StatusBar: React.FC<Config & { desc: ProjectDescProps;
     };
 
     return (
-        <div className="flex h-full w-full bg-gray-800 text-gray-100 border-2 border-gray-600 justify-between pr-[50px] pl-[150px]">
-            <div className='border-2 border-gray-600 w-[1500px]'>
-                <div className="block ">
-                    <ul className="flex justify-start overflow-x-scroll no-scrollbar">
+        <div className="flex h-full w-full bg-gray-800 text-gray-100 border-2 border-gray-600 justify-between">
+            <div className='mr-[50px] ml-[46px]'>
+                    <div className="flex align-center">
                         {props.opened && props.opened.length > 0 ? (
                             props.opened.map((content) => (
-                                <li
-                                    className=" bg-slate-500 px-10"
+                                <div className='p-0 m-0 bg-gray-800 h-[48px]'
                                     key={props.opened.indexOf(content)}
                                     onClick={() =>
                                         handleChangePage(props.opened.indexOf(content))
                                     }
                                 >
-                                   <Tab path={content.path}/>
-                                </li>
+                                   <Tab path={content.path} config={props} keyy={props.opened.indexOf(content)} />
+                                </div>
                             ))
                         ) : (
-                            <li></li>
+                            <div></div>
                         )}
-                    </ul>
-                </div>
+                    </div>
             </div>
             <div className='flex justify-end'>
                 <div className='flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]'>

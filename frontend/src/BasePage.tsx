@@ -112,7 +112,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     language: "java",
     tabSize: 4,
     opened: openedFiles,
-    currentPage: 0,
+    currentPage: currentPage,
     setCurrentPage: setCurrentPage,
     setOpenedFiles: setOpenedFiles,
   }
