@@ -1,5 +1,10 @@
 import React from 'react';
 import { Config } from '../codeEditor/CodeEditor';
+import Tab from './Tab';
+
+export interface StatusBarProps {
+    path: string,
+}
 
 const StatusBar: React.FC<Config> = (props: Config) => {
 
@@ -23,7 +28,7 @@ const StatusBar: React.FC<Config> = (props: Config) => {
                                         handleChangePage(props.opened.indexOf(content))
                                     }
                                 >
-                                    {content.path}
+                                   <Tab path={content.path}/>
                                 </li>
                             ))
                         ) : (
@@ -31,7 +36,6 @@ const StatusBar: React.FC<Config> = (props: Config) => {
                         )}
                     </ul>
                 </div>
-                coucou
             </div>
             <div className='flex justify-end'>
                 <div className='flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]'>
