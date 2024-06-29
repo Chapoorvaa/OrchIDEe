@@ -1,6 +1,7 @@
 import { Editor, loader, type Monaco } from "@monaco-editor/react";
 import Monokai_Bright from "./editor-theme/Monokai.json";
 import path from "path";
+import { useState, useEffect } from "react";
 
 const __editor = path.resolve("node_modules/monaco-editor/min/vs");
 loader.config({
@@ -24,12 +25,16 @@ export interface File {
 }
 
 export const CodeEditor = (props: Config) => {
-  if (props.opened.length === 0) {
-    return <div>No files opened</div>;
-  }
+  const [editorMounted, setEditorMounted] = useState(false);
 
-  if (props.currentPage >= props.opened.length) {
-    props.setCurrentPage(0);
+  useEffect(() => {
+    if (props.opened.length === 0 && props.currentPage !== 0) {
+      props.setCurrentPage(0);
+    }
+  }, [props.opened, props.currentPage, props.setCurrentPage]);
+
+  if (!props.opened[props.currentPage]) {
+    return <div>Invalid file index</div>;
   }
 
   const options = {
@@ -41,11 +46,14 @@ export const CodeEditor = (props: Config) => {
       base: "vs",
       ...Monokai_Bright,
     });
+    setEditorMounted(true);
   };
 
   const handleEditorChange = (value: string | undefined) => {
     if (typeof value === "string") {
-      props.opened[props.currentPage].content = value;
+      const newOpenedFiles = [...props.opened];
+      newOpenedFiles[props.currentPage].content = value;
+      props.setOpenedFiles(newOpenedFiles);
     }
   };
 
@@ -57,7 +65,6 @@ export const CodeEditor = (props: Config) => {
         theme="MonokaiBright"
         defaultLanguage={props.language}
         value={props.opened[props.currentPage].content}
-        defaultValue={props.opened[props.currentPage].content}
         options={options}
         beforeMount={handleEditorDidMount}
         onChange={handleEditorChange}
