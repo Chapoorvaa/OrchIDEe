@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, screen } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
 import { initialize, enable } from "@electron/remote/main/index.js";
@@ -8,9 +8,11 @@ const __dirname = path.dirname(__filename);
 
 const createWindow = async () => {
   initialize();
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: width,
+    height: height,
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs"),
       nodeIntegration: true,
