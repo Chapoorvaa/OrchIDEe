@@ -22,6 +22,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [rightComponent, setRightComponent] = useState<string>("");
   const [showSettings, setShowSettings] = useState<boolean>(true);
   const [showTerminal, setShowTerminal] = useState<boolean>(false);
+  const [terminalContent, setTerminalContent] = useState<string>("");
 
   const File1 = {
     path: "tqt",
@@ -53,7 +54,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
   };
 
   const handleShowTerminalInterface = () => {
-      setShowTerminal(!showTerminal);
+    setShowTerminal(!showTerminal);
   };
 
   const handleShowBot = () => {
@@ -124,7 +125,9 @@ export const BasePage: React.FC<ProjectDescProps> = (
           rightComponent !== ""
         )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
       >
-      <div className="col-span-5"><StatusBar {...configProp} /></div>
+      <div className="col-span-5"><StatusBar {...configProp} playFunction={setShowTerminal}
+                                                             desc={desc}
+                                                             setTerminalContent={setTerminalContent}/></div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}
@@ -146,7 +149,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}
         </div>
         <div className="col-span-5 col-start-1 row-start-3">
-          {showTerminal && <Terminal />}
+          {showTerminal && <Terminal content={terminalContent}/>}
         </div>
         <div className="col-span-5 row-start-4">
           <BottomBar {...bottomProp} />
