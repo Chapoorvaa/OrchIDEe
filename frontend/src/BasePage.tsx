@@ -10,8 +10,8 @@ import { ProjectDescProps } from "./App";
 import { BottomBar } from "./bottomBar/bottomBar";
 import { Terminal } from "./terminal/terminal";
 import { Settings } from "./settings/Settings";
-import StatusBar from './statusBar/StatusBar';
-import { Config } from "./codeEditor/CodeEditor"
+import StatusBar from "./statusBar/StatusBar";
+import { Config } from "./codeEditor/CodeEditor";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
@@ -22,6 +22,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [rightComponent, setRightComponent] = useState<string>("");
   const [showSettings, setShowSettings] = useState<boolean>(true);
   const [showTerminal, setShowTerminal] = useState<boolean>(false);
+  const [theme, setTheme] = useState<string>("white");
 
   const File1 = {
     path: "tqt",
@@ -110,7 +111,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     currentPage: 0,
     setCurrentPage: setCurrentPage,
     setOpenedFiles: setOpenedFiles,
-  }
+  };
 
   return (
     <>
@@ -118,9 +119,13 @@ export const BasePage: React.FC<ProjectDescProps> = (
         className={`m-0 grid h-screen w-screen ${giveMeGridCol(
           leftComponent !== "",
           rightComponent !== ""
-        )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
+        )} ${giveMeGridRow(
+          showTerminal
+        )} bg-skin-bg-medium text-skin-text-primary`}
       >
-      <div className="col-span-5"><StatusBar {...configProp} /></div>
+        <div className="col-span-5 ">
+          <StatusBar {...configProp} />
+        </div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}
@@ -132,7 +137,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           {leftComponent === "gitInterface" && <Git {...desc} />}
         </div>
         <div className="col-start-3 row-start-2">
-          <CodeEditor {...configProp}/>
+          <CodeEditor {...configProp} />
         </div>
         <div className="col-start-5 row-start-2">
           <RightBar onShowBot={handleShowBot} />

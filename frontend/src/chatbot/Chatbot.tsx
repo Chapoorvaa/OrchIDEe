@@ -58,22 +58,22 @@ const Chatbot: React.FC<ChatbotProps> = (prop: ChatbotProps) => {
   }, [prop.messages]);
 
   return (
-    <div className="flex flex-col justify-between items-center border-2 border-gray-600 bg-gray-800 rounded-10 h-full w-full">
+    <div className="flex flex-col justify-between items-center border-2 border-skin-stroke-light bg-skin-bg-dark rounded-10 h-full w-full">
       <div
-        style={{ minHeight: '300px' }}
-        className="overflow-y-auto border border-gray-600 rounded-10 mx-2.5 mt-2.5 bg-gray-700 flex flex-col max-h-[70vh] w-11/12">
+        style={{ minHeight: "300px" }}
+        className="overflow-y-auto border border-skin-stroke-light rounded-10 mx-2.5 mt-2.5 bg-skin-bg-medium flex flex-col max-h-[70vh] w-11/12"
+      >
         {prop.messages.map((message, index) => (
           <div
             key={index}
-            className={`text-gray-800 ${
+            className={`text-skin-text-tertiary ${
               message.isUser ? "text-right" : "text-left"
             } m-2 py-1 px-2 rounded-lg ${
               message.isUser ? "bg-green-200" : "bg-white"
             } inline-block overflow-hidden`}
           >
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                     </ReactMarkdown>
-     {message.text}
+            <ReactMarkdown remarkPlugins={[remarkGfm]}></ReactMarkdown>
+            {message.text}
           </div>
         ))}
         {loading && (
@@ -93,11 +93,11 @@ const Chatbot: React.FC<ChatbotProps> = (prop: ChatbotProps) => {
           value={input}
           onChange={handleInputChange}
           placeholder="Type your message..."
-          className="flex p-2 text-sm rounded-lg border border-gray-100 w-1/2 bg-gray-700 text-gray-100"
+          className="flex p-2 text-sm rounded-lg border border-skin-stroke-light w-1/2 bg-skin-bg-medium text-gray-100"
         />
         <button
           type="submit"
-          className="px-5 py-2 rounded-lg border-gray-100 bg-gray-700 text-white cursor-pointer hover:border-gray-100 hover:bg-gray-600"
+          className="px-5 py-2 rounded-lg border-skin-stroke-light bg-skin-bg-medium text-white cursor-pointer hover:border-skin-stroke-light hover:bg-skin-bg-light"
         >
           Send
         </button>

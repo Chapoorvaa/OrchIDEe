@@ -25,20 +25,50 @@
 html {
   background-color: rgb(55 65 81);
 }
+@layer base {
+  :root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: rgb(55 65 81);
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: rgb(55 65 81);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    --bg-dark: #262e38;
+    --bg-medium: #333c4a;
+    --bg-light: #97a2b5;
+    --stroke-light: #4c576a;
+    --stroke-dark: #262e38;
+    --text-primary: #ffffff;
+    --text-secondary: #808080;
+    --text-tertiary: #343a40;
+
+    .orchidee {
+      --bg-dark: #262e38;
+      --bg-medium: #333c4a;
+      --bg-light: #97a2b5;
+      --stroke-light: #4c576a;
+      --stroke-dark: #262e38;
+      --text-primary: #ffffff;
+      --text-secondary: #808080;
+      --text-tertiary: #343a40;
+    }
+
+    .white {
+      --bg-dark: #ffffff;
+      --bg-medium: #333c4a;
+      --bg-light: #97a2b5;
+      --stroke-light: #4c576a;
+      --stroke-dark: #262e38;
+      --text-primary: #000000;
+    }
+  }
 }
 
 a {

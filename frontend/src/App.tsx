@@ -8,6 +8,7 @@ export interface ProjectDescProps {
   name: string;
   path: string;
   language: string;
+  theme: string;
 }
 
 function App() {
@@ -35,10 +36,11 @@ function App() {
     name,
     path,
     language,
+    theme: projectConfig.theme,
   };
 
   return (
-    <div>
+    <div className={[projectConfig.theme].join(" ")}>
       {!basepage && (
         <HomePage
           projectName={name}

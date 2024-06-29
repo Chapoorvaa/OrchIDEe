@@ -2,7 +2,28 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundColor: {
+        skin: {
+          "bg-dark": "var(--bg-dark)",
+          "bg-medium": "var(--bg-medium)",
+          "bg-light": "var(--bg-light)",
+        },
+      },
+      borderColor: {
+        skin: {
+          "stroke-light": "var(--stroke-light)",
+          "stroke-dark": "var(--stroke-dark)",
+        },
+      },
+      textColor: {
+        skin: {
+          "text-primary": "var(--text-primary)",
+          "text-secondary": "var(--text-secondary)",
+          "text-tertiary": "var(--text-tertiary)",
+        },
+      },
+    },
   },
   plugins: [
     function ({ addUtilities }) {
