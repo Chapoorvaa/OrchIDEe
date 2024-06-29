@@ -8,10 +8,9 @@ import { CodeEditor } from "./codeEditor/CodeEditor";
 import { File } from "./codeEditor/CodeEditor";
 import { ProjectDescProps } from "./App";
 import { BottomBar } from "./bottomBar/bottomBar";
-import { Terminal } from "./terminal/terminal";
+import { Terminal } from "./terminal/Terminal";
 import { Settings } from "./settings/Settings";
-import StatusBar from './statusBar/StatusBar';
-import { Config } from "./codeEditor/CodeEditor"
+import StatusBar from "./statusBar/StatusBar";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
@@ -115,7 +114,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     currentPage: currentPage,
     setCurrentPage: setCurrentPage,
     setOpenedFiles: setOpenedFiles,
-  }
+  };
 
   return (
     <>
@@ -125,9 +124,14 @@ export const BasePage: React.FC<ProjectDescProps> = (
           rightComponent !== ""
         )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
       >
-      <div className="col-span-5"><StatusBar {...configProp} playFunction={setShowTerminal}
-                                                             desc={desc}
-                                                             setTerminalContent={setTerminalContent}/></div>
+        <div className="col-span-5">
+          <StatusBar
+            playFunction={setShowTerminal}
+            desc={desc}
+            setTerminalContent={setTerminalContent}
+            {...configProp}
+          />
+        </div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}
@@ -140,7 +144,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           {leftComponent === "gitInterface" && <Git {...desc} />}
         </div>
         <div className="col-start-3 row-start-2">
-          <CodeEditor {...configProp}/>
+          <CodeEditor {...configProp} />
         </div>
         <div className="col-start-5 row-start-2">
           <RightBar onShowBot={handleShowBot} />
@@ -149,7 +153,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}
         </div>
         <div className="col-span-5 col-start-1 row-start-3">
-          {showTerminal && <Terminal content={terminalContent}/>}
+          {showTerminal && <Terminal content={terminalContent} />}
         </div>
         <div className="col-span-5 row-start-4">
           <BottomBar {...bottomProp} />
