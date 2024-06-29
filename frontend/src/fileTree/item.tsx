@@ -1,4 +1,5 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import RightClick from "./rightClick/rightClick";
 
 const getFileIcon = (fileName) => {
     const extension = fileName.split('.').pop().toLowerCase();
@@ -19,12 +20,35 @@ const getFileIcon = (fileName) => {
 
 const Item = ({item, expandedFolder, toggleFolder}) => {
 
+    const [isRightClickVisible, setRightClickVisible] = useState(false);
+    const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 });
+
     const isOpened = expandedFolder.includes(item.path);
     const fileIcon = getFileIcon(item.name);
 
+    const handleRightClick = (e) => {
+        e.preventDefault();
+        setRightClickVisible(true);
+        setRightClickPosition({ x: e.pageX, y: e.pageY });
+
+    };
+
+    const handleCloseRightClick = () => {
+        setRightClickVisible(false);
+    };
+
+    useEffect(() => {
+        if (isRightClickVisible) {
+            document.addEventListener('click', handleCloseRightClick);
+            return () => {
+                document.removeEventListener('click', handleCloseRightClick);
+            };
+        }
+    }, [isRightClickVisible]);
+
 
     return (
-        <div className="menu-item">
+        <div className="menu-item" onContextMenu={handleRightClick}>
             <div
                 className="flex items-center cursor-pointer pl-4"
                 onClick={() => item.type === "folder" && toggleFolder(item.path)}
@@ -62,6 +86,9 @@ const Item = ({item, expandedFolder, toggleFolder}) => {
 
                     ))}
                 </div>
+            )}
+            {isRightClickVisible && (
+                <RightClick position={rightClickPosition} onClose={handleCloseRightClick} />
             )}
         </div>
     );
