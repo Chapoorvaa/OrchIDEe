@@ -45,7 +45,7 @@ const Item = ({item, expandedFolder, toggleFolder}) => {
                     <img
                         src={fileIcon}
                         alt="File Icon"
-                        className="w-4 h-4 mr-2"
+                        className="w-5 h-5 mr-2"
                     />
                 )}
                 <div>{item.name}</div>

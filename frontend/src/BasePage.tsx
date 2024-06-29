@@ -25,6 +25,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [terminalContent, setTerminalContent] = useState<string>("");
   const [visibleComponent, setVisibleComponent] = useState<string>("");
   const [visibleComponent2, setVisibleComponent2] = useState<string>("");
+  
   const [expandedFolder, setExpandedFolder] = useState<string[]>([]);
 
   const toggleFolder = (path: string) => {
