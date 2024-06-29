@@ -20,7 +20,7 @@ const RightClick: React.FC = () => {
     };
 
     return (
-        <div className="h-full w-[20rem] flex justify-between flex-col bg-gray-800 text-gray-100 border-y-1 border-gray-600">
+        <div className="h-[30px] w-[200px] flex justify-between flex-col bg-gray-800 text-gray-100 border-y-1 border-gray-600">
             
             <BasicComp content="new file" onClick={handleNewFileClick}/>
             <BasicComp content="new folder" onClick={handleNewFolderClick}/>

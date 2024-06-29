@@ -7,16 +7,21 @@ const Item = ({item}) => {
 
     return (
         <div className="menu-item">
-            <div className="flex items-center cursor-pointer" onClick={()=>setIsOpened(!isOpened)}>
-                {item.children && (
-                    <div className="mr-4">
-                        {item.type === "folder" && (
-                            <span className="arrow-icon">{isOpened ? "⌄" : ">"}</span>
-                        )}
-                    </div>
-                )}
+            <div
+                className="flex items-center cursor-pointer pl-4"
+                onClick={() => item.type === "folder" && setIsOpened(!isOpened)}
+            >
                 {item.type === "folder" && (
-                    <img src={"../../public/folder.png"} alt="Folder Icon" className="w-4 h-4 mr-4" />
+                    <>
+                        <span className="mr-2">
+                            <span className="arrow-icon">{isOpened ? "⌄" : ">"}</span>
+                        </span>
+                        <img
+                            src={"../../public/folder.png"}
+                            alt="Folder Icon"
+                            className="w-4 h-4 mr-2"
+                        />
+                    </>
                 )}
                 <div>{item.name}</div>
             </div>
@@ -30,6 +35,5 @@ const Item = ({item}) => {
         </div>
     );
 };
-
 
 export default Item;
