@@ -4,6 +4,7 @@ import Tab from "./Tab";
 import { fetchRunResponse } from "../terminal/TerminalService";
 import { ProjectDescProps } from "../App";
 import { File } from "../codeEditor/CodeEditor";
+import { SettingsProps } from "../settings/Settings";
 
 export interface StatusBarProps {
   opened: File[];
@@ -14,9 +15,12 @@ export interface StatusBarProps {
   Projectname: string;
   ProjectLanguage: string;
   setTerminalContent: React.Dispatch<React.SetStateAction<string>>;
+  settingsProp: SettingsProps;
+  onShowSettings: (arg: boolean) => void;
 }
 
 const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
+
   const handleChangePage = (index: number) => {
     prop.setCurrentPage(index);
   };
@@ -68,7 +72,9 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
         <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]">
           <img src="../save.png" className="w-6 h-6" />
         </div>
-        <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]">
+        <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]"
+          onClick={ () => prop.onShowSettings(true) }
+        >
           <img src="../settings.png" className="w-6 h-6" />
         </div>
         <div

@@ -20,7 +20,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [currentPage, setCurrentPage] = useState(0);
   const [leftComponent, setLeftComponent] = useState<string>("");
   const [rightComponent, setRightComponent] = useState<string>("");
-  const [showSettings, setShowSettings] = useState<boolean>(true);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showTerminal, setShowTerminal] = useState<boolean>(false);
   const [terminalContent, setTerminalContent] = useState<string>("");
 
@@ -126,11 +126,14 @@ export const BasePage: React.FC<ProjectDescProps> = (
           rightComponent !== ""
         )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
       >
-      <div className="col-span-5"><StatusBar opened={openedFiles} currentPage={currentPage} 
-                                              setCurrentPage={setCurrentPage} setOpenedFiles={setOpenedFiles}
-                                              playFunction={setShowTerminal}
-                                              ProjectLanguage={desc.language} Projectname={desc.name}
-                                              setTerminalContent={setTerminalContent}/></div>
+        <div className="col-span-5"><StatusBar opened={openedFiles} currentPage={currentPage}
+          setCurrentPage={setCurrentPage} setOpenedFiles={setOpenedFiles}
+          playFunction={setShowTerminal}
+          ProjectLanguage={desc.language} Projectname={desc.name}
+          setTerminalContent={setTerminalContent}
+          settingsProp={settingsProp}
+          onShowSettings={setShowSettings}
+        /></div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}
