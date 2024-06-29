@@ -52,6 +52,10 @@ export const BasePage: React.FC<ProjectDescProps> = (
     }
   };
 
+  const handleShowTerminalInterface = () => {
+      setShowTerminal(!showTerminal);
+  };
+
   const handleShowBot = () => {
     if (rightComponent === "chatBot") {
       setRightComponent("");
@@ -125,6 +129,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           <LeftBar
             onShowFileTree={handleShowFileTree}
             onShowGitInterface={handleShowGitInterface}
+            onShowTerminalInterface={handleShowTerminalInterface}
           />
         </div>
         <div className="col-start-2 row-start-2">
