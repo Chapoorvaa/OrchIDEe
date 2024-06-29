@@ -11,7 +11,8 @@ public class FileTreeBuilder {
     public FileTree buildTree(Path path) {
         String name = path.getFileName().toString();
         String type = Files.isDirectory(path) ? "folder" : "file";
-        FileTree fTree = new FileTree(name, type);
+        String curPath = path.toString();
+        FileTree fTree = new FileTree(name, type, curPath);
 
         if (Files.isDirectory(path)) {
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
