@@ -1,8 +1,26 @@
 import {useState} from "react";
 
+const getFileIcon = (fileName) => {
+    const extension = fileName.split('.').pop().toLowerCase();
+
+    switch (extension) {
+        case 'cpp':
+        case 'hpp':
+        case 'cc':
+        case 'hh':
+        case 'hxx':
+            return "../../public/cpp.png";
+        case 'java':
+            return "../../public/java.png";
+        default:
+            return null;
+    }
+};
+
 const Item = ({item}) => {
 
     const [isOpened,setIsOpened] = useState(false);
+    const fileIcon = getFileIcon(item.name);
 
 
     return (
@@ -22,6 +40,13 @@ const Item = ({item}) => {
                             className="w-4 h-4 mr-2"
                         />
                     </>
+                )}
+               {item.type === "file" && fileIcon && (
+                    <img
+                        src={fileIcon}
+                        alt="File Icon"
+                        className="w-4 h-4 mr-2"
+                    />
                 )}
                 <div>{item.name}</div>
             </div>

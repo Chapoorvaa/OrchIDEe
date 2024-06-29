@@ -10,7 +10,7 @@ const BasicComp : React.FC<contentProps> = ({content, onClick}) => {
     }
 
     return (
-        <div className="w-full h-full flex justify-between flex-col bg-gray-500 text-gray-100 text-16xl font-bold border-b-2 border-gray-600 cursor-pointer" onClick={handleClick}>
+        <div className="w-full h-full flex justify-between items-center flex-col bg-gray-500 text-gray-100 text-16xl font-bold border-b-2 border-gray-600 cursor-pointer" onClick={handleClick}>
             <h2>{content}</h2>
         </div>
     );
