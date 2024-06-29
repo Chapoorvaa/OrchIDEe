@@ -109,7 +109,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
   }
 
   const configProp = {
-    language: "java",
+    language: desc.language,
     tabSize: 4,
     opened: openedFiles,
     currentPage: currentPage,
@@ -126,14 +126,11 @@ export const BasePage: React.FC<ProjectDescProps> = (
           rightComponent !== ""
         )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
       >
-        <div className="col-span-5">
-          <StatusBar
-            playFunction={setShowTerminal}
-            desc={desc}
-            setTerminalContent={setTerminalContent}
-            {...configProp}
-          />
-        </div>
+      <div className="col-span-5"><StatusBar opened={openedFiles} currentPage={currentPage} 
+                                              setCurrentPage={setCurrentPage} setOpenedFiles={setOpenedFiles}
+                                              playFunction={setShowTerminal}
+                                              ProjectLanguage={desc.language} Projectname={desc.name}
+                                              setTerminalContent={setTerminalContent}/></div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}
