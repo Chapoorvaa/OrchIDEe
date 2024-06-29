@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import {deleteFileorFolder} from './rightClickService';
+import React from 'react';
 import BasicComp from './basicComp';
 
 const RightClick: React.FC = () => {
@@ -18,7 +17,6 @@ const RightClick: React.FC = () => {
 
     const handleDeleteClick = () => {
         console.log("delete clicked");
-        //deleteFileorFolder();
     };
 
     return (
@@ -28,7 +26,6 @@ const RightClick: React.FC = () => {
             <BasicComp content="new folder" onClick={handleNewFolderClick}/>
             <BasicComp content="rename" onClick={handleRenameClick}/>
             <BasicComp content="delete" onClick={handleDeleteClick}/>
-
         </div>
     );
 };
