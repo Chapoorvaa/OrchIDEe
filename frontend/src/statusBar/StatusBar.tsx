@@ -1,8 +1,6 @@
 import React from "react";
-import { Config } from "../codeEditor/CodeEditor";
 import Tab from "./Tab";
 import { fetchRunResponse } from "../terminal/TerminalService";
-import { ProjectDescProps } from "../App";
 import { File } from "../codeEditor/CodeEditor";
 import { SettingsProps } from "../settings/Settings";
 import { fetchSaveResponse } from "../save/saveService";
@@ -50,7 +48,7 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
         prop.opened[prop.currentPage].content
       )
     } catch (error) {
-        console.log("oups");
+        console.log("error on fetch");
       };
     }
   
