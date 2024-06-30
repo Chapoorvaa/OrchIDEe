@@ -67,6 +67,8 @@ html {
       --stroke-light: #e1ebfd;
       --stroke-dark: #91969b;
       --text-primary: #000000;
+      --text-secondary: #262e38;
+      --text-tertiary: #42464c;
     }
 
     .monokai {

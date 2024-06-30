@@ -38,16 +38,32 @@ const StatusBar: React.FC<Config> = (props: Config) => {
       </div>
       <div className="flex justify-end">
         <div className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]">
-          <img src="../save.png" className="w-6 h-6" />
+          <img
+            src={props.theme === "white" ? "../savewhite.png" : "../save.png"}
+            className="w-6 h-6"
+          />
         </div>
         <div className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]">
-          <img src="../settings.png" className="w-6 h-6" />
+          <img
+            src={
+              props.theme === "white"
+                ? "../settingswhite.png"
+                : "../settings.png"
+            }
+            className="w-6 h-6"
+          />
         </div>
         <div className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]">
-          <img src="../play.png" className="w-6 h-6" />
+          <img
+            src={props.theme === "white" ? "../playwhite.png" : "../play.png"}
+            className="w-6 h-6"
+          />
         </div>
         <div className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]">
-          <img src="../build.png" className="w-6 h-6" />
+          <img
+            src={props.theme === "white" ? "../buildwhite.png" : "../build.png"}
+            className="w-6 h-6"
+          />
         </div>
       </div>
     </div>

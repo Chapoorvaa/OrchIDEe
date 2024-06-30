@@ -61,7 +61,7 @@ const Chatbot: React.FC<ChatbotProps> = (prop: ChatbotProps) => {
     <div className="flex flex-col justify-between items-center border-2 border-skin-stroke-light bg-skin-bg-dark rounded-10 h-full w-full">
       <div
         style={{ minHeight: "300px" }}
-        className="overflow-y-auto border border-skin-stroke-light rounded-10 mx-2.5 mt-2.5 bg-skin-bg-medium flex flex-col max-h-[70vh] w-11/12"
+        className="overflow-y-auto border border-skin-stroke-light rounded-10 mx-2.5 mt-2.5 bg-skin-bg-medium flex flex-col max-h-[70vh] text-skin-text-primary w-11/12"
       >
         {prop.messages.map((message, index) => (
           <div
@@ -93,11 +93,11 @@ const Chatbot: React.FC<ChatbotProps> = (prop: ChatbotProps) => {
           value={input}
           onChange={handleInputChange}
           placeholder="Type your message..."
-          className="flex p-2 text-sm rounded-lg border border-skin-stroke-light w-1/2 bg-skin-bg-medium text-gray-100"
+          className="flex p-2 text-sm rounded-lg border border-skin-stroke-light w-1/2 bg-skin-bg-medium text-skin-text-primary"
         />
         <button
           type="submit"
-          className="px-5 py-2 rounded-lg border-skin-stroke-light bg-skin-bg-medium text-white cursor-pointer hover:border-skin-stroke-light hover:bg-skin-bg-light"
+          className="px-5 py-2 rounded-lg border-skin-stroke-light bg-skin-bg-medium text-skin-text-primary cursor-pointer hover:border-skin-stroke-light hover:bg-skin-bg-light"
         >
           Send
         </button>
