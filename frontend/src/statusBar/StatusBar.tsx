@@ -18,10 +18,10 @@ export interface StatusBarProps {
   setTerminalContent: React.Dispatch<React.SetStateAction<string>>;
   settingsProp: SettingsProps;
   onShowSettings: (arg: boolean) => void;
+  theme: string;
 }
 
 const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
-
   const handleChangePage = (index: number) => {
     prop.setCurrentPage(index);
   };
@@ -48,21 +48,20 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
       fetchSaveResponse(
         prop.opened[prop.currentPage].path,
         prop.opened[prop.currentPage].content
-      )
+      );
     } catch (error) {
-        console.log("oups");
-      };
+      console.log("oups");
     }
-  
+  };
 
   return (
-    <div className="flex h-full w-full bg-gray-800 text-gray-100 border-2 border-gray-600 justify-between">
+    <div className="flex h-full w-full bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light justify-between">
       <div className="mr-[50px] ml-[46px]">
         <div className="flex align-center">
           {prop.opened && prop.opened.length > 0 ? (
             prop.opened.map((content) => (
               <div
-                className="p-0 m-0 bg-gray-800 h-[48px]"
+                className="p-0 m-0 bg-skin-bg-dark h-[48px]"
                 key={prop.opened.indexOf(content)}
                 onClick={() => handleChangePage(prop.opened.indexOf(content))}
               >
@@ -73,6 +72,7 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
                   currentPage={prop.currentPage}
                   setOpenedFiles={prop.setOpenedFiles}
                   setCurrentPage={prop.setCurrentPage}
+                  theme={prop.theme}
                 />
               </div>
             ))
@@ -82,23 +82,42 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
         </div>
       </div>
       <div className="flex justify-end">
-        <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]"
-        onClick={handleSave}>
-          <img src="../save.png" className="w-6 h-6" />
-        </div>
-        <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]"
-          onClick={ () => prop.onShowSettings(true) }
+        <div
+          className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]"
+          onClick={handleSave}
         >
-          <img src="../settings.png" className="w-6 h-6" />
+          <img
+            src={prop.theme === "Light" ? "../savewhite.png" : "../save.png"}
+            className="w-6 h-6"
+          />
         </div>
         <div
-          className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]"
+          className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]"
+          onClick={() => prop.onShowSettings(true)}
+        >
+          <img
+            src={
+              prop.theme === "Light"
+                ? "../settingswhite.png"
+                : "../settings.png"
+            }
+            className="w-6 h-6"
+          />
+        </div>
+        <div
+          className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]"
           onClick={handleRun}
         >
-          <img src="../play.png" className="w-6 h-6" />
+          <img
+            src={prop.theme === "Light" ? "../playwhite.png" : "../play.png"}
+            className="w-6 h-6"
+          />
         </div>
-        <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]">
-          <img src="../build.png" className="w-6 h-6" />
+        <div className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]">
+          <img
+            src={prop.theme === "Light" ? "../buildwhite.png" : "../build.png"}
+            className="w-6 h-6"
+          />
         </div>
       </div>
     </div>

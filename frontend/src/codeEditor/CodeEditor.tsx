@@ -1,7 +1,8 @@
 import { Editor, loader, type Monaco } from "@monaco-editor/react";
-import Monokai_Bright from "./editor-theme/Monokai.json";
+import Monokai from "./editor-theme/Monokai.json";
+import Orchidee from "./editor-theme/Orchidee.json";
 import path from "path";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const __editor = path.resolve("node_modules/monaco-editor/min/vs");
 loader.config({
@@ -17,6 +18,10 @@ export interface Config {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setOpenedFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  theme: string;
+  font: string;
+  fontSize: number;
+  lineSpace: number;
 }
 
 export interface File {
@@ -25,8 +30,6 @@ export interface File {
 }
 
 export const CodeEditor = (props: Config) => {
-  const [editorMounted, setEditorMounted] = useState(false);
-
   useEffect(() => {
     if (props.opened.length === 0 && props.currentPage !== 0) {
       props.setCurrentPage(0);
@@ -34,19 +37,25 @@ export const CodeEditor = (props: Config) => {
   }, [props.opened, props.currentPage, props.setCurrentPage]);
 
   if (!props.opened[props.currentPage]) {
-    return <div>Invalid file index</div>;
+    return <div></div>;
   }
 
   const options = {
     tabSize: props.tabSize,
+    fontSize: props.fontSize,
+    fontFamily: props.font,
+    lineHeight: props.lineSpace >= 7 ? 7 : props.lineSpace,
   };
 
   const handleEditorDidMount = (monaco: Monaco) => {
-    monaco.editor.defineTheme("MonokaiBright", {
+    monaco.editor.defineTheme("Monokai", {
       base: "vs",
-      ...Monokai_Bright,
+      ...Monokai,
     });
-    setEditorMounted(true);
+    monaco.editor.defineTheme("Default", {
+      base: "vs",
+      ...Orchidee,
+    });
   };
 
   const handleEditorChange = (value: string | undefined) => {
@@ -57,14 +66,16 @@ export const CodeEditor = (props: Config) => {
     }
   };
 
+  console.log(props);
   return (
     <>
       <Editor
         height="100%"
         width="100%"
-        theme="MonokaiBright"
+        theme={props.theme === "Light" ? "vs" : props.theme}
         defaultLanguage={props.language}
         value={props.opened[props.currentPage].content}
+        defaultValue={props.opened[props.currentPage].content}
         options={options}
         beforeMount={handleEditorDidMount}
         onChange={handleEditorChange}
