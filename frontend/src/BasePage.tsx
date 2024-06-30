@@ -178,8 +178,8 @@ export const BasePage: React.FC<ProjectDescProps> = (
             font={desc.font}
           />
         </div>
-        <div className="col-start-2 row-start-2 font-custom">
-          {leftComponent === "fileTree" && <FileTree />}
+        <div className="col-start-2 row-start-2">
+          {leftComponent === "fileTree" && <FileTree {...desc} expandedFolder={expandedFolder} toggleFolder={toggleFolder} />}
           {leftComponent === "gitInterface" && <Git {...desc} />}
         </div>
         <div className="col-start-3 row-start-2 font-custom">
@@ -205,24 +205,6 @@ export const BasePage: React.FC<ProjectDescProps> = (
 
       <div>{showSettings && <Settings {...settingsProp} />}</div>
     </>
-
-      <div className="col-start-2 row-start-2">
-        {visibleComponent === "fileTree" && <FileTree {...desc} expandedFolder={expandedFolder} toggleFolder={toggleFolder} />}
-        {visibleComponent === "gitInterface" && <Git {...desc} />}
-      </div>
-      <div className="col-start-3 row-start-2">
-        <CodeEditor language="java" tabSize={4} opened={openedFiles} />
-      </div>
-      <div className="col-start-5 row-start-2">
-        <RightBar onShowBot={handleShowBot} />
-      </div>
-      <div className="col-start-4 row-start-2">
-        {visibleComponent2 === "chatBot" && <Chatbot {...desc} />}
-      </div>
-      <div className="col-span-5 row-start-4">Bottom bar</div>
-      <div className="col-start-1 row-start-5"></div>
-    </div>
-
   );
 };
 
