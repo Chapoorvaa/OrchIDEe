@@ -5,6 +5,7 @@ import { fetchRunResponse } from "../terminal/TerminalService";
 import { ProjectDescProps } from "../App";
 import { File } from "../codeEditor/CodeEditor";
 import { SettingsProps } from "../settings/Settings";
+import { fetchSaveResponse } from "../save/saveService";
 
 export interface StatusBarProps {
   opened: File[];
@@ -42,6 +43,18 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
     }
   };
 
+  const handleSave = async () => {
+    try {
+      fetchSaveResponse(
+        prop.opened[prop.currentPage].path,
+        prop.opened[prop.currentPage].content
+      )
+    } catch (error) {
+        console.log("oups");
+      };
+    }
+  
+
   return (
     <div className="flex h-full w-full bg-gray-800 text-gray-100 border-2 border-gray-600 justify-between">
       <div className="mr-[50px] ml-[46px]">
@@ -69,7 +82,8 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
         </div>
       </div>
       <div className="flex justify-end">
-        <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]">
+        <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]"
+        onClick={handleSave}>
           <img src="../save.png" className="w-6 h-6" />
         </div>
         <div className="flex justify-center items-center rounded-none bg-gray-800 hover:opacity-40 hover:border-gray-800 h-[46px] w-[50px]"
