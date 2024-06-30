@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import RightClick from "./rightClick/rightClick";
+import UserInput from "./userInput/userInput";
 
 const getFileIcon = (fileName) => {
     const extension = fileName.split('.').pop().toLowerCase();
@@ -18,10 +19,12 @@ const getFileIcon = (fileName) => {
     }
 };
 
-const Item = ({item, expandedFolder, toggleFolder}) => {
+const Item = ({item, expandedFolder, toggleFolder,onAction}) => {
 
     const [isRightClickVisible, setRightClickVisible] = useState(false);
     const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 });
+    const [inputVisible, setInputVisible] = useState(false);
+    const [inputAction, setInputAction] = useState('');
 
     const isOpened = expandedFolder.includes(item.path);
     const fileIcon = getFileIcon(item.name);
@@ -36,6 +39,25 @@ const Item = ({item, expandedFolder, toggleFolder}) => {
     const handleCloseRightClick = () => {
         setRightClickVisible(false);
     };
+
+    const handleAction = (action) => {
+        if (action === "delete") {
+            onAction(action, item.path);
+        } else {
+            setInputAction(action);
+            setInputVisible(true);
+        }
+    };
+
+    const handleInputSubmit = (name) => {
+        onAction(inputAction, item.path, name);
+        setInputVisible(false);
+    };
+
+    const handleInputCancel = () => {
+        setInputVisible(false);
+    };
+
 
     useEffect(() => {
         if (isRightClickVisible) {
@@ -88,7 +110,15 @@ const Item = ({item, expandedFolder, toggleFolder}) => {
                 </div>
             )}
             {isRightClickVisible && (
-                <RightClick position={rightClickPosition} onClose={handleCloseRightClick} />
+                <RightClick position={rightClickPosition} onClose={handleCloseRightClick} onAction={handleAction} />
+            )}
+            {inputVisible && (
+                <UserInput
+                    title={`${inputAction}`}
+                    placeholder="Enter name"
+                    onSubmit={handleInputSubmit}
+                    onCancel={handleInputCancel}
+                />
             )}
         </div>
     );
