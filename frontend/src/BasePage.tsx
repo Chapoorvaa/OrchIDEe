@@ -126,6 +126,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     theme: desc.theme,
     font: desc.font,
     fontSize: desc.fontSize,
+    lineSpace: desc.spacing,
   };
 
   return (

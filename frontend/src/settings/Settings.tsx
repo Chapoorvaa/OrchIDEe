@@ -31,8 +31,8 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
 
   const handleSpacing = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    if (/^\d+\.?\d*?$/.test(newValue)) {
-      prop.setSpacing((Number(newValue) - 100) / 10);
+    if (/^\d*\.?\d*?$/.test(newValue)) {
+      prop.setSpacing(Number(newValue));
       setSpacing(newValue);
     }
   };
@@ -91,7 +91,10 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
                     Theme:
                     <select
                       value={theme}
-                      onChange={(e) => prop.setTheme(e.target.value)}
+                      onChange={(e) => {
+                        prop.setTheme(e.target.value);
+                        setTheme(e.target.value);
+                      }}
                       className="ml-4 text-xl border-2 border-skin-stroke-light bg-skin-bg-light p-2 rounded-xl"
                     >
                       <option value="Default">Default</option>
@@ -106,7 +109,10 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
                       Font:
                       <select
                         value={font}
-                        onChange={(e) => prop.setFont(e.target.value)}
+                        onChange={(e) => {
+                          prop.setFont(e.target.value);
+                          setFont(e.target.value);
+                        }}
                         className="ml-4 text-xl border-2 border-skin-stroke-light bg-skin-bg-light p-2 rounded-xl"
                       >
                         <option value="Arial">Arial</option>

@@ -27,35 +27,35 @@ html {
 }
 
 @font-face {
-  font-family: "Arial-Custom";
+  font-family: "Arial";
   src: url("../public/Arial.ttf");
   font-style: normal;
   font-weight: normal;
 }
 
 @font-face {
-  font-family: "Courier-Custom";
+  font-family: "Courier";
   src: url("../public/Courier.ttf");
   font-style: normal;
   font-weight: normal;
 }
 
 @font-face {
-  font-family: "Helvetica-Custom";
+  font-family: "Helvetica";
   src: url("../public/Helvetica.ttf");
   font-style: normal;
   font-weight: normal;
 }
 
 @font-face {
-  font-family: "OpenDys-Custom";
+  font-family: "OpenDys";
   src: url("../public/OpenDys.ttf");
   font-style: normal;
   font-weight: normal;
 }
 
 @font-face {
-  font-family: "Verdana-Custom";
+  font-family: "Verdana";
   src: url("../public/Verdana.ttf");
   font-style: normal;
   font-weight: normal;
@@ -119,23 +119,23 @@ html {
     }
 
     .Arial {
-      --custom-family: "Arial-Custom";
+      --custom-family: "Arial";
     }
 
     .Courier {
-      --custom-family: "Courier-Custom";
+      --custom-family: "Courier";
     }
 
     .Helvetica {
-      --custom-family: "Helvetica-Custom";
+      --custom-family: "Helvetica";
     }
 
     .OpenDys {
-      --custom-family: "OpenDys-Custom";
+      --custom-family: "OpenDys";
     }
 
     .Verdana {
-      --custom-family: "Verdana-Custom";
+      --custom-family: "Verdana";
     }
   }
 }

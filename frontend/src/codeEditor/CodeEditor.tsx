@@ -21,6 +21,7 @@ export interface Config {
   theme: string;
   font: string;
   fontSize: number;
+  lineSpace: number;
 }
 
 export interface File {
@@ -44,7 +45,8 @@ export const CodeEditor = (props: Config) => {
   const options = {
     tabSize: props.tabSize,
     fontSize: props.fontSize,
-    font: props.font,
+    fontFamily: props.font,
+    lineHeight: props.lineSpace,
   };
 
   const handleEditorDidMount = (monaco: Monaco) => {
@@ -66,6 +68,7 @@ export const CodeEditor = (props: Config) => {
     }
   };
 
+  console.log(props);
   return (
     <>
       <Editor
