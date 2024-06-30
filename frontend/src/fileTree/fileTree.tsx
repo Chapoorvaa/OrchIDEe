@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { ProjectDescProps } from "../App";
 import RightClick from "./rightClick/rightClick";
-import { buildFileTree } from "./fileTreeService";
+import {buildFileTree, createFile, createFolder, deleteFileorFolder, isDirectory, renameFileorFolder} from './fileTreeService';
 import Menu from "./menu";
 import ProjectItem from "./projectItem";
 import UserInput from './userInput/userInput';
+import * as path from 'path';
 
 const FileTree: React.FC<ProjectDescProps & {expandedFolder: string[], toggleFolder: (path: string) => void}> =  (desc) => {
   const [fileTree, setFileTree] = useState<string>("");
@@ -34,30 +35,35 @@ const FileTree: React.FC<ProjectDescProps & {expandedFolder: string[], toggleFol
         fetchFileTree();
     }, [desc.path]);
 
-    const handleAction = (action, path, name) => {
+    const handleAction = async (action, srcpath, name) => {
+        setFileTree("");
         switch (action) {
             case "new file":
-                console.log(name);
-                console.log(path);
-
+                let newPath = srcpath + '/' + name;
+                console.log(newPath);
+                createFile(newPath);
                 break;
+
             case "new folder":
+                let newFolderPath = srcpath + '/' + name;
                 console.log("new folder");
-
+                createFolder(newFolderPath);
                 break;
+
             case "rename":
                 console.log("rename");
-
+                renameFileorFolder(name, srcpath);
                 break;
+
             case "delete":
                 console.log("delete");
-                console.log(path);
+                deleteFileorFolder(srcpath);
                 break;
+
             default:
                 break;
         }
-
-        fetchFileTree();
+        await fetchFileTree();
     };
 
     if (!fileTree) {

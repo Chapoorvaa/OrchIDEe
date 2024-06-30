@@ -1,3 +1,15 @@
+import * as fs from 'fs';
+
+export function isDirectory(path: string): boolean {
+    try {
+        const stats = fs.statSync(path);
+        return stats.isDirectory();
+    } catch (err) {
+        console.error(`Error checking ${path}: ${err}`);
+        return false;
+    }
+}
+
 interface FileTreeResponse {
     json: string;
   }
@@ -28,7 +40,7 @@ export const buildFileTree = async (rootPath: string): Promise<string> => {
     }
 }
 
-export const createFile = async (userInput: string, path: string): Promise<void> => {
+export const createFile = async (path: string): Promise<void> => {
     const apiUrl = 'http://localhost:8080/api/create/file';
 
     try {
@@ -38,7 +50,7 @@ export const createFile = async (userInput: string, path: string): Promise<void>
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "path": path + userInput
+                "path": path
             }),
         });
 
@@ -51,7 +63,7 @@ export const createFile = async (userInput: string, path: string): Promise<void>
     }
 };
 
-export const createFolder = async (userInput: string, path: string): Promise<void> => {
+export const createFolder = async (path: string): Promise<void> => {
     const apiUrl = 'http://localhost:8080/api/create/folder';
 
     try {
@@ -61,7 +73,7 @@ export const createFolder = async (userInput: string, path: string): Promise<voi
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "path": path + userInput
+                "path": path
             }),
         });
 

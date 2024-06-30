@@ -28,11 +28,11 @@ export const BasePage: React.FC<ProjectDescProps> = (
   
   const [expandedFolder, setExpandedFolder] = useState<string[]>([]);
 
-  const toggleFolder = (path: string) => {
+  const toggleFolder = (tf: string) => {
         setExpandedFolder((prevExpandedFolder) =>
-            prevExpandedFolder.includes(path)
-                ? prevExpandedFolder.filter((folder) => folder !== path)
-                : [...prevExpandedFolder, path]
+            prevExpandedFolder.includes(tf)
+                ? prevExpandedFolder.filter((folder) => folder !== tf)
+                : [...prevExpandedFolder, tf]
         );
     };
 
@@ -141,6 +141,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     fontSize: desc.fontSize,
     lineSpace: desc.spacing,
   };
+  console.log(desc.path);
 
   return (
     <>

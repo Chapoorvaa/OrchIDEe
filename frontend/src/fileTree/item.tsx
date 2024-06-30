@@ -30,7 +30,7 @@ const Item = ({item, expandedFolder, toggleFolder,onAction}) => {
     const fileIcon = getFileIcon(item.name);
 
     const handleRightClick = (e) => {
-        e.preventDefault();
+        e.stopPropagation();
         setRightClickVisible(true);
         setRightClickPosition({ x: e.pageX, y: e.pageY });
 
