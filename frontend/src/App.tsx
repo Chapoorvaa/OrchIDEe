@@ -1,6 +1,6 @@
 import { BasePage } from "./BasePage";
 import HomePage from "./home_page/HomePage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import projectConfig from "../config.json";
 import fs from "fs";
 
@@ -41,6 +41,25 @@ function App() {
     spacing: spacing,
     setSpacing: setSpacing,
   };
+
+  useEffect(() => {
+    projectConfig.font = font;
+    projectConfig.theme = theme;
+    projectConfig.fontSize = fontSize;
+    projectConfig.spacing = spacing;
+
+    fs.writeFile(
+      "config.json",
+      JSON.stringify(projectConfig, null, 2),
+      (err) => {
+        if (err) {
+          console.log("Error writing to file", err);
+        } else {
+          console.log("Configuration saved succesfully");
+        }
+      }
+    );
+  }, [theme, font, spacing, fontSize]);
 
   return (
     <div className={[theme, font].join(" ")}>
