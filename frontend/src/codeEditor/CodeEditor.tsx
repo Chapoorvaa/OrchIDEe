@@ -39,7 +39,7 @@ export const CodeEditor = (props: Config) => {
   }, [props.opened, props.currentPage, props.setCurrentPage]);
 
   if (!props.opened[props.currentPage]) {
-    return <div>Invalid file index</div>;
+    return <div></div>;
   }
 
   const options = {
