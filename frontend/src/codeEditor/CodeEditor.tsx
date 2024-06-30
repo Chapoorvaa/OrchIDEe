@@ -2,7 +2,7 @@ import { Editor, loader, type Monaco } from "@monaco-editor/react";
 import Monokai from "./editor-theme/Monokai.json";
 import Orchidee from "./editor-theme/Orchidee.json";
 import path from "path";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const __editor = path.resolve("node_modules/monaco-editor/min/vs");
 loader.config({
@@ -30,8 +30,6 @@ export interface File {
 }
 
 export const CodeEditor = (props: Config) => {
-  const [editorMounted, setEditorMounted] = useState(false);
-
   useEffect(() => {
     if (props.opened.length === 0 && props.currentPage !== 0) {
       props.setCurrentPage(0);
@@ -46,7 +44,7 @@ export const CodeEditor = (props: Config) => {
     tabSize: props.tabSize,
     fontSize: props.fontSize,
     fontFamily: props.font,
-    lineHeight: props.lineSpace,
+    lineHeight: props.lineSpace >= 7 ? 7 : props.lineSpace,
   };
 
   const handleEditorDidMount = (monaco: Monaco) => {

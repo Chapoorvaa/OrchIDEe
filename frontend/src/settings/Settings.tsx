@@ -19,7 +19,9 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
   const [font, setFont] = useState<string>(prop.font);
   const [fontSize, setFontSize] = useState<string>("" + prop.fontSize);
   const [spacing, setSpacing] = useState<string>("" + prop.spacing);
-  const [zoom, setZoom] = useState<string>("" + webFrame.getZoomLevel());
+  const [zoom, setZoom] = useState<string>(
+    "" + (webFrame.getZoomLevel() * 10 + 100)
+  );
 
   const handleFontSize = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
