@@ -36,34 +36,34 @@ const FileTree: React.FC<ProjectDescProps & {expandedFolder: string[], toggleFol
     }, [desc.path]);
 
     const handleAction = async (action, srcpath, name) => {
-        setFileTree("");
+
         switch (action) {
             case "new file":
                 let newPath = srcpath + '/' + name;
                 console.log(newPath);
-                createFile(newPath);
+                await createFile(newPath);
                 break;
 
             case "new folder":
                 let newFolderPath = srcpath + '/' + name;
                 console.log("new folder");
-                createFolder(newFolderPath);
+                await createFolder(newFolderPath);
                 break;
 
             case "rename":
                 console.log("rename");
-                renameFileorFolder(name, srcpath);
+                await renameFileorFolder(name, srcpath);
                 break;
 
             case "delete":
                 console.log("delete");
-                deleteFileorFolder(srcpath);
+                await deleteFileorFolder(srcpath);
                 break;
 
             default:
                 break;
         }
-        await fetchFileTree();
+        fetchFileTree();
     };
 
     if (!fileTree) {
