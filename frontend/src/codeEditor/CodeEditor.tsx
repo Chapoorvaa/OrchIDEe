@@ -1,5 +1,6 @@
 import { Editor, loader, type Monaco } from "@monaco-editor/react";
-import Monokai_Bright from "./editor-theme/Monokai.json";
+import Monokai from "./editor-theme/Monokai.json";
+import Orchidee from "./editor-theme/Orchidee.json";
 import path from "path";
 import { useState, useEffect } from "react";
 
@@ -17,6 +18,9 @@ export interface Config {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setOpenedFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  theme: string;
+  font: string;
+  fontSize: number;
 }
 
 export interface File {
@@ -42,11 +46,14 @@ export const CodeEditor = (props: Config) => {
   };
 
   const handleEditorDidMount = (monaco: Monaco) => {
-    monaco.editor.defineTheme("MonokaiBright", {
+    monaco.editor.defineTheme("monokai", {
       base: "vs",
-      ...Monokai_Bright,
+      ...Monokai,
     });
-    setEditorMounted(true);
+    monaco.editor.defineTheme("orchidee", {
+      base: "vs",
+      ...Orchidee,
+    });
   };
 
   const handleEditorChange = (value: string | undefined) => {
@@ -56,15 +63,16 @@ export const CodeEditor = (props: Config) => {
       props.setOpenedFiles(newOpenedFiles);
     }
   };
-
+  console.log(props);
   return (
     <>
       <Editor
         height="100%"
         width="100%"
-        theme="MonokaiBright"
+        theme={props.theme === "white" ? "vs" : props.theme}
         defaultLanguage={props.language}
         value={props.opened[props.currentPage].content}
+        defaultValue={props.opened[props.currentPage].content}
         options={options}
         beforeMount={handleEditorDidMount}
         onChange={handleEditorChange}

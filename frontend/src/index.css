@@ -26,19 +26,75 @@ html {
   background-color: rgb(55 65 81);
 }
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@font-face {
+  font-family: "opendys";
+  src: url("../public/OpenDyslexic3-Regular.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: rgb(55 65 81);
+@layer base {
+  :root {
+    line-height: 1.5;
+    font-weight: 400;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: rgb(55 65 81);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "opendys";
+
+    --bg-dark: #262e38;
+    --bg-medium: #333c4a;
+    --bg-light: #97a2b5;
+    --stroke-light: #4c576a;
+    --stroke-dark: #262e38;
+    --text-primary: #ffffff;
+    --text-secondary: #808080;
+    --text-tertiary: #343a40;
+    --custom-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+    .orchidee {
+      --bg-dark: #262e38;
+      --bg-medium: #333c4a;
+      --bg-light: #97a2b5;
+      --stroke-light: #4c576a;
+      --stroke-dark: #262e38;
+      --text-primary: #ffffff;
+      --text-secondary: #808080;
+      --text-tertiary: #343a40;
+    }
+
+    .white {
+      --bg-dark: #f6f6f6;
+      --bg-medium: #dbe0e6;
+      --bg-light: #ced6e8;
+      --stroke-light: #e1ebfd;
+      --stroke-dark: #91969b;
+      --text-primary: #000000;
+      --text-secondary: #262e38;
+      --text-tertiary: #42464c;
+    }
+
+    .monokai {
+      --bg-dark: #272822;
+      --bg-medium: #49483e;
+      --bg-light: #c2c3c6;
+      --stroke-light: #42464c;
+      --stroke-dark: #0c1520;
+      --text-primary: #f8f8f2;
+      --text-secondary: #808080;
+      --text-tertiary: #343a40;
+    }
+
+    .opendys {
+      --custom-family: "opendys";
+    }
+  }
 }
 
 a {

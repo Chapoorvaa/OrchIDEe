@@ -115,8 +115,12 @@ export const BasePage: React.FC<ProjectDescProps> = (
     currentPage: currentPage,
     setCurrentPage: setCurrentPage,
     setOpenedFiles: setOpenedFiles,
+    theme: desc.theme,
+    font: desc.font,
+    fontSize: desc.fontSize,
   };
 
+  console.log(configProp);
   return (
     <>
       <Shortcut />
@@ -126,19 +130,27 @@ export const BasePage: React.FC<ProjectDescProps> = (
           rightComponent !== ""
         )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
       >
-        <div className="col-span-5"><StatusBar opened={openedFiles} currentPage={currentPage}
-          setCurrentPage={setCurrentPage} setOpenedFiles={setOpenedFiles}
-          playFunction={setShowTerminal}
-          ProjectLanguage={desc.language} Projectname={desc.name}
-          setTerminalContent={setTerminalContent}
-          settingsProp={settingsProp}
-          onShowSettings={setShowSettings}
-        /></div>
+        <div className="col-span-5">
+          <StatusBar
+            opened={openedFiles}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            setOpenedFiles={setOpenedFiles}
+            playFunction={setShowTerminal}
+            ProjectLanguage={desc.language}
+            Projectname={desc.name}
+            setTerminalContent={setTerminalContent}
+            settingsProp={settingsProp}
+            onShowSettings={setShowSettings}
+            theme={desc.theme}
+          />
+        </div>
         <div className="col-start-1 row-start-2">
           <LeftBar
             onShowFileTree={handleShowFileTree}
             onShowGitInterface={handleShowGitInterface}
             onShowTerminalInterface={handleShowTerminalInterface}
+            theme={desc.theme}
           />
         </div>
         <div className="col-start-2 row-start-2">
@@ -149,7 +161,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           <CodeEditor {...configProp} />
         </div>
         <div className="col-start-5 row-start-2">
-          <RightBar onShowBot={handleShowBot} />
+          <RightBar onShowBot={handleShowBot} theme={desc.theme} />
         </div>
         <div className="col-start-4 row-start-2">
           {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}

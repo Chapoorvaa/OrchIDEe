@@ -8,6 +8,7 @@ export interface TabProps {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setOpenedFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  theme: string;
 }
 
 const Tab: React.FC<TabProps> = (prop: TabProps) => {
@@ -51,7 +52,7 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
 
   return (
     <div
-      className={`flex h-[48px] min-w-[36px] bg-gray-800 text-gray-100 border-2 border-gray-600 ${
+      className={`flex h-[48px] min-w-[36px] bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light ${
         isHovered ? "brightness-125" : "brightness-100"
       }`}
       onMouseEnter={() => setIsHovered(true)}
@@ -73,7 +74,7 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
       </div>
       <div className="flex justify-center items-center" onClick={handleClick}>
         <img
-          src="../cross.png"
+          src={prop.theme === "white" ? "./crosswhite.png" : "./cross.png"}
           alt="cross"
           className={`ml-2 mr-2 h-[14px] w-[14px] hover:opacity-60 ${
             isHovered ? "opacity-100" : "opacity-0"

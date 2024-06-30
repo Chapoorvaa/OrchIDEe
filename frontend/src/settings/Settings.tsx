@@ -35,9 +35,9 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
 
   return (
     <>
-      <div className="fixed top-1/4 left-1/2 translate-x-[-50%] h-[50vh] w-[42vw] bg-gray-600 border-2 border-gray-600 overflow-hidden rounded-xl">
-        <div className="flex flex-nowrap items-center h-[50px] bg-gray-800">
-          <div className="flex items-center justify-center grow h-full text-xl">
+      <div className="fixed top-1/4 left-1/2 translate-x-[-50%] h-[50vh] w-[42vw] bg-skin-bg-light border-2 border-skin-stroke-light overflow-hidden rounded-xl">
+        <div className="flex flex-nowrap items-center h-[50px] bg-skin-bg-dark">
+          <div className="flex items-center justify-center grow h-full text-xl text-skin-text-primary">
             Settings
           </div>
           <img
@@ -46,12 +46,14 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
             src="../cross.png"
           />
         </div>
-        <div className="flex h-full border-gray-600 border-b-2">
-          <div className="flex flex-col bg-gray-800 w-[33%]">
+        <div className="flex h-full border-skin-stroke-light border-b-2">
+          <div className="flex flex-col bg-skin-bg-dark w-[33%]">
             <div
               className={
-                `flex justify-center items-center text-lg py-2 border-gray-600 border-y-2` +
-                (settingTab === "appearance" ? " bg-gray-600" : "")
+                `flex justify-center items-center text-lg py-2 border-skin-stroke-light border-y-2` +
+                (settingTab === "appearance"
+                  ? " bg-skin-bg-light"
+                  : " text-skin-text-primary")
               }
               onClick={() => setSettingTab("appearance")}
             >
@@ -59,8 +61,10 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
             </div>
             <div
               className={
-                `flex justify-center items-center text-lg py-2 border-gray-600 border-y-2` +
-                (settingTab === "shortcuts" ? " bg-gray-600" : "")
+                `flex justify-center items-center text-lg py-2 border-skin-stroke-light border-y-2` +
+                (settingTab === "shortcuts"
+                  ? " bg-skin-bg-light"
+                  : " text-skin-text-primary")
               }
               onClick={() => setSettingTab("shortcuts")}
             >
@@ -71,12 +75,12 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
             {settingTab === "appearance" && (
               <div className="flex flex-col">
                 <div className="my-4 mx-8">
-                  <label className="flex items-center text-2xl text-gray-100">
+                  <label className="flex items-center text-2xl ">
                     Theme:
                     <select
                       value={theme}
                       onChange={(e) => setTheme(e.target.value)}
-                      className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                      className="ml-4 text-xl border-2 border-skin-stroke-light bg-skin-bg-light p-2 rounded-xl"
                     >
                       <option value="default">Default</option>
                       <option value="monokailight">MonokaiLight</option>
@@ -86,12 +90,12 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
                 </div>
                 <div className="flex flex-col">
                   <div className="mt-4 ml-8">
-                    <label className="flex items-center text-2xl text-gray-100">
+                    <label className="flex items-center text-2xl">
                       Font:
                       <select
                         value={font}
                         onChange={(e) => setFont(e.target.value)}
-                        className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                        className="ml-4 text-xl border-2 border-skin-stroke-light bg-skin-bg-light p-2 rounded-xl"
                       >
                         <option value="arial">Arial</option>
                         <option value="opendys">OpenDys</option>
@@ -102,39 +106,39 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
                 </div>
                 <div className="flex flex-col">
                   <div className="mt-4 ml-8">
-                    <label className="flex items-center text-2xl text-gray-100">
+                    <label className="flex items-center text-2xl">
                       Font size:
                       <input
                         type="text"
                         value={fontSize}
                         onChange={handleFontSize}
-                        className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                        className="ml-4 text-xl border-2 border-skin-stroke-light bg-skin-bg-light p-2 rounded-xl"
                       />
                     </label>
                   </div>
                 </div>
                 <div className="flex flex-col">
                   <div className="mt-4 ml-8">
-                    <label className="flex items-center text-2xl text-gray-100">
+                    <label className="flex items-center text-2xl">
                       Line spacing:
                       <input
                         type="text"
                         value={spacing}
                         onChange={handleSpacing}
-                        className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                        className="ml-4 text-xl border-2 border-skin-stroke-light bg-skin-bg-light p-2 rounded-xl"
                       />
                     </label>
                   </div>
                 </div>
                 <div className="flex flex-col">
                   <div className="mt-4 ml-8">
-                    <label className="flex items-center text-2xl text-gray-100">
+                    <label className="flex items-center text-2xl ">
                       Zoom:
                       <input
                         type="text"
                         value={zoom}
                         onChange={handleZoom}
-                        className="ml-4 text-xl border-2 border-gray-100 bg-gray-600 p-2 rounded-xl"
+                        className="ml-4 text-xl border-2 border-skin-stroke-light bg-skin-bg-light p-2 rounded-xl"
                       />
                     </label>
                   </div>
