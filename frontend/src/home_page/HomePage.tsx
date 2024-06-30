@@ -24,7 +24,7 @@ const HomePage: React.FC<HomePageProps> = ({
 }) => {
   const [homepage, setHomepage] = useState(true);
   return (
-    <div className="flex flex-col justify-center w-screen h-screen bg-skin-bg-medium">
+    <div className="flex flex-col justify-center w-screen h-screen bg-skin-bg-medium font-custom">
       <Header homepage={homepage} />
       {homepage && (
         <CenterCube

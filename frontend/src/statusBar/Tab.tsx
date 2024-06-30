@@ -74,7 +74,7 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
       </div>
       <div className="flex justify-center items-center" onClick={handleClick}>
         <img
-          src={prop.theme === "white" ? "./crosswhite.png" : "./cross.png"}
+          src={prop.theme === "Light" ? "./crosswhite.png" : "./cross.png"}
           alt="cross"
           className={`ml-2 mr-2 h-[14px] w-[14px] hover:opacity-60 ${
             isHovered ? "opacity-100" : "opacity-0"

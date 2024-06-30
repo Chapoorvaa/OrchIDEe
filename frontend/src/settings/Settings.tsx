@@ -2,11 +2,12 @@ import React, { useState } from "react";
 
 export interface SettingsProps {
   toggleInterface: () => void;
+  theme: string;
 }
 
 export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
   const [settingTab, setSettingTab] = useState<string>("appearance");
-  const [theme, setTheme] = useState<string>("default");
+  const [theme, setTheme] = useState<string>(prop.theme);
   const [font, setFont] = useState<string>("arial");
   const [fontSize, setFontSize] = useState<string>("16");
   const [spacing, setSpacing] = useState<string>("1.5");
@@ -43,7 +44,7 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
           <img
             className="h-[20px] w-[20px] mr-4"
             onClick={prop.toggleInterface}
-            src="../cross.png"
+            src={prop.theme == "Light" ? "../crosswhite.png" : "../cross.png"}
           />
         </div>
         <div className="flex h-full border-skin-stroke-light border-b-2">

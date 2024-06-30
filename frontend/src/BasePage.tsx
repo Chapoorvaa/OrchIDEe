@@ -86,6 +86,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
 
   const settingsProp = {
     toggleInterface: toggleSettings,
+    theme: desc.theme,
   };
 
   function giveMeGridCol(left: boolean, right: boolean) {
@@ -125,12 +126,14 @@ export const BasePage: React.FC<ProjectDescProps> = (
     <>
       <Shortcut />
       <div
-        className={`m-0 grid h-screen w-screen ${giveMeGridCol(
+        className={`m-0 grid h-screen w-screen font-custom ${giveMeGridCol(
           leftComponent !== "",
           rightComponent !== ""
-        )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
+        )} ${giveMeGridRow(
+          showTerminal
+        )} bg-skin-bg-medium text-skin-text-primary`}
       >
-        <div className="col-span-5">
+        <div className="col-span-5 font-custom">
           <StatusBar
             opened={openedFiles}
             currentPage={currentPage}
@@ -145,31 +148,36 @@ export const BasePage: React.FC<ProjectDescProps> = (
             theme={desc.theme}
           />
         </div>
-        <div className="col-start-1 row-start-2">
+        <div className="col-start-1 row-start-2 font-custom">
           <LeftBar
             onShowFileTree={handleShowFileTree}
             onShowGitInterface={handleShowGitInterface}
             onShowTerminalInterface={handleShowTerminalInterface}
             theme={desc.theme}
+            font={desc.font}
           />
         </div>
-        <div className="col-start-2 row-start-2">
+        <div className="col-start-2 row-start-2 font-custom">
           {leftComponent === "fileTree" && <FileTree />}
           {leftComponent === "gitInterface" && <Git {...desc} />}
         </div>
-        <div className="col-start-3 row-start-2">
+        <div className="col-start-3 row-start-2 font-custom">
           <CodeEditor {...configProp} />
         </div>
-        <div className="col-start-5 row-start-2">
-          <RightBar onShowBot={handleShowBot} theme={desc.theme} />
+        <div className="col-start-5 row-start-2 font-custom">
+          <RightBar
+            onShowBot={handleShowBot}
+            theme={desc.theme}
+            font={desc.font}
+          />
         </div>
-        <div className="col-start-4 row-start-2">
+        <div className="col-start-4 row-start-2 font-custom">
           {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}
         </div>
-        <div className="col-span-5 col-start-1 row-start-3">
+        <div className="col-span-5 col-start-1 row-start-3 font-custom">
           {showTerminal && <Terminal content={terminalContent} />}
         </div>
-        <div className="col-span-5 row-start-4">
+        <div className="col-span-5 row-start-4 font-custom">
           <BottomBar {...bottomProp} />
         </div>
       </div>

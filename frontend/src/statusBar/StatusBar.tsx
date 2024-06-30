@@ -87,7 +87,7 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
           onClick={handleSave}
         >
           <img
-            src={prop.theme === "white" ? "../savewhite.png" : "../save.png"}
+            src={prop.theme === "Light" ? "../savewhite.png" : "../save.png"}
             className="w-6 h-6"
           />
         </div>
@@ -97,7 +97,7 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
         >
           <img
             src={
-              prop.theme === "white"
+              prop.theme === "Light"
                 ? "../settingswhite.png"
                 : "../settings.png"
             }
@@ -109,13 +109,13 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
           onClick={handleRun}
         >
           <img
-            src={prop.theme === "white" ? "../playwhite.png" : "../play.png"}
+            src={prop.theme === "Light" ? "../playwhite.png" : "../play.png"}
             className="w-6 h-6"
           />
         </div>
         <div className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]">
           <img
-            src={prop.theme === "white" ? "../buildwhite.png" : "../build.png"}
+            src={prop.theme === "Light" ? "../buildwhite.png" : "../build.png"}
             className="w-6 h-6"
           />
         </div>

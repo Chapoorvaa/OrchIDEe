@@ -5,6 +5,7 @@ interface LeftBarProps {
   onShowGitInterface: () => void;
   onShowTerminalInterface: () => void;
   theme: string;
+  font: string;
 }
 
 const LeftBar: React.FC<LeftBarProps> = ({
@@ -12,6 +13,7 @@ const LeftBar: React.FC<LeftBarProps> = ({
   onShowGitInterface,
   onShowTerminalInterface,
   theme,
+  font,
 }) => {
   return (
     <div className="flex flex-col justify-between h-full border-x-2 border-skin-stroke-light bg-skin-bg-dark">
@@ -23,11 +25,9 @@ const LeftBar: React.FC<LeftBarProps> = ({
             className="flex items-center text-skin-text-primary font-semibold h-[17vh] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
           >
             <img
-              src={
-                theme !== "orchidee"
-                  ? ["../projectButton", `${theme}`, ".png"].join("")
-                  : "../projectButton.png"
-              }
+              src={["../projectButton/", `${theme}`, `${font}`, ".png"].join(
+                ""
+              )}
               alt="Project Button"
             />
           </button>
@@ -39,11 +39,7 @@ const LeftBar: React.FC<LeftBarProps> = ({
             className="flex items-center text-skin-text-primary font-semibold h-[13vh] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
           >
             <img
-              src={
-                theme !== "orchidee"
-                  ? ["../gitButton", `${theme}`, ".png"].join("")
-                  : "../gitButton.png"
-              }
+              src={["../gitButton/", `${theme}`, `${font}`, ".png"].join("")}
               alt="Git Button"
             />
           </button>
@@ -56,7 +52,7 @@ const LeftBar: React.FC<LeftBarProps> = ({
           className="flex items-center text-skin-text-primary font-semibold h-[5vh] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
         >
           <img
-            src={theme === "white" ? "../playwhite.png" : "../play.png"}
+            src={theme === "Light" ? "../playwhite.png" : "../play.png"}
             alt="Terminal Button"
             className="mx-auto size-8"
           />

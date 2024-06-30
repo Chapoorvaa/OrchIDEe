@@ -46,11 +46,11 @@ export const CodeEditor = (props: Config) => {
   };
 
   const handleEditorDidMount = (monaco: Monaco) => {
-    monaco.editor.defineTheme("monokai", {
+    monaco.editor.defineTheme("Monokai", {
       base: "vs",
       ...Monokai,
     });
-    monaco.editor.defineTheme("orchidee", {
+    monaco.editor.defineTheme("Default", {
       base: "vs",
       ...Orchidee,
     });
@@ -69,7 +69,7 @@ export const CodeEditor = (props: Config) => {
       <Editor
         height="100%"
         width="100%"
-        theme={props.theme === "white" ? "vs" : props.theme}
+        theme={props.theme === "Light" ? "vs" : props.theme}
         defaultLanguage={props.language}
         value={props.opened[props.currentPage].content}
         defaultValue={props.opened[props.currentPage].content}

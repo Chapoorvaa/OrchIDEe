@@ -27,8 +27,36 @@ html {
 }
 
 @font-face {
-  font-family: "opendys";
-  src: url("../public/OpenDyslexic3-Regular.ttf");
+  font-family: "Arial-Custom";
+  src: url("../public/Arial.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Courier-Custom";
+  src: url("../public/Courier.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Helvetica-Custom";
+  src: url("../public/Helvetica.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "OpenDys-Custom";
+  src: url("../public/OpenDys.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Verdana-Custom";
+  src: url("../public/Verdana.ttf");
   font-style: normal;
   font-weight: normal;
 }
@@ -46,7 +74,6 @@ html {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: "opendys";
 
     --bg-dark: #262e38;
     --bg-medium: #333c4a;
@@ -58,7 +85,7 @@ html {
     --text-tertiary: #343a40;
     --custom-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-    .orchidee {
+    .Default {
       --bg-dark: #262e38;
       --bg-medium: #333c4a;
       --bg-light: #97a2b5;
@@ -69,7 +96,7 @@ html {
       --text-tertiary: #343a40;
     }
 
-    .white {
+    .Light {
       --bg-dark: #f6f6f6;
       --bg-medium: #dbe0e6;
       --bg-light: #ced6e8;
@@ -80,7 +107,7 @@ html {
       --text-tertiary: #42464c;
     }
 
-    .monokai {
+    .Monokai {
       --bg-dark: #272822;
       --bg-medium: #49483e;
       --bg-light: #c2c3c6;
@@ -91,8 +118,24 @@ html {
       --text-tertiary: #343a40;
     }
 
-    .opendys {
-      --custom-family: "opendys";
+    .Arial {
+      --custom-family: "Arial-Custom";
+    }
+
+    .Courier {
+      --custom-family: "Courier-Custom";
+    }
+
+    .Helvetica {
+      --custom-family: "Helvetica-Custom";
+    }
+
+    .OpenDys {
+      --custom-family: "OpenDys-Custom";
+    }
+
+    .Verdana {
+      --custom-family: "Verdana-Custom";
     }
   }
 }
