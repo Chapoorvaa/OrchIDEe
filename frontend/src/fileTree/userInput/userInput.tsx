@@ -28,6 +28,12 @@ const UserInput: React.FC<{ title: string, placeholder: string, onSubmit: (name:
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+    
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
