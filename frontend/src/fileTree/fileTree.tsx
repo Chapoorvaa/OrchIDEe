@@ -35,11 +35,10 @@ const FileTree: React.FC<ProjectDescProps & {expandedFolder: string[], toggleFol
     }, [desc.path]);
 
     const handleAction = (action, path, name) => {
-        // Perform the action (e.g., create, rename, delete)
-        // Update the fileTree state accordingly
         switch (action) {
             case "new file":
                 console.log(name);
+                console.log(path);
 
                 break;
             case "new folder":
@@ -52,6 +51,7 @@ const FileTree: React.FC<ProjectDescProps & {expandedFolder: string[], toggleFol
                 break;
             case "delete":
                 console.log("delete");
+                console.log(path);
                 break;
             default:
                 break;

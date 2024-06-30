@@ -40,7 +40,7 @@ const Item = ({item, expandedFolder, toggleFolder,onAction}) => {
         setRightClickVisible(false);
     };
 
-    const handleAction = (action) => {
+    const handleRclickAction = (action) => {
         if (action === "delete") {
             onAction(action, item.path);
         } else {
@@ -104,13 +104,14 @@ const Item = ({item, expandedFolder, toggleFolder,onAction}) => {
                             item={subitem}
                             expandedFolder={expandedFolder}
                             toggleFolder={toggleFolder}
+                            onAction={onAction}
                         />
 
                     ))}
                 </div>
             )}
             {isRightClickVisible && (
-                <RightClick position={rightClickPosition} onClose={handleCloseRightClick} onAction={handleAction} />
+                <RightClick position={rightClickPosition} onClose={handleCloseRightClick} onAction={handleRclickAction} />
             )}
             {inputVisible && (
                 <UserInput
