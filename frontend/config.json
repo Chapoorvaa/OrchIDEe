@@ -1,6 +1,6 @@
 {
-  "theme": "orchidee",
+  "theme": "monokai",
   "font": "opendys",
-  "fontSize": 16,
+  "fontSize": 13,
   "spacing": 1.5
 }

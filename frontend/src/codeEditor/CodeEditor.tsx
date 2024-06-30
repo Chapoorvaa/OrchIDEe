@@ -1,7 +1,7 @@
 import { Editor, loader, type Monaco } from "@monaco-editor/react";
-import Monokai_Bright from "./editor-theme/Monokai.json";
+import Monokai from "./editor-theme/Monokai.json";
+import Orchidee from "./editor-theme/Orchidee.json";
 import path from "path";
-import { useState } from "react";
 
 const __editor = path.resolve("node_modules/monaco-editor/min/vs");
 loader.config({
@@ -17,6 +17,7 @@ export interface Config {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setOpenedFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  theme: string;
 }
 
 // pour apoorvaa a bouger dans ton fichier
@@ -29,19 +30,21 @@ export interface File {
 // TODO: load the theme that in the config file
 
 export const CodeEditor = (props: Config) => {
-
   if (props.opened.length != 0) {
     const options = {
       tabSize: props.tabSize,
     };
 
     const handleEditorDidMount = (monaco: Monaco) => {
-      monaco.editor.defineTheme("MonokaiBright", {
+      monaco.editor.defineTheme("monokai", {
         base: "vs",
-        ...Monokai_Bright,
+        ...Monokai,
+      });
+      monaco.editor.defineTheme("orchidee", {
+        base: "vs",
+        ...Orchidee,
       });
     };
-
 
     const handleEditorChange = (value: string | undefined) => {
       if (typeof value === "string") {
@@ -54,7 +57,7 @@ export const CodeEditor = (props: Config) => {
         <Editor
           height="100%"
           width="100%"
-          theme="MonokaiBright"
+          theme={props.theme === "white" ? "vs" : props.theme}
           defaultLanguage={props.language}
           value={props.opened[props.currentPage].content}
           defaultValue={props.opened[props.currentPage].content}

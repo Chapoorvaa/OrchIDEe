@@ -22,7 +22,6 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [rightComponent, setRightComponent] = useState<string>("");
   const [showSettings, setShowSettings] = useState<boolean>(true);
   const [showTerminal, setShowTerminal] = useState<boolean>(false);
-  const [theme, setTheme] = useState<string>("white");
 
   const File1 = {
     path: "tqt",
@@ -111,6 +110,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     currentPage: 0,
     setCurrentPage: setCurrentPage,
     setOpenedFiles: setOpenedFiles,
+    theme: desc.theme,
   };
 
   return (
@@ -130,6 +130,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           <LeftBar
             onShowFileTree={handleShowFileTree}
             onShowGitInterface={handleShowGitInterface}
+            theme={desc.theme}
           />
         </div>
         <div className="col-start-2 row-start-2">
@@ -140,7 +141,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
           <CodeEditor {...configProp} />
         </div>
         <div className="col-start-5 row-start-2">
-          <RightBar onShowBot={handleShowBot} />
+          <RightBar onShowBot={handleShowBot} theme={desc.theme} />
         </div>
         <div className="col-start-4 row-start-2">
           {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}

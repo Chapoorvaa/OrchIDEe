@@ -61,12 +61,23 @@ html {
     }
 
     .white {
-      --bg-dark: #ffffff;
-      --bg-medium: #333c4a;
-      --bg-light: #97a2b5;
-      --stroke-light: #4c576a;
-      --stroke-dark: #262e38;
+      --bg-dark: #f6f6f6;
+      --bg-medium: #dbe0e6;
+      --bg-light: #ced6e8;
+      --stroke-light: #e1ebfd;
+      --stroke-dark: #91969b;
       --text-primary: #000000;
+    }
+
+    .monokai {
+      --bg-dark: #272822;
+      --bg-medium: #49483e;
+      --bg-light: #c2c3c6;
+      --stroke-light: #42464c;
+      --stroke-dark: #0c1520;
+      --text-primary: #f8f8f2;
+      --text-secondary: #808080;
+      --text-tertiary: #343a40;
     }
   }
 }

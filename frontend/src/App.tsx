@@ -9,6 +9,7 @@ export interface ProjectDescProps {
   path: string;
   language: string;
   theme: string;
+  setTheme: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [path, setPath] = useState("");
   const [language, setLanguage] = useState("");
   const [basepage, setBasePage] = useState(false);
+  const [theme, setTheme] = useState(projectConfig.theme);
 
   console.log(projectConfig.theme);
   console.log(projectConfig.font);
@@ -37,6 +39,7 @@ function App() {
     path,
     language,
     theme: projectConfig.theme,
+    setTheme: setTheme,
   };
 
   return (
