@@ -32,7 +32,7 @@ const useShortcut = (shortcuts: ShortcutKeys[]) => {
   }, [shortcuts]);
 };
 
-const Shortcut: React.FC = () => {
+const Shortcut: React.FC = ({ settingsFunction }) => {
   const handleSave = () => {
     console.log('Save shortcut');
     // TODO: Ajouter la fonction de sauvegarde
@@ -133,7 +133,7 @@ const Shortcut: React.FC = () => {
 
   const handleSettings = () => {
     console.log('Settings shortcut');
-    // TODO: Ajouter la fonction de settings
+    settingsFunction();
   };
 
   useShortcut([

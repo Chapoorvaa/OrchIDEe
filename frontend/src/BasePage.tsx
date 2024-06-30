@@ -139,7 +139,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
  
   return (
     <>
-      <Shortcut />
+      <Shortcut settingsFunction={toggleSettings}/>
       <div
         className={`m-0 grid h-screen w-screen font-custom ${giveMeGridCol(
           leftComponent !== "",
