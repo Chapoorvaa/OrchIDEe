@@ -11,7 +11,11 @@ export interface ProjectDescProps {
   theme: string;
   setTheme: React.Dispatch<React.SetStateAction<string>>;
   font: string;
+  setFont: React.Dispatch<React.SetStateAction<string>>;
   fontSize: number;
+  setFontSize: React.Dispatch<React.SetStateAction<number>>;
+  spacing: number;
+  setSpacing: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function App() {
@@ -20,32 +24,26 @@ function App() {
   const [language, setLanguage] = useState("");
   const [basepage, setBasePage] = useState(false);
   const [theme, setTheme] = useState(projectConfig.theme);
-
-  console.log(projectConfig.theme);
-  console.log(projectConfig.font);
-  console.log(projectConfig.fontSize);
-  console.log(projectConfig.spacing);
-
-  fs.writeFile("config.json", JSON.stringify(projectConfig, null, 2), (err) => {
-    if (err) {
-      console.error("Error writing to file", err);
-    } else {
-      console.log("Configuration saved successfully");
-    }
-  });
+  const [font, setFont] = useState(projectConfig.font);
+  const [fontSize, setFontSize] = useState(projectConfig.fontSize);
+  const [spacing, setSpacing] = useState(projectConfig.spacing);
 
   const desc: ProjectDescProps = {
     name,
     path,
     language,
-    theme: projectConfig.theme,
+    theme: theme,
     setTheme: setTheme,
-    font: projectConfig.font,
-    fontSize: projectConfig.fontSize,
+    font: font,
+    setFont: setFont,
+    fontSize: fontSize,
+    setFontSize: setFontSize,
+    spacing: spacing,
+    setSpacing: setSpacing,
   };
 
   return (
-    <div className={[projectConfig.theme, projectConfig.font].join(" ")}>
+    <div className={[theme, font].join(" ")}>
       {!basepage && (
         <HomePage
           projectName={name}

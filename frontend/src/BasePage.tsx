@@ -87,6 +87,13 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const settingsProp = {
     toggleInterface: toggleSettings,
     theme: desc.theme,
+    setTheme: desc.setTheme,
+    font: desc.font,
+    setFont: desc.setFont,
+    fontSize: desc.fontSize,
+    setFontSize: desc.setFontSize,
+    spacing: desc.spacing,
+    setSpacing: desc.setSpacing,
   };
 
   function giveMeGridCol(left: boolean, right: boolean) {
@@ -121,7 +128,6 @@ export const BasePage: React.FC<ProjectDescProps> = (
     fontSize: desc.fontSize,
   };
 
-  console.log(configProp);
   return (
     <>
       <Shortcut />

@@ -43,6 +43,8 @@ export const CodeEditor = (props: Config) => {
 
   const options = {
     tabSize: props.tabSize,
+    fontSize: props.fontSize,
+    font: props.font,
   };
 
   const handleEditorDidMount = (monaco: Monaco) => {
@@ -63,7 +65,7 @@ export const CodeEditor = (props: Config) => {
       props.setOpenedFiles(newOpenedFiles);
     }
   };
-  console.log(props);
+
   return (
     <>
       <Editor
