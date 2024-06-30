@@ -7,6 +7,7 @@ import {
 import { File } from "../codeEditor/CodeEditor";
 import { SettingsProps } from "../settings/Settings";
 import { fetchSaveResponse } from "../save/saveService";
+import { ShortcutKeys } from "../BasePage";
 
 export interface StatusBarProps {
   opened: File[];
@@ -20,9 +21,35 @@ export interface StatusBarProps {
   settingsProp: SettingsProps;
   onShowSettings: (arg: boolean) => void;
   theme: string;
+  handleShortcuts: (arg: ShortcutKeys[]) => void;
 }
 
 const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
+  const shortcutSave = () => {
+    console.log("Save shortcut");
+    handleSave();
+  };
+
+  const shortcutRun = () => {
+    console.log("Run shortcut");
+    handleRun();
+  };
+
+  prop.handleShortcuts([
+    {
+      key: "s",
+      ctrlKey: true,
+      shiftKey: false,
+      callback: shortcutSave,
+    },
+    {
+      key: "F5",
+      ctrlKey: true,
+      shiftKey: false,
+      callback: shortcutRun,
+    },
+  ]);
+
   const handleChangePage = (index: number) => {
     prop.setCurrentPage(index);
   };
@@ -82,26 +109,26 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
   return (
     <div className="flex h-full w-full bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light justify-between">
       <div className="mr-[50px] ml-[46px] flex align-center w-[100vw - 150px] overflow-x-auto no-scrollbar">
-          {prop.opened && prop.opened.length > 0 ? (
-            prop.opened.map((content) => (
-              <div
-                key={prop.opened.indexOf(content)}
-                onClick={() => handleChangePage(prop.opened.indexOf(content))}
-              >
-                <Tab
-                  path={content.path}
-                  tabIndex={prop.opened.indexOf(content)}
-                  opened={prop.opened}
-                  currentPage={prop.currentPage}
-                  setOpenedFiles={prop.setOpenedFiles}
-                  setCurrentPage={prop.setCurrentPage}
-                  theme={prop.theme}
-                />
-              </div>
-            ))
-          ) : (
-            <div></div>
-          )}
+        {prop.opened && prop.opened.length > 0 ? (
+          prop.opened.map((content) => (
+            <div
+              key={prop.opened.indexOf(content)}
+              onClick={() => handleChangePage(prop.opened.indexOf(content))}
+            >
+              <Tab
+                path={content.path}
+                tabIndex={prop.opened.indexOf(content)}
+                opened={prop.opened}
+                currentPage={prop.currentPage}
+                setOpenedFiles={prop.setOpenedFiles}
+                setCurrentPage={prop.setCurrentPage}
+                theme={prop.theme}
+              />
+            </div>
+          ))
+        ) : (
+          <div></div>
+        )}
       </div>
       <div className="flex justify-end">
         <div

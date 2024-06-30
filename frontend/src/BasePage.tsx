@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Chatbot, { Message } from "./chatbot/Chatbot";
 import Git from "./git/Git";
 import LeftBar from "./leftBar/LeftBar";
@@ -11,8 +11,14 @@ import { BottomBar } from "./bottomBar/bottomBar";
 import { Terminal } from "./terminal/Terminal";
 import { Settings } from "./settings/Settings";
 import StatusBar from "./statusBar/StatusBar";
-import Shortcut from "./Shortcuts";
 import { fetchOpenFile } from "./BasePageService";
+
+export type ShortcutKeys = {
+  key: string;
+  ctrlKey?: boolean;
+  shiftKey?: boolean;
+  callback: () => void;
+};
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
@@ -77,6 +83,44 @@ export const BasePage: React.FC<ProjectDescProps> = (
     }
   };
 
+  const useShortcut = (shortcuts: ShortcutKeys[]) => {
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        shortcuts.forEach((shortcut) => {
+          const { key, ctrlKey = false, shiftKey = false, callback } = shortcut;
+
+          if (
+            event.key === key &&
+            event.ctrlKey === ctrlKey &&
+            event.shiftKey === shiftKey
+          ) {
+            event.preventDefault();
+            callback();
+          }
+        });
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }, [shortcuts]);
+  };
+
+  const handleSettings = () => {
+    console.log("Settings shortcut");
+    toggleSettings();
+  };
+
+  useShortcut([
+    {
+      key: "S",
+      ctrlKey: true,
+      shiftKey: true,
+      callback: handleSettings,
+    },
+  ]);
+
   const appendMessage = (message: Message) => {
     setMessages((prevMessages) => [...prevMessages, message]);
   };
@@ -136,10 +180,8 @@ export const BasePage: React.FC<ProjectDescProps> = (
     lineSpace: desc.spacing,
   };
 
- 
   return (
     <>
-      <Shortcut settingsFunction={toggleSettings}/>
       <div
         className={`m-0 grid h-screen w-screen font-custom ${giveMeGridCol(
           leftComponent !== "",
@@ -161,6 +203,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
             settingsProp={settingsProp}
             onShowSettings={setShowSettings}
             theme={desc.theme}
+            handleShortcuts={useShortcut}
           />
         </div>
         <div className="col-start-1 row-start-2 font-custom">
