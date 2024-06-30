@@ -10,6 +10,8 @@ export interface ProjectDescProps {
   language: string;
   theme: string;
   setTheme: React.Dispatch<React.SetStateAction<string>>;
+  font: string;
+  fontSize: number;
 }
 
 function App() {
@@ -23,8 +25,6 @@ function App() {
   console.log(projectConfig.font);
   console.log(projectConfig.fontSize);
   console.log(projectConfig.spacing);
-
-  projectConfig.font = "opendys";
 
   fs.writeFile("config.json", JSON.stringify(projectConfig, null, 2), (err) => {
     if (err) {
@@ -40,10 +40,12 @@ function App() {
     language,
     theme: projectConfig.theme,
     setTheme: setTheme,
+    font: projectConfig.font,
+    fontSize: projectConfig.fontSize,
   };
 
   return (
-    <div className={[projectConfig.theme].join(" ")}>
+    <div className={[projectConfig.theme, projectConfig.font].join(" ")}>
       {!basepage && (
         <HomePage
           projectName={name}

@@ -18,6 +18,8 @@ export interface Config {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   setOpenedFiles: React.Dispatch<React.SetStateAction<File[]>>;
   theme: string;
+  font: string;
+  fontSize: number;
 }
 
 // pour apoorvaa a bouger dans ton fichier
@@ -33,6 +35,8 @@ export const CodeEditor = (props: Config) => {
   if (props.opened.length != 0) {
     const options = {
       tabSize: props.tabSize,
+      fontFamily: props.font,
+      fontSize: props.fontSize,
     };
 
     const handleEditorDidMount = (monaco: Monaco) => {

@@ -23,6 +23,9 @@ export default {
           "text-tertiary": "var(--text-tertiary)",
         },
       },
+      fontFamily: {
+        custom: "var(--custom-family)",
+      },
     },
   },
   plugins: [

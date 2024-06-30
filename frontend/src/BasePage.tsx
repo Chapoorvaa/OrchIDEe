@@ -111,12 +111,14 @@ export const BasePage: React.FC<ProjectDescProps> = (
     setCurrentPage: setCurrentPage,
     setOpenedFiles: setOpenedFiles,
     theme: desc.theme,
+    font: desc.font,
+    fontSize: desc.fontSize,
   };
 
   return (
     <>
       <div
-        className={`m-0 grid h-screen w-screen ${giveMeGridCol(
+        className={`m-0 grid h-screen w-screen font-skin-custom-font ${giveMeGridCol(
           leftComponent !== "",
           rightComponent !== ""
         )} ${giveMeGridRow(

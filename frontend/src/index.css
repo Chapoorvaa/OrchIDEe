@@ -25,9 +25,16 @@
 html {
   background-color: rgb(55 65 81);
 }
+
+@font-face {
+  font-family: "opendys";
+  src: url("../public/OpenDyslexic3-Regular.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+
 @layer base {
   :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
 
@@ -39,6 +46,7 @@ html {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-family: "opendys";
 
     --bg-dark: #262e38;
     --bg-medium: #333c4a;
@@ -48,6 +56,7 @@ html {
     --text-primary: #ffffff;
     --text-secondary: #808080;
     --text-tertiary: #343a40;
+    --custom-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
     .orchidee {
       --bg-dark: #262e38;
@@ -80,6 +89,10 @@ html {
       --text-primary: #f8f8f2;
       --text-secondary: #808080;
       --text-tertiary: #343a40;
+    }
+
+    .opendys {
+      --custom-family: "opendys";
     }
   }
 }
