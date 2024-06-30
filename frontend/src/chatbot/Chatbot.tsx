@@ -72,8 +72,9 @@ const Chatbot: React.FC<ChatbotProps> = (prop: ChatbotProps) => {
               message.isUser ? "bg-green-200" : "bg-white"
             } inline-block`}
           >
-            <ReactMarkdown remarkPlugins={[remarkGfm]}></ReactMarkdown>
-            {message.text}
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {message.text}
+            </ReactMarkdown>
           </div>
         ))}
         {loading && (
