@@ -3,12 +3,17 @@ package fr.epita.assistants.myide.domain.entity.any;
 import fr.epita.assistants.myide.domain.entity.Aspect;
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Mandatory;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class AnyAspect implements Aspect {
     List<Feature> features_ = new ArrayList<>();
+    String context = "[]";
 
     public AnyAspect() {
         features_.add(new AnyCleanup());

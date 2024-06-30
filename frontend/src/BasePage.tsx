@@ -1,17 +1,28 @@
 import React, { useState } from "react";
-import Chatbot from "./chatbot/Chatbot";
+import Chatbot, { Message } from "./chatbot/Chatbot";
 import Git from "./git/Git";
 import LeftBar from "./leftBar/LeftBar";
 import FileTree from "./fileTree/fileTree";
 import RightBar from "./rightBar/rightBar";
-import CodeEditor, { File } from "./codeEditor/CodeEditor";
+import { CodeEditor } from "./codeEditor/CodeEditor";
+import { File } from "./codeEditor/CodeEditor";
 import { ProjectDescProps } from "./App";
+import { BottomBar } from "./bottomBar/bottomBar";
+import { Terminal } from "./terminal/Terminal";
+import { Settings } from "./settings/Settings";
+import StatusBar from "./statusBar/StatusBar";
+import Shortcut from "./Shortcuts";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
 ) => {
-  const [visibleComponent, setVisibleComponent] = useState<string>("");
-  const [visibleComponent2, setVisibleComponent2] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [leftComponent, setLeftComponent] = useState<string>("");
+  const [rightComponent, setRightComponent] = useState<string>("");
+  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [showTerminal, setShowTerminal] = useState<boolean>(false);
+  const [terminalContent, setTerminalContent] = useState<string>("");
 
   const File1 = {
     path: "tqt",
@@ -27,54 +38,131 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [openedFiles, setOpenedFiles] = useState<File[]>([File1, File2, File3]);
 
   const handleShowFileTree = () => {
-    if (visibleComponent === "fileTree") {
-      setVisibleComponent("");
+    if (leftComponent === "fileTree") {
+      setLeftComponent("");
     } else {
-      setVisibleComponent("fileTree");
+      setLeftComponent("fileTree");
     }
   };
 
   const handleShowGitInterface = () => {
-    if (visibleComponent === "gitInterface") {
-      setVisibleComponent("");
+    if (leftComponent === "gitInterface") {
+      setLeftComponent("");
     } else {
-      setVisibleComponent("gitInterface");
+      setLeftComponent("gitInterface");
     }
+  };
+
+  const handleShowTerminalInterface = () => {
+    setShowTerminal(!showTerminal);
   };
 
   const handleShowBot = () => {
-    if (visibleComponent2 === "chatBot") {
-      setVisibleComponent2("");
+    if (rightComponent === "chatBot") {
+      setRightComponent("");
     } else {
-      setVisibleComponent2("chatBot");
+      setRightComponent("chatBot");
     }
   };
 
+  const appendMessage = (message: Message) => {
+    setMessages((prevMessages) => [...prevMessages, message]);
+  };
+
+  const toggleSettings = (): void => {
+    setShowSettings(!showSettings);
+  };
+
+  const chatbotProp = {
+    messages: messages,
+    appendMessage: appendMessage,
+    projProp: desc,
+  };
+
+  const path = "/home/emmanuel/gittest4ping";
+  const bottomProp = {
+    path,
+  };
+
+  const settingsProp = {
+    toggleInterface: toggleSettings,
+  };
+
+  function giveMeGridCol(left: boolean, right: boolean) {
+    if (left && right) {
+      return "grid-cols-[50px_300px_calc(100vw-45vw-400px)_45vw_50px]";
+    } else if (left) {
+      return "grid-cols-[50px_300px_calc(100vw-400px)_0vw_50px]";
+    } else if (right) {
+      return "grid-cols-[50px_0px_calc(100vw-45vw-100px)_45vw_50px]";
+    } else {
+      return "grid-cols-[50px_0px_calc(100vw-100px)_0vw_50px]";
+    }
+  }
+
+  function giveMeGridRow(terminal: boolean) {
+    if (terminal) {
+      return "grid-rows-[50px_calc(100vh-400px)_300px_50px]";
+    } else {
+      return "grid-rows-[50px_calc(100vh-100px)_0px_50px]";
+    }
+  }
+
+  const configProp = {
+    language: desc.language,
+    tabSize: 4,
+    opened: openedFiles,
+    currentPage: currentPage,
+    setCurrentPage: setCurrentPage,
+    setOpenedFiles: setOpenedFiles,
+  };
+
   return (
-    <div className="m-0 grid h-screen w-screen grid-cols-[50px_300px_1fr_300px_50px] grid-rows-[50px_1fr_repeat(2,50px)] bg-gray-700 text-gray-100">
-      <div className="col-span-5">Status bar</div>
-      <div className="col-start-1 row-start-2">
-        <LeftBar
-          onShowFileTree={handleShowFileTree}
-          onShowGitInterface={handleShowGitInterface}
-        />
+    <>
+      <Shortcut />
+      <div
+        className={`m-0 grid h-screen w-screen ${giveMeGridCol(
+          leftComponent !== "",
+          rightComponent !== ""
+        )} ${giveMeGridRow(showTerminal)} bg-gray-700 text-gray-100`}
+      >
+        <div className="col-span-5"><StatusBar opened={openedFiles} currentPage={currentPage}
+          setCurrentPage={setCurrentPage} setOpenedFiles={setOpenedFiles}
+          playFunction={setShowTerminal}
+          ProjectLanguage={desc.language} Projectname={desc.name}
+          setTerminalContent={setTerminalContent}
+          settingsProp={settingsProp}
+          onShowSettings={setShowSettings}
+        /></div>
+        <div className="col-start-1 row-start-2">
+          <LeftBar
+            onShowFileTree={handleShowFileTree}
+            onShowGitInterface={handleShowGitInterface}
+            onShowTerminalInterface={handleShowTerminalInterface}
+          />
+        </div>
+        <div className="col-start-2 row-start-2">
+          {leftComponent === "fileTree" && <FileTree />}
+          {leftComponent === "gitInterface" && <Git {...desc} />}
+        </div>
+        <div className="col-start-3 row-start-2">
+          <CodeEditor {...configProp} />
+        </div>
+        <div className="col-start-5 row-start-2">
+          <RightBar onShowBot={handleShowBot} />
+        </div>
+        <div className="col-start-4 row-start-2">
+          {rightComponent === "chatBot" && <Chatbot {...chatbotProp} />}
+        </div>
+        <div className="col-span-5 col-start-1 row-start-3">
+          {showTerminal && <Terminal content={terminalContent} />}
+        </div>
+        <div className="col-span-5 row-start-4">
+          <BottomBar {...bottomProp} />
+        </div>
       </div>
-      <div className="col-start-2 row-start-2">
-        {visibleComponent === "fileTree" && <FileTree />}
-        {visibleComponent === "gitInterface" && <Git {...desc} />}
-      </div>
-      <div className="col-start-3 row-start-2">
-        <CodeEditor language="java" tabSize={4} opened={openedFiles} />
-      </div>
-      <div className="col-start-5 row-start-2">
-        <RightBar onShowBot={handleShowBot} />
-      </div>
-      <div className="col-start-4 row-start-2">
-        {visibleComponent2 === "chatBot" && <Chatbot {...desc} />}
-      </div>
-      <div className="col-span-5 row-start-4">Bottom bar</div>
-      <div className="col-start-1 row-start-5"></div>
-    </div>
+      <div>{showSettings && <Settings {...settingsProp} />}</div>
+    </>
   );
 };
 

@@ -1,14 +1,12 @@
-interface BotResponse {
-  content: string;
+interface RunResponse {
+  output: string;
 }
 
-export const fetchBotResponse = async (
-  userInput: string,
-  name: string
+export const fetchRunResponse = async (
+  name: string,
+  language: string
 ): Promise<string> => {
   const apiUrl = "http://localhost:8080/api/execFeature";
-  const model = "tinyllama";
-
   try {
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -16,8 +14,8 @@ export const fetchBotResponse = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        feature: "CHATBOT",
-        params: [model, userInput],
+        feature: language === "JAVA" ? "RUN" : "MAKE",
+        params: language === "JAVA" ? [] : ["run"],
         project: name,
       }),
     });
@@ -26,8 +24,8 @@ export const fetchBotResponse = async (
       throw new Error("Failed to fetch response");
     }
 
-    const data: BotResponse = await response.json();
-    return data.content;
+    const data: RunResponse = await response.json();
+    return data.output;
   } catch (error) {
     throw new Error("Failed to fetch response");
   }

@@ -82,12 +82,12 @@ const Git: React.FC<ProjectDescProps> = (desc: ProjectDescProps) => {
 
     if (error) {
         return (
-        <div className="h-full w-full flex flex-col bg-gray-800 border-4 border-gray-600 items-center justify-center">
+        <div className="h-full w-full flex flex-col bg-gray-800 border-2 border-gray-600 items-center justify-center">
         <p className="text-gray-100 d">{error}</p></div>);
     }
 
     return (
-        <div className="h-full w-full flex justify-between flex-col bg-gray-800 text-gray-100 border-4 border-gray-600">
+        <div className="h-full w-full flex justify-between flex-col bg-gray-800 text-gray-100 border-2 border-gray-600">
             <div className='text-left scroll-y-auto'>
                 <div className=''>
                     <div className="border-gray-600">
