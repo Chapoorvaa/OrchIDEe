@@ -26,10 +26,10 @@ const OpenProject: React.FC<OpenProjectProps> = ({
 
   return (
     <div className="flex flex-col justify-center m-auto drop-shadow-lg rounded-xl border-2 border-skin-stroke-light bg-skin-bg-dark text-skin-text-primary">
-      <div className="grid grid-cols-4 m-5 grid-rows-3 gap-3 h-70">
+      <div className="grid grid-cols-3 m-5 grid-rows-3 gap-3 h-70">
         <label className="row-start-1 flex justify-evenly">Project name:</label>
         <input
-          className="col-span-3 placeholder:italic
+          className="col-span-2 placeholder:italic
                                 placeholder:text-slate-400 block bg-transparent w-2/1
                                 border border-slate-300 rounded-md py-2 pl-9
                                 shadow-sm focus:outline-none focus:border-skin-stroke-light
@@ -46,17 +46,17 @@ const OpenProject: React.FC<OpenProjectProps> = ({
         >
           Location:
         </label>
-        <div className="col-span-3 row-start-2 flex items-center">
+        <div className="col-span-2 row-start-2 flex items-center">
           <Button label="Browse" setFunction={setPath} />
           {path && (
-            <span className="ml-2 text-skin-text-secondary overflow-x-auto">
+            <div className="flex items-center ml-2 text-skin-text-secondary overflow-x-scroll no-scrollbar text-nowrap w-72">
               {path}
-            </span>
+            </div>
           )}
         </div>
 
         <label className="row-start-3 flex justify-evenly">Language:</label>
-        <div className="col-span-3 row-start-3 flex justify-evenly w-full">
+        <div className="col-span-3 row-start-3 flex items-center justify-evenly">
           <Button
             label="Java"
             setFunction={setLanguage}
