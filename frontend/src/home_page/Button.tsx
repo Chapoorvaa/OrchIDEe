@@ -34,7 +34,12 @@ const Button: React.FC<ButtonProps> = ({
         .showOpenDialog(options)
         .then(async (result: { filePaths: string }) => {
           var path = result.filePaths[0];
+          if (!path) {
+            console.log("No folder has been selected")
+            return;
+          }
           console.log(path + " has been chosen !");
+
           setPath(path);
 
           const fs = require("fs");
@@ -44,6 +49,9 @@ const Button: React.FC<ButtonProps> = ({
           } else if (fs.existsSync(`${path}/Makefile`)) {
             console.log("Language: C++");
             setLanguage("CPP");
+          } else {
+            console.log("Language is UNKNOWN");
+            setLanguage("UNKNOWN");
           }
 
           var dirs = path.split("/");
@@ -65,6 +73,7 @@ const Button: React.FC<ButtonProps> = ({
         });
     }
   };
+
   return (
     <button
       className="w-1/4 h-6/7 bg-skin-bg-medium text-skin-text-primary ring-2 ring-gray-600 drop-shadow-lg rounded-full hover:bg-skin-bg-light hover:border-transparent focus:ring-gray-500"

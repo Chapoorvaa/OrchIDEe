@@ -12,10 +12,13 @@ TARGET = TITLE_PLACEHOLDER
 
 # Default target: Build the executable
 all: run
-	./$(TARGET)
+
+# Build target: build the program
+build: $(TARGET)
 
 # Run target: run the program
 run: $(TARGET)
+	./$(TARGET)
 
 # Rule to build the executable
 $(TARGET): $(SRCS)
