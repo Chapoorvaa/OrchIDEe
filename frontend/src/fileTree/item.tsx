@@ -3,8 +3,7 @@ import RightClick from "./rightClick/rightClick";
 import UserInput from "./userInput/userInput";
 import { FileTree } from "./fileTree";
 
-
-const getFileIcon = (fileName: string) : string|null => {
+const getFileIcon = (fileName: string): string | null => {
   const extension = fileName.split(".").pop()?.toLowerCase();
 
   switch (extension) {
@@ -30,7 +29,7 @@ interface ItemProps {
   theme: string;
 }
 
-const Item : React.FC<ItemProps>  = ({
+const Item: React.FC<ItemProps> = ({
   item,
   expandedFolder,
   toggleFolder,
@@ -58,7 +57,7 @@ const Item : React.FC<ItemProps>  = ({
 
   const handleRclickAction = (action: string) => {
     if (action === "delete") {
-      onAction(action, item.path,"");
+      onAction(action, item.path, "");
     } else {
       setInputAction(action);
       setInputVisible(true);
@@ -86,7 +85,7 @@ const Item : React.FC<ItemProps>  = ({
   return (
     <div className="menu-item" onContextMenu={handleRightClick}>
       <div
-        className="flex items-center cursor-pointer pl-4"
+        className="flex items-center cursor-pointer pl-4 hover:bg-skin-bg-light"
         onClick={(event: React.MouseEvent) => {
           event.stopPropagation();
           if (item.type === "folder") {

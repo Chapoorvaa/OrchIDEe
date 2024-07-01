@@ -52,8 +52,7 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
 
   function handleName() {
     let name = prop.path.substring(prop.path.lastIndexOf("/") + 1);
-    if (name.length > 13)
-    {
+    if (name.length > 13) {
       name = name.slice(0, 10) + "...";
     }
     return name;
@@ -62,16 +61,14 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
   return (
     <div
       className={`flex h-[46px] min-w-[172px] max-w-[350px] bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light justify-between items-center ${
-          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
-        } ${
-        isHovered ? "brightness-125" : "brightness-100"
-      }`}
+        prop.tabIndex === prop.currentPage ? "bg-skin-bg-medium" : ""
+      } ${isHovered ? "brightness-125" : "brightness-100"}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
         className={`flex justify-center items-center ${
-          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-medium" : ""
         }`}
       >
         <img
@@ -88,16 +85,14 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
       </div>
       <div
         className={`text-xl ${
-          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-medium" : ""
         }`}
       >
-        <p>
-          {handleName()}
-        </p>
+        <p>{handleName()}</p>
       </div>
       <div
         className={`flex justify-center items-center ${
-          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-medium" : ""
         }`}
         onClick={handleClick}
       >
