@@ -8,6 +8,7 @@ import fr.epita.assistants.myide.domain.entity.report.RunReport;
 import fr.epita.assistants.myide.domain.entity.report.SearchFeatureReport;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
+import fr.epita.assistants.myide.domain.service.FileTreeBuilder;
 import fr.epita.assistants.myide.presentation.rest.request.*;
 
 import fr.epita.assistants.myide.presentation.rest.response.*;
@@ -222,66 +223,43 @@ public class MyIdeEndpoint {
     }
 
     @POST
-    @Path("/delete/file")
-    public Response deleteFile(SimpleRequest request) {
+    @Path("/delete")
+    public Response delete(SimpleRequest request) {
         java.nio.file.Path path = Paths.get(request.getPath());
-        String fileName = path.getFileName().toString();
+        String fName = path.getFileName().toString();
 
-        Logger.log("Attempting DELETE/FILE: file " + fileName + " at " + path);
+        File f = new File(path.toString());
 
-        File file = new File(path.toString());
+        Logger.log("Attempting DELETE/FILE-FOLDER: " + fName + " at " + path);
 
-        if (!file.isFile())
-        {
-            Logger.logError("ERROR on DELETED/FILE: file " + fileName + " at " + path + " not found");
+        if (!f.exists()) {
+            Logger.logError("ERROR on DELETED/FILE-FOLDER: " + fName + " at " + path + " not found");
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        Node fileNode = new FileNode(path);
-        NodeService myNodeService = myProjectService.getNodeService();
-        myNodeService.delete(fileNode);
-        File fileDeleted = new File(path.toString());
+        Node fNode;
 
-        if (fileDeleted.isFile())
+        if (Files.isDirectory(path)) {
+            fNode = new FolderNode(path);
+        }
+        else {
+            fNode = new FileNode(path);
+        }
+
+        NodeService myNodeService = myProjectService.getNodeService();
+        myNodeService.delete(fNode);
+        File fDeleted = new File(path.toString());
+
+        if (fDeleted.isDirectory() || fDeleted.isFile())
         {
-            Logger.logError("ERROR on DELETE/FILE: file " + fileName + " at " + path + " has not been deleted.");
+            Logger.logError("ERROR on DELETE/FILE-FOLDER: " + fName + " at " + path + " has not been deleted.");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        Logger.log("SUCCESS on DELETE/FILE: file " + fileName + " at " + path);
-        return Response.ok(new FileResponse(fileName, request.getPath(), "")).build();
+        Logger.log("SUCCESS on DELETE/FILE-FOLDER: " + fName + " at " + path);
+        return Response.ok(new FileResponse(fName, request.getPath(), "")).build();
     }
-
-    @POST
-    @Path("/delete/folder")
-    public Response deleteFolder(SimpleRequest request) {
-        java.nio.file.Path path = Paths.get(request.getPath());
-        File folder = new File(path.toString());
-        String folderName = path.getFileName().toString();
-
-        Logger.log("Attempting DELETE/FOLDER: folder " + folderName + " at " + path);
-
-        if (!folder.isDirectory())
-        {
-            Logger.logError("ERROR on DELETED/FILE: file " + folderName + " at " + path + " not found");
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        Node folderNode = new FolderNode(path);
-        NodeService myNodeService = myProjectService.getNodeService();
-        myNodeService.delete(folderNode);
-        File folderDeleted = new File(path.toString());
-
-        if (folderDeleted.isDirectory())
-        {
-            Logger.logError("ERROR on DELETE/FILE: file " + folderName + " at " + path + " has not been deleted.");
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-        Logger.log("SUCCESS on DELETE/FOLDER: folder " + folderName + " at " + path);
-        return Response.ok(new FileResponse(folderName, request.getPath(), "")).build();
-    }
-
+    
     @POST
     @Path("/execFeature")
     public Response execFeature(ExecFeatureRequest request) {
@@ -457,5 +435,73 @@ public class MyIdeEndpoint {
 
         Logger.log("SUCCESS on UPDATE: updated " + fileName + " at " + request.getPath() + " from " + request.getFrom() + " to " + request.getTo() + " with " + request.getContent());
         return Response.ok(new UpdateResponse(request.getPath(), request.getFrom(), request.getTo(), request.getContent())).build();
+    }
+
+
+    @POST
+    @Path("/rename")
+    public Response rename(RenameRequest request) {
+        java.nio.file.Path path = Paths.get(request.getPath());
+        String newName = request.getNewName();
+
+        Logger.log("Attempting RENAME: " + path + " to " + newName);
+
+        File file = new File(path.toString());
+
+        if (!file.exists()) {
+            Logger.logError("ERROR on RENAME: " + path + " does not exist");
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        NodeService myNodeService = myProjectService.getNodeService();
+        Node nodeToRename;
+        if (Files.isDirectory(path)) {
+            nodeToRename = new FolderNode(path);
+        }
+        else {
+            nodeToRename = new FileNode(path);
+        }
+
+        try {
+            myNodeService.rename(nodeToRename, newName);
+        } catch (IllegalArgumentException e) {
+            Logger.logError("ERROR on RENAME: file " + path + " to " + newName + " failed");
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (RuntimeException e) {
+            Logger.logError("ERROR on RENAME: rename failed on " + path + "with" + newName);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+        Logger.log("SUCCESS on RENAME: renamed " + path + " with " + newName);
+        return Response.ok(new RenameResponse(path.toString(), newName)).build();
+    }
+
+
+    @POST
+    @Path("/filetree")
+    public Response filetree(SimpleRequest request) {
+        java.nio.file.Path path = Paths.get(request.getPath());
+        Logger.log("Attempting FILETREE: " + path);
+
+        if (!Files.exists(path)) {
+            Logger.logError("ERROR on FILETREE: " + path);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (!Files.isDirectory(path)) {
+            Logger.logError("ERROR on FILETREE: filetree failed on " + path);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        try {
+            FileTreeBuilder fTreeBuilder = new FileTreeBuilder();
+            FileTree fTree = fTreeBuilder.buildTree(path);
+            String json = fTreeBuilder.convertToJson(fTree);
+            Logger.log("SUCCESS on FILETREE: filetree of" + path.getFileName().toString());
+            return Response.ok(new FiletreeResponse(json)).build();
+        } catch (RuntimeException e) {
+            Logger.logError("ERROR on FILETREE: filetree failed on " + path);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

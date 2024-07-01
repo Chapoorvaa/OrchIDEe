@@ -114,4 +114,28 @@ public class MyNodeService implements NodeService {
         }
         return new FileNode(newDstPath);
     }
+
+    @Override
+    public Node rename(Node node, String newName) {
+        Path nodePath = node.getPath();
+        Path newPath = nodePath.resolveSibling(newName);
+
+        if (Files.exists(newPath)) {
+            throw new IllegalArgumentException("Destination path already exists");
+        }
+
+        try {
+            Files.move(nodePath,newPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (Files.isDirectory(newPath)) {
+            return new FolderNode(newPath);
+        }
+        else {
+            return new FileNode(newPath);
+        }
+
+    }
 }
