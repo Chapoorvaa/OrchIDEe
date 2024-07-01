@@ -37,16 +37,14 @@ const Button: React.FC<ButtonProps> = ({
           console.log(path + " has been chosen !");
           setPath(path);
 
-                const fs = require("fs");
-                if (fs.existsSync(`${path}/pom.xml`)) {
-                    console.log("Language: Java");
-                    setLanguage("JAVA");
-                } else if (fs.existsSync(`${path}/Makefile`)) {
-                    console.log("Language: C++");
-                    setLanguage("CPP");
-                } else {
-                    setFunction(true);
-                }
+          const fs = require("fs");
+          if (fs.existsSync(`${path}/pom.xml`)) {
+            console.log("Language: Java");
+            setLanguage("JAVA");
+          } else if (fs.existsSync(`${path}/Makefile`)) {
+            console.log("Language: C++");
+            setLanguage("CPP");
+          }
 
           var dirs = path.split("/");
           var name = dirs[dirs.length - 1];
