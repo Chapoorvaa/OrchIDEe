@@ -86,8 +86,13 @@ public class MyIdeEndpoint {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(path.resolve("pom.xml").toString()));
                 writer.write(content);
                 writer.close();
+
+                File srcDir = new File(path.toString(), "src/main/java/com/myapp");
+                if (!srcDir.mkdirs()) {
+                    throw new RuntimeException("Creating Maven directories failed");
+                }
             }
-            catch (IOException e) {
+            catch (Exception e) {
                 Logger.logError("ERROR on CREATE/PROJECT: project " + request.getName() + " at " + request.getPath());
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             }
@@ -105,7 +110,7 @@ public class MyIdeEndpoint {
                 writer.write(content);
                 writer.close();
             }
-            catch (IOException e) {
+            catch (Exception e) {
                 Logger.logError("ERROR on CREATE/PROJECT: project " + request.getName() + " at " + request.getPath());
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
             }

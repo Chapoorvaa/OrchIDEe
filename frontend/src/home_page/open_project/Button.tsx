@@ -49,7 +49,7 @@ const Button: React.FC<ButtonProps> = ({
             );
             console.log("Sended the project!");
             setName(projectName);
-            setPath(location);
+            setPath(location + "/" + projectName);
             setLanguage(language);
             setBasePage(true);
           } catch (e) {
@@ -70,7 +70,7 @@ const Button: React.FC<ButtonProps> = ({
           .showOpenDialog(options)
           .then(async (result: { filePaths: string }) => {
             var path = result.filePaths[0];
-            console.log(path + " a ete choisit !");
+            console.log(path + " has been chosen!");
             setFunction(path);
           })
           .catch((err: any) => {
