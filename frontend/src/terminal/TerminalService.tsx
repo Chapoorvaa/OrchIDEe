@@ -30,3 +30,32 @@ export const fetchRunResponse = async (
     throw new Error("Failed to fetch response");
   }
 };
+
+export const fetchBuildResponse = async (
+  name: string,
+  language: string
+): Promise<string> => {
+  const apiUrl = "http://localhost:8080/api/execFeature";
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        feature: language === "JAVA" ? "PACKAGE" : "MAKE",
+        params: language === "JAVA" ? [] : ["build"],
+        project: name,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch response");
+    }
+
+    const data: RunResponse = await response.json();
+    return data.output;
+  } catch (error) {
+    throw new Error("Failed to fetch response");
+  }
+};

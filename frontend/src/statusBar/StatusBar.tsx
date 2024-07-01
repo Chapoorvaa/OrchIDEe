@@ -1,8 +1,9 @@
 import React from "react";
-import { Config } from "../codeEditor/CodeEditor";
 import Tab from "./Tab";
-import { fetchRunResponse } from "../terminal/TerminalService";
-import { ProjectDescProps } from "../App";
+import {
+  fetchRunResponse,
+  fetchBuildResponse,
+} from "../terminal/TerminalService";
 import { File } from "../codeEditor/CodeEditor";
 import { SettingsProps } from "../settings/Settings";
 import { fetchSaveResponse } from "../save/saveService";
@@ -27,8 +28,14 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
   };
 
   const handleRun = async () => {
-    prop.setTerminalContent("Running project...");
     prop.playFunction(true);
+    if (prop.ProjectLanguage == "UNKNOWN") {
+      prop.setTerminalContent(
+        "Your project is not a valid C++ or Java project: build and run failed."
+      );
+      return;
+    }
+    prop.setTerminalContent("Running project...");
 
     try {
       const response = await fetchRunResponse(
@@ -40,6 +47,24 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
       prop.setTerminalContent(
         "An error occured when building or running the project"
       );
+    }
+  };
+
+  const handleBuild = async () => {
+    prop.playFunction(true);
+    if (prop.ProjectLanguage == "UNKNOWN") {
+      prop.setTerminalContent(
+        "Your project is not a valid C++ or Java project: build failed."
+      );
+      return;
+    }
+    prop.setTerminalContent("Building the project...");
+
+    try {
+      await fetchBuildResponse(prop.Projectname, prop.ProjectLanguage);
+      prop.setTerminalContent("Project was built sucessfully.");
+    } catch (error) {
+      prop.setTerminalContent("An error occured when building the project");
     }
   };
 
@@ -113,7 +138,10 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
             className="w-6 h-6"
           />
         </div>
-        <div className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]">
+        <div
+          className="flex justify-center items-center rounded-none bg-skin-bg-dark hover:opacity-40 hover:border-skin-stroke-dark h-[46px] w-[50px]"
+          onClick={handleBuild}
+        >
           <img
             src={prop.theme === "Light" ? "../buildwhite.png" : "../build.png"}
             className="w-6 h-6"
