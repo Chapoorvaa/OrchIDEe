@@ -98,7 +98,8 @@ export const CodeEditor = (props: Config) => {
         height="100%"
         width="100%"
         theme={props.theme === "Light" ? "vs" : props.theme}
-        defaultLanguage={getFileLanguage()}
+        defaultLanguage="plaintext"
+        language={getFileLanguage()}
         value={props.opened[props.currentPage].content}
         defaultValue={props.opened[props.currentPage].content}
         options={options}
