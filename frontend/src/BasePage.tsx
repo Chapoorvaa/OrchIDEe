@@ -89,7 +89,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     projProp: desc,
   };
 
-  const path = "/home/emmanuel/gittest4ping";
+  const path = desc.path;
   const bottomProp = {
     path,
   };
