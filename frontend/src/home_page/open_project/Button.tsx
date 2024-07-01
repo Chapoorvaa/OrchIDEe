@@ -80,18 +80,20 @@ const Button: React.FC<ButtonProps> = ({
       }
       case "Java": {
         console.log("Language set to Java");
-        setFunction("JAVA");
+        setFunction("java");
         isHighlighted = true;
         break;
       }
       case "C++": {
         console.log("Language set to C++");
-        setFunction("CPP");
+        setFunction("cpp");
         isHighlighted = true;
         break;
       }
     }
   };
+
+  console.log(isHighlighted);
   return (
     <button
       className={`w-1/8 h-6/7 text-skin-text-primary ring-2
