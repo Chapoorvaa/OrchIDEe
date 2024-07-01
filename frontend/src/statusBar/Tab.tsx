@@ -38,9 +38,6 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
         (_, index) => index !== prop.tabIndex
       );
       prop.setOpenedFiles(newOpenedFiles);
-      console.log("opened : ", newOpenedFiles);
-      console.log("currentPage : ", prop.currentPage);
-      console.log("tabIndex : ", prop.tabIndex);
 
       if (prop.tabIndex === prop.currentPage) {
         prop.setCurrentPage(0);
