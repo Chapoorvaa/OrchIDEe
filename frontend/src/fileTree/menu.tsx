@@ -1,17 +1,37 @@
-import Item from './item'
+import { FileTree } from "./fileTree";
+import Item from "./item";
+import React from "react";
 
-const Menu = ({items, expandedFolder, toggleFolder, onAction}) => {
+interface MenuProps {
+  items:FileTree;
+  expandedFolder: string[];
+  toggleFolder: (path: string) => void;
+  openFile: (path: string) => void;
+  onAction: (action: string, srcpath: string, name: string) => Promise<void>;
+  theme: string;
+}
 
-    return <div className="wrapper overflow-auto">
-        {items.children.map(item =>
-            <Item
-                key={item.path}
-                item={item}
-                expandedFolder={expandedFolder}
-                toggleFolder={toggleFolder}
-                onAction={onAction}
-            />)}
+const Menu : React.FC<MenuProps>= ({
+  items,
+  expandedFolder,
+  toggleFolder,
+  openFile,
+  onAction,
+  theme,
+}) => {
+  return (
+    <div className="wrapper overflow-auto">
+      <Item
+        key={items.path}
+        item={items}
+        expandedFolder={expandedFolder}
+        toggleFolder={toggleFolder}
+        openFile={openFile}
+        onAction={onAction}
+        theme={theme}
+      />
     </div>
+  );
 };
 
 export default Menu;

@@ -92,9 +92,10 @@ const Button: React.FC<ButtonProps> = ({
       }
     }
   };
+
   return (
     <button
-      className={`w-1/8 h-6/7 text-skin-text-primary ring-2
+      className={`py-0 px-2 text-skin-text-primary ring-2
                 ring-gray-100 rounded-lg hover:bg-skin-bg-light
                 hover:border-transparent focus:ring-gray-500
                 ${

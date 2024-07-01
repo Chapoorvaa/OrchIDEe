@@ -81,12 +81,10 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
 
   return (
     <div className="flex h-full w-full bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light justify-between">
-      <div className="mr-[50px] ml-[46px]">
-        <div className="flex align-center">
+      <div className="mr-[50px] ml-[46px] flex align-center w-[100vw - 150px] overflow-x-auto no-scrollbar">
           {prop.opened && prop.opened.length > 0 ? (
             prop.opened.map((content) => (
               <div
-                className="p-0 m-0 bg-skin-bg-dark h-[48px]"
                 key={prop.opened.indexOf(content)}
                 onClick={() => handleChangePage(prop.opened.indexOf(content))}
               >
@@ -104,7 +102,6 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
           ) : (
             <div></div>
           )}
-        </div>
       </div>
       <div className="flex justify-end">
         <div

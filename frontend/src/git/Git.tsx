@@ -43,7 +43,7 @@ const Git: React.FC<ProjectDescProps> = (desc: ProjectDescProps) => {
       setLoading(true);
       await commitChanges(commitMessage, desc.name);
       setCommitMessage("");
-      const response = await fetchGitResponse(desc.path);
+      const response = await fetchGitResponse(desc.name);
       setUntracked(response[0]);
       setAdded(response[1]);
       setModified(response[2]);

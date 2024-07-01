@@ -12,19 +12,34 @@ import { Terminal } from "./terminal/Terminal";
 import { Settings } from "./settings/Settings";
 import StatusBar from "./statusBar/StatusBar";
 import Shortcut from "./Shortcuts";
+import { fetchOpenFile } from "./BasePageService";
 
 export const BasePage: React.FC<ProjectDescProps> = (
   desc: ProjectDescProps
 ) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
   const [leftComponent, setLeftComponent] = useState<string>("");
   const [rightComponent, setRightComponent] = useState<string>("");
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showTerminal, setShowTerminal] = useState<boolean>(false);
   const [terminalContent, setTerminalContent] = useState<string>("");
-
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [openedFiles, setOpenedFiles] = useState<File[]>([]);
   const [expandedFolder, setExpandedFolder] = useState<string[]>([]);
+
+  const openFile = async (path: string) => {
+    const page = openedFiles.findIndex((e) => e.path == path);
+    if (page != -1) {
+      setCurrentPage(page);
+    } else {
+      const content = await fetchOpenFile(path);
+      setOpenedFiles((prevFiles) => [
+        ...prevFiles,
+        { path: path, content: content },
+      ]);
+      setCurrentPage(openedFiles.length);
+    }
+  };
 
   const toggleFolder = (tf: string) => {
     setExpandedFolder((prevExpandedFolder) =>
@@ -33,19 +48,6 @@ export const BasePage: React.FC<ProjectDescProps> = (
         : [...prevExpandedFolder, tf]
     );
   };
-
-  const File1 = {
-    path: "tqt",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  };
-  const File2 = {
-    path: "bogosort.java",
-    content:
-      'import java.util.Arrays;\nimport java.util.Random;\n\npublic class BogoSort {\n\n\t// Méthode principale\n\tpublic static void main(String[] args) {\n\t\tint[] array = {3, 2, 5, 1, 4};\n\t\tSystem.out.println("Array avant le tri : " + Arrays.toString(array));\n\t\tbogoSort(array);\n\t\tSystem.out.println("Array après le tri : " + Arrays.toString(array));\n\t}\n\n\t// Méthode pour effectuer le Bogo Sort\n\tpublic static void bogoSort(int[] array) { \n\t\tRandom random = new Random();\n\t\twhile (!isSorted(array)) {\n\t\t\tshuffle(array, random);\n\t\t}\n\t}\n\n\t// Méthode pour vérifier si l\'array est triépublic \n\tstatic boolean isSorted(int[] array) {\n\t\tfor (int i = 0; i < array.length - 1; i++) {\n\t\t\tif (array[i] > array[i + 1])\n\t\t\t\treturn false;\n\t\t}\n\t}\n};',
-  };
-  const File3 = { path: "jsp", content: "fiekdjfjkljskl" };
-  const [openedFiles, setOpenedFiles] = useState<File[]>([File1, File2, File3]);
 
   const handleShowFileTree = () => {
     if (leftComponent === "fileTree") {
@@ -87,11 +89,6 @@ export const BasePage: React.FC<ProjectDescProps> = (
     messages: messages,
     appendMessage: appendMessage,
     projProp: desc,
-  };
-
-  const path = "/home/emmanuel/gittest4ping";
-  const bottomProp = {
-    path,
   };
 
   const settingsProp = {
@@ -138,8 +135,8 @@ export const BasePage: React.FC<ProjectDescProps> = (
     fontSize: desc.fontSize,
     lineSpace: desc.spacing,
   };
-  console.log(desc.path);
 
+ 
   return (
     <>
       <Shortcut />
@@ -181,6 +178,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
               {...desc}
               expandedFolder={expandedFolder}
               toggleFolder={toggleFolder}
+              openFile={openFile}
             />
           )}
           {leftComponent === "gitInterface" && <Git {...desc} />}
@@ -202,7 +200,13 @@ export const BasePage: React.FC<ProjectDescProps> = (
           {showTerminal && <Terminal content={terminalContent} />}
         </div>
         <div className="col-span-5 row-start-4 font-custom">
-          <BottomBar {...bottomProp} />
+          <BottomBar
+            {...{
+              path: openedFiles[currentPage]
+                ? openedFiles[currentPage].path
+                : desc.path,
+            }}
+          />
         </div>
       </div>
 

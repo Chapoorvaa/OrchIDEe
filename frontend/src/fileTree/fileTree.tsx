@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { ProjectDescProps } from "../App";
-import RightClick from "./rightClick/rightClick";
 import {
   buildFileTree,
   createFile,
   createFolder,
   deleteFileorFolder,
-  isDirectory,
   renameFileorFolder,
 } from "./fileTreeService";
 import Menu from "./menu";
-import ProjectItem from "./projectItem";
-import UserInput from "./userInput/userInput";
-import * as path from "path";
+
+export interface FileTree {
+  type: 'folder'|'file';
+  name: string;
+  path: string;
+  children: FileTree[]|null;
+}
+
 
 const FileTree: React.FC<
   ProjectDescProps & {
     expandedFolder: string[];
     toggleFolder: (path: string) => void;
+    openFile: (path: string) => void;
   }
 > = (desc) => {
-  const [fileTree, setFileTree] = useState<string>("");
 
+  const [fileTree, setFileTree] = useState<FileTree|null>(null);
   useEffect(() => {
     const fetchFileTree = async () => {
       try {
@@ -33,6 +37,7 @@ const FileTree: React.FC<
     };
     fetchFileTree();
   }, [desc.path]);
+
 
   const fetchFileTree = async () => {
     try {
@@ -47,16 +52,21 @@ const FileTree: React.FC<
     fetchFileTree();
   }, [desc.path]);
 
-  const handleAction = async (action, srcpath, name) => {
+  const handleAction = async (
+    action: string,
+    srcpath: string,
+    name: string
+  ) => {
+    let newPath, newFolderPath;
     switch (action) {
       case "new file":
-        let newPath = srcpath + "/" + name;
+        newPath = srcpath + "/" + name;
         console.log(newPath);
         await createFile(newPath);
         break;
 
       case "new folder":
-        let newFolderPath = srcpath + "/" + name;
+        newFolderPath = srcpath + "/" + name;
         console.log("new folder");
         await createFolder(newFolderPath);
         break;
@@ -76,19 +86,24 @@ const FileTree: React.FC<
     }
     fetchFileTree();
   };
+  console.log(fileTree);
+  
 
   if (!fileTree) {
     return <div>Loading...</div>;
   }
 
+  console.log(fileTree);
+  
   return (
     <div className="h-full w-full flex justify-start flex-col bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light">
-      <ProjectItem projectName={desc.name} />
       <Menu
         items={fileTree}
         expandedFolder={desc.expandedFolder}
         toggleFolder={desc.toggleFolder}
+        openFile={desc.openFile}
         onAction={handleAction}
+        theme={desc.theme}
       />
     </div>
   );

@@ -1,14 +1,15 @@
 #!/bin/bash
 
 cd ping
-mvn quarkus:dev &
-MAVEN_PID=$!
+mvn clean package
+java -jar target/quarkus-app/quarkus-run.jar &
+QUARKUS_PID=$!
 
 cd ../frontend
 npm run dev &
 NPM_PID=$!
 
-wait -n $MAVEN_PID $NPM_PID
+wait -n $QUARKUS_PID $NPM_PID
 
-kill $MAVEN_PID
+kill $QUARKUS_PID
 kill $NPM_PID

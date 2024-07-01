@@ -19,10 +19,11 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
     if (prop.path) {
       const name = prop.path.substring(prop.path.lastIndexOf("/") + 1);
       const extension = name.split(".").pop();
+      console.log(prop.theme);
 
       if (extension === "java") {
         setLanguage("./java.png");
-      } else if (extension === "cc") {
+      } else if (extension === "cc" || extension === "cpp") {
         setLanguage("./cpp.png");
       } else {
         setLanguage("unknown");
@@ -30,15 +31,14 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
     }
   }, [prop.path]);
 
-  function handleClick() {
+  function handleClick(event: React.MouseEvent) {
+    event.stopPropagation();
+
     if (prop.tabIndex !== undefined) {
       const newOpenedFiles = prop.opened.filter(
         (_, index) => index !== prop.tabIndex
       );
       prop.setOpenedFiles(newOpenedFiles);
-      console.log("opened : ", newOpenedFiles);
-      console.log("currentPage : ", prop.currentPage);
-      console.log("tabIndex : ", prop.tabIndex);
 
       if (prop.tabIndex === prop.currentPage) {
         prop.setCurrentPage(0);
@@ -50,29 +50,57 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
     }
   }
 
+  function handleName() {
+    let name = prop.path.substring(prop.path.lastIndexOf("/") + 1);
+    if (name.length > 13)
+    {
+      name = name.slice(0, 10) + "...";
+    }
+    return name;
+  }
+
   return (
     <div
-      className={`flex h-[48px] min-w-[36px] bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light ${
+      className={`flex h-[46px] min-w-[172px] max-w-[350px] bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light justify-between items-center ${
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+        } ${
         isHovered ? "brightness-125" : "brightness-100"
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex justify-center items-center">
+      <div
+        className={`flex justify-center items-center ${
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+        }`}
+      >
         <img
-          src={language}
+          src={
+            language !== "unknown"
+              ? language
+              : prop.theme !== "Light"
+              ? "/file.png"
+              : "/darkFile.png"
+          }
           alt={language}
-          className="ml-2 mr-2 h-[25px] w-[25px]"
+          className="ml-2 mr-2 h-[25px]"
         />
       </div>
-      <div className="text-xl">
+      <div
+        className={`text-xl ${
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+        }`}
+      >
         <p>
-          {prop.path
-            ? prop.path.substring(prop.path.lastIndexOf("/") + 1)
-            : "Unknown"}
+          {handleName()}
         </p>
       </div>
-      <div className="flex justify-center items-center" onClick={handleClick}>
+      <div
+        className={`flex justify-center items-center ${
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+        }`}
+        onClick={handleClick}
+      >
         <img
           src={prop.theme === "Light" ? "./crosswhite.png" : "./cross.png"}
           alt="cross"
