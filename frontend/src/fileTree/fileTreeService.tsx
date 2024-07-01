@@ -1,9 +1,11 @@
+import { FileTree } from "./fileTree";
+
 interface FileTreeResponse {
     json: string;
   }
 
 
-export const buildFileTree = async (rootPath: string): Promise<string> => {
+export const buildFileTree = async (rootPath: string): Promise<FileTree> => {
     const apiUrl = 'http://localhost:8080/api/filetree';
     try {
         const response = await fetch(apiUrl, {
