@@ -9,6 +9,14 @@ import {
 } from "./fileTreeService";
 import Menu from "./menu";
 
+export interface FileTree {
+  type: 'folder'|'file';
+  name: string;
+  path: string;
+  children: FileTree[]|null;
+}
+
+
 const FileTree: React.FC<
   ProjectDescProps & {
     expandedFolder: string[];
@@ -16,8 +24,8 @@ const FileTree: React.FC<
     openFile: (path: string) => void;
   }
 > = (desc) => {
-  const [fileTree, setFileTree] = useState<string>("");
 
+  const [fileTree, setFileTree] = useState<FileTree|null>(null);
   useEffect(() => {
     const fetchFileTree = async () => {
       try {
@@ -29,6 +37,7 @@ const FileTree: React.FC<
     };
     fetchFileTree();
   }, [desc.path]);
+
 
   const fetchFileTree = async () => {
     try {
@@ -48,15 +57,16 @@ const FileTree: React.FC<
     srcpath: string,
     name: string
   ) => {
+    let newPath, newFolderPath;
     switch (action) {
       case "new file":
-        let newPath = srcpath + "/" + name;
+        newPath = srcpath + "/" + name;
         console.log(newPath);
         await createFile(newPath);
         break;
 
       case "new folder":
-        let newFolderPath = srcpath + "/" + name;
+        newFolderPath = srcpath + "/" + name;
         console.log("new folder");
         await createFolder(newFolderPath);
         break;
@@ -76,12 +86,15 @@ const FileTree: React.FC<
     }
     fetchFileTree();
   };
+  console.log(fileTree);
+  
 
   if (!fileTree) {
     return <div>Loading...</div>;
   }
 
   console.log(fileTree);
+  
   return (
     <div className="h-full w-full flex justify-start flex-col bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light">
       <Menu

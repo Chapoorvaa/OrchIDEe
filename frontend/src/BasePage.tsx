@@ -28,11 +28,11 @@ export const BasePage: React.FC<ProjectDescProps> = (
   const [expandedFolder, setExpandedFolder] = useState<string[]>([]);
 
   const openFile = async (path: string) => {
-    let page = openedFiles.findIndex((e) => e.path == path);
+    const page = openedFiles.findIndex((e) => e.path == path);
     if (page != -1) {
       setCurrentPage(page);
     } else {
-      let content = await fetchOpenFile(path);
+      const content = await fetchOpenFile(path);
       setOpenedFiles((prevFiles) => [
         ...prevFiles,
         { path: path, content: content },
@@ -136,6 +136,7 @@ export const BasePage: React.FC<ProjectDescProps> = (
     lineSpace: desc.spacing,
   };
 
+ 
   return (
     <>
       <Shortcut />

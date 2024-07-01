@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import RightClick from "./rightClick/rightClick";
 import UserInput from "./userInput/userInput";
+import { FileTree } from "./fileTree";
 
-const getFileIcon = (fileName) => {
-  const extension = fileName.split(".").pop().toLowerCase();
+
+const getFileIcon = (fileName: string) : string|null => {
+  const extension = fileName.split(".").pop()?.toLowerCase();
 
   switch (extension) {
     case "cpp":
@@ -19,7 +21,16 @@ const getFileIcon = (fileName) => {
   }
 };
 
-const Item = ({
+interface ItemProps {
+  item: FileTree;
+  expandedFolder: string[];
+  toggleFolder: (path: string) => void;
+  openFile: (path: string) => void;
+  onAction: (action: string, srcpath: string, name: string) => Promise<void>;
+  theme: string;
+}
+
+const Item : React.FC<ItemProps>  = ({
   item,
   expandedFolder,
   toggleFolder,
@@ -35,7 +46,7 @@ const Item = ({
   const isOpened = expandedFolder.includes(item.path);
   const fileIcon = getFileIcon(item.name);
 
-  const handleRightClick = (e) => {
+  const handleRightClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setRightClickVisible(true);
     setRightClickPosition({ x: e.pageX, y: e.pageY });
@@ -47,7 +58,7 @@ const Item = ({
 
   const handleRclickAction = (action: string) => {
     if (action === "delete") {
-      onAction(action, item.path);
+      onAction(action, item.path,"");
     } else {
       setInputAction(action);
       setInputVisible(true);
@@ -104,7 +115,7 @@ const Item = ({
       </div>
       {item.children && isOpened && (
         <div className="ml-4">
-          {item.children.map((subitem, index: number) => (
+          {item.children.map((subitem: FileTree, index: number) => (
             <Item
               key={index}
               item={subitem}

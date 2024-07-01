@@ -1,6 +1,17 @@
+import { FileTree } from "./fileTree";
 import Item from "./item";
+import React from "react";
 
-const Menu = ({
+interface MenuProps {
+  items:FileTree;
+  expandedFolder: string[];
+  toggleFolder: (path: string) => void;
+  openFile: (path: string) => void;
+  onAction: (action: string, srcpath: string, name: string) => Promise<void>;
+  theme: string;
+}
+
+const Menu : React.FC<MenuProps>= ({
   items,
   expandedFolder,
   toggleFolder,
