@@ -6,6 +6,10 @@ import fr.epita.assistants.myide.domain.entity.FileTree;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class FileTreeBuilder {
     public FileTree buildTree(Path path) {
@@ -16,7 +20,11 @@ public class FileTreeBuilder {
 
         if (Files.isDirectory(path)) {
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-                for (Path entry : stream) {
+                List<Path> sortedPaths = StreamSupport.stream(stream.spliterator(), false)
+                        .sorted(Comparator.comparing((Path p) -> p.getFileName().toString().toLowerCase())
+                                .thenComparing(p -> !Files.isDirectory(p)))
+                        .collect(Collectors.toList());
+                for (Path entry : sortedPaths) {
                     fTree.getChildren().add(buildTree(entry));
                 }
             } catch (IOException e) {
