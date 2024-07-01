@@ -91,8 +91,6 @@ export const CodeEditor = (props: Config) => {
     }
   };
 
-  console.log("Selected language for editor: " + getFileLanguage());
-
   return (
     <>
       <Editor

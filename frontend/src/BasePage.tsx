@@ -91,11 +91,6 @@ export const BasePage: React.FC<ProjectDescProps> = (
     projProp: desc,
   };
 
-  const path = desc.path;
-  const bottomProp = {
-    path,
-  };
-
   const settingsProp = {
     toggleInterface: toggleSettings,
     theme: desc.theme,
@@ -204,7 +199,13 @@ export const BasePage: React.FC<ProjectDescProps> = (
           {showTerminal && <Terminal content={terminalContent} />}
         </div>
         <div className="col-span-5 row-start-4 font-custom">
-          <BottomBar {...bottomProp} />
+          <BottomBar
+            {...{
+              path: openedFiles[currentPage]
+                ? openedFiles[currentPage].path
+                : desc.path,
+            }}
+          />
         </div>
       </div>
 
