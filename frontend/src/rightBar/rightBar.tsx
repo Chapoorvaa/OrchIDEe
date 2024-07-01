@@ -13,7 +13,7 @@ const RightBar: React.FC<RightBarProps> = ({ onShowBot, theme, font }) => {
         <button
           type="button"
           onClick={onShowBot}
-          className="flex items-center text-skin-text-primary font-semibold h-[20vh] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
+          className="flex items-center text-skin-text-primary font-semibold min-h-[20vh] max-h-[30vh] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
         >
           <img
             src={["../assistantButton/", `${theme}`, `${font}`, ".png"].join(

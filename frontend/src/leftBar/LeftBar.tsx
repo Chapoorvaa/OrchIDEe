@@ -22,7 +22,7 @@ const LeftBar: React.FC<LeftBarProps> = ({
           <button
             type="button"
             onClick={onShowFileTree}
-            className="flex items-center text-skin-text-primary font-semibold h-[17vh] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
+            className="flex items-center text-skin-text-primary font-semibold min-h-[17vh] max-h-[30vh] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
           >
             <img
               src={["../projectButton/", `${theme}`, `${font}`, ".png"].join(
@@ -49,12 +49,12 @@ const LeftBar: React.FC<LeftBarProps> = ({
         <button
           type="button"
           onClick={onShowTerminalInterface}
-          className="flex items-center text-skin-text-primary font-semibold h-[5vh] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
+          className="flex items-center text-skin-text-primary font-semibold h-[50px] w-full rounded-none bg-skin-bg-dark p-0 hover:brightness-125 transition hover:border-skin-stroke-dark"
         >
           <img
             src={theme === "Light" ? "../playwhite.png" : "../play.png"}
             alt="Terminal Button"
-            className="mx-auto size-8"
+            className="mx-auto size-6"
           />
         </button>
       </div>
