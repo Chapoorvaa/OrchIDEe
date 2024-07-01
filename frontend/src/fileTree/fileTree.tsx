@@ -9,11 +9,11 @@ import {
 } from "./fileTreeService";
 import Menu from "./menu";
 
-
 const FileTree: React.FC<
   ProjectDescProps & {
     expandedFolder: string[];
     toggleFolder: (path: string) => void;
+    openFile: (path: string) => void;
   }
 > = (desc) => {
   const [fileTree, setFileTree] = useState<string>("");
@@ -83,6 +83,7 @@ const FileTree: React.FC<
         items={fileTree}
         expandedFolder={desc.expandedFolder}
         toggleFolder={desc.toggleFolder}
+        openFile={desc.openFile}
         onAction={handleAction}
       />
     </div>
