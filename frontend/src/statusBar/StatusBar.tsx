@@ -35,6 +35,11 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
     handleRun();
   };
 
+  const shortcutBuild = () => {
+    console.log("Build shortcut");
+    handleBuild();
+  };
+
   prop.handleShortcuts([
     {
       key: "s",
@@ -47,6 +52,12 @@ const StatusBar: React.FC<StatusBarProps> = (prop: StatusBarProps) => {
       ctrlKey: true,
       shiftKey: false,
       callback: shortcutRun,
+    },
+    {
+      key: "F6",
+      ctrlKey: true,
+      shiftKey: false,
+      callback: shortcutBuild,
     },
   ]);
 
