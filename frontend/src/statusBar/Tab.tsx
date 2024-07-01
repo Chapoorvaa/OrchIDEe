@@ -50,9 +50,20 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
     }
   }
 
+  function handleName() {
+    let name = prop.path.substring(prop.path.lastIndexOf("/") + 1);
+    if (name.length > 13)
+    {
+      name = name.slice(0, 10) + "...";
+    }
+    return name;
+  }
+
   return (
     <div
-      className={`flex h-[48px] min-w-[36px] bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light ${
+      className={`flex h-[46px] min-w-[172px] max-w-[350px] bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light justify-between items-center ${
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+        } ${
         isHovered ? "brightness-125" : "brightness-100"
       }`}
       onMouseEnter={() => setIsHovered(true)}
@@ -81,9 +92,7 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
         }`}
       >
         <p>
-          {prop.path
-            ? prop.path.substring(prop.path.lastIndexOf("/") + 1)
-            : "Unknown"}
+          {handleName()}
         </p>
       </div>
       <div
