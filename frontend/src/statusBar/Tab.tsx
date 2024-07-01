@@ -58,7 +58,11 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex justify-center items-center">
+      <div
+        className={`flex justify-center items-center ${
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+        }`}
+      >
         <img
           src={
             language !== "unknown"
@@ -71,14 +75,23 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
           className="ml-2 mr-2 h-[25px]"
         />
       </div>
-      <div className="text-xl">
+      <div
+        className={`text-xl ${
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+        }`}
+      >
         <p>
           {prop.path
             ? prop.path.substring(prop.path.lastIndexOf("/") + 1)
             : "Unknown"}
         </p>
       </div>
-      <div className="flex justify-center items-center" onClick={handleClick}>
+      <div
+        className={`flex justify-center items-center ${
+          prop.tabIndex === prop.currentPage ? "bg-skin-bg-light" : ""
+        }`}
+        onClick={handleClick}
+      >
         <img
           src={prop.theme === "Light" ? "./crosswhite.png" : "./cross.png"}
           alt="cross"
