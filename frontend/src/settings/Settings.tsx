@@ -185,15 +185,9 @@ export const Settings: React.FC<SettingsProps> = (prop: SettingsProps) => {
                   <b>Build:</b> Ctrl, F6
                 </div>
                 <div className="row-start-3">
-                  <b>New file:</b> Ctrl, N
-                </div>
-                <div className="row-start-4">
-                  <b>New folder:</b> Ctrl, D
-                </div>
-                <div className="row-start-4">
                   <b>Open settings:</b> Ctrl, Shift, S
                 </div>
-                <div className="row-start-5">
+                <div className="row-start-4">
                   <b>Save:</b> Ctrl, S
                 </div>
               </div>
