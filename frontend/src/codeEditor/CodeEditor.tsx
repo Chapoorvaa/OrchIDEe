@@ -72,7 +72,7 @@ export const CodeEditor = (props: Config) => {
     const name = path.substring(path.lastIndexOf("/") + 1);
     const extension = name.split(".").pop();
 
-    if (path === "Makefile") {
+    if (name === "Makefile") {
       return "makefile";
     } else if (extension === "java") {
       return "java";
@@ -91,14 +91,14 @@ export const CodeEditor = (props: Config) => {
     }
   };
 
-  console.log("language: " + getFileLanguage());
+  console.log("Selected language for editor: " + getFileLanguage());
+
   return (
     <>
       <Editor
         height="100%"
         width="100%"
         theme={props.theme === "Light" ? "vs" : props.theme}
-        defaultLanguage="plaintext"
         language={getFileLanguage()}
         value={props.opened[props.currentPage].content}
         defaultValue={props.opened[props.currentPage].content}
