@@ -2,16 +2,17 @@ import Item from './item'
 
 const Menu = ({items, expandedFolder, toggleFolder, onAction}) => {
 
-    return <div className="wrapper overflow-auto">
-        {items.children.map(item =>
+    return (
+        <div className="wrapper overflow-auto">
             <Item
-                key={item.path}
-                item={item}
+                key={items.path}
+                item={items}
                 expandedFolder={expandedFolder}
                 toggleFolder={toggleFolder}
                 onAction={onAction}
-            />)}
-    </div>
+            />
+        </div>
+    );
 };
 
 export default Menu;

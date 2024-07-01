@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { ProjectDescProps } from "../App";
-import RightClick from "./rightClick/rightClick";
 import {
   buildFileTree,
   createFile,
   createFolder,
   deleteFileorFolder,
-  isDirectory,
   renameFileorFolder,
 } from "./fileTreeService";
 import Menu from "./menu";
-import ProjectItem from "./projectItem";
-import UserInput from "./userInput/userInput";
-import * as path from "path";
+
 
 const FileTree: React.FC<
   ProjectDescProps & {
@@ -83,7 +79,6 @@ const FileTree: React.FC<
 
   return (
     <div className="h-full w-full flex justify-start flex-col bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light">
-      <ProjectItem projectName={desc.name} />
       <Menu
         items={fileTree}
         expandedFolder={desc.expandedFolder}
