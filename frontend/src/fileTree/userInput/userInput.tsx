@@ -52,7 +52,7 @@ const UserInput: React.FC<{
             onChange={(e) => setName(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder={placeholder}
-            className="p-2 mb-4 text-center bg-skin-bg-light text-skin-text-primary border rounded"
+            className="p-2 mb-4 text-center bg-skin-bg-light text-skin-text-tertiary border rounded"
           />
         </form>
       </div>

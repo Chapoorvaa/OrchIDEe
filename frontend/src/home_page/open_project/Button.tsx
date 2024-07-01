@@ -80,13 +80,13 @@ const Button: React.FC<ButtonProps> = ({
       }
       case "Java": {
         console.log("Language set to Java");
-        setFunction("java");
+        setFunction("JAVA");
         isHighlighted = true;
         break;
       }
       case "C++": {
         console.log("Language set to C++");
-        setFunction("cpp");
+        setFunction("CPP");
         isHighlighted = true;
         break;
       }

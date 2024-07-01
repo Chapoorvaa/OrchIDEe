@@ -60,12 +60,12 @@ const OpenProject: React.FC<OpenProjectProps> = ({
           <Button
             label="Java"
             setFunction={setLanguage}
-            isHighlighted={language === "java"}
+            isHighlighted={language === "JAVA"}
           />
           <Button
             label="C++"
             setFunction={setLanguage}
-            isHighlighted={language === "cpp"}
+            isHighlighted={language === "CPP"}
           />
         </div>
 
