@@ -11,15 +11,22 @@ const getFileIcon = (fileName) => {
     case "cc":
     case "hh":
     case "hxx":
-      return "../../public/cpp.png";
+      return "/cpp.png";
     case "java":
-      return "../../public/java.png";
+      return "/java.png";
     default:
       return null;
   }
 };
 
-const Item = ({ item, expandedFolder, toggleFolder, openFile, onAction }) => {
+const Item = ({
+  item,
+  expandedFolder,
+  toggleFolder,
+  openFile,
+  onAction,
+  theme,
+}) => {
   const [isRightClickVisible, setRightClickVisible] = useState(false);
   const [rightClickPosition, setRightClickPosition] = useState({ x: 0, y: 0 });
   const [inputVisible, setInputVisible] = useState(false);
@@ -38,7 +45,7 @@ const Item = ({ item, expandedFolder, toggleFolder, openFile, onAction }) => {
     setRightClickVisible(false);
   };
 
-  const handleRclickAction = (action) => {
+  const handleRclickAction = (action: string) => {
     if (action === "delete") {
       onAction(action, item.path);
     } else {
@@ -47,7 +54,7 @@ const Item = ({ item, expandedFolder, toggleFolder, openFile, onAction }) => {
     }
   };
 
-  const handleInputSubmit = (name) => {
+  const handleInputSubmit = (name: string) => {
     onAction(inputAction, item.path, name);
     setInputVisible(false);
   };
@@ -84,7 +91,7 @@ const Item = ({ item, expandedFolder, toggleFolder, openFile, onAction }) => {
               <span className="arrow-icon">{isOpened ? "⌄" : ">"}</span>
             </span>
             <img
-              src={"../../public/folder.png"}
+              src={theme !== "Light" ? "/folder.png" : "/darkFolder.png"}
               alt="Folder Icon"
               className="w-4 h-4 mr-2"
             />
@@ -97,7 +104,7 @@ const Item = ({ item, expandedFolder, toggleFolder, openFile, onAction }) => {
       </div>
       {item.children && isOpened && (
         <div className="ml-4">
-          {item.children.map((subitem, index) => (
+          {item.children.map((subitem, index: number) => (
             <Item
               key={index}
               item={subitem}
@@ -105,6 +112,7 @@ const Item = ({ item, expandedFolder, toggleFolder, openFile, onAction }) => {
               toggleFolder={toggleFolder}
               openFile={openFile}
               onAction={onAction}
+              theme={theme}
             />
           ))}
         </div>

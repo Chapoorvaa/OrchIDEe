@@ -19,10 +19,11 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
     if (prop.path) {
       const name = prop.path.substring(prop.path.lastIndexOf("/") + 1);
       const extension = name.split(".").pop();
+      console.log(prop.theme);
 
       if (extension === "java") {
         setLanguage("./java.png");
-      } else if (extension === "cc") {
+      } else if (extension === "cc" || extension === "cpp") {
         setLanguage("./cpp.png");
       } else {
         setLanguage("unknown");
@@ -59,9 +60,15 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
     >
       <div className="flex justify-center items-center">
         <img
-          src={language}
+          src={
+            language !== "unknown"
+              ? language
+              : prop.theme !== "Light"
+              ? "/file.png"
+              : "/darkFile.png"
+          }
           alt={language}
-          className="ml-2 mr-2 h-[25px] w-[25px]"
+          className="ml-2 mr-2 h-[25px]"
         />
       </div>
       <div className="text-xl">

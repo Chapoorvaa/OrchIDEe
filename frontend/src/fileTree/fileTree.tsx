@@ -43,7 +43,11 @@ const FileTree: React.FC<
     fetchFileTree();
   }, [desc.path]);
 
-  const handleAction = async (action, srcpath, name) => {
+  const handleAction = async (
+    action: string,
+    srcpath: string,
+    name: string
+  ) => {
     switch (action) {
       case "new file":
         let newPath = srcpath + "/" + name;
@@ -77,6 +81,7 @@ const FileTree: React.FC<
     return <div>Loading...</div>;
   }
 
+  console.log(fileTree);
   return (
     <div className="h-full w-full flex justify-start flex-col bg-skin-bg-dark text-skin-text-primary border-2 border-skin-stroke-light">
       <Menu
@@ -85,6 +90,7 @@ const FileTree: React.FC<
         toggleFolder={desc.toggleFolder}
         openFile={desc.openFile}
         onAction={handleAction}
+        theme={desc.theme}
       />
     </div>
   );
