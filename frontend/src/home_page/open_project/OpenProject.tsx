@@ -25,8 +25,8 @@ const OpenProject: React.FC<OpenProjectProps> = ({
   const [error, setError] = useState(false);
 
   return (
-    <div className="flex flex-col justify-center m-auto drop-shadow-lg rounded-xl border-2 border-skin-stroke-light bg-skin-bg-dark h-1/3 w-2/5 text-skin-text-primary">
-      <div className="grid grid-cols-4 m-5 grid-rows-3 gap-3 h-50">
+    <div className="flex flex-col justify-center m-auto drop-shadow-lg rounded-xl border-2 border-skin-stroke-light bg-skin-bg-dark h-1/2 w-2/5 text-skin-text-primary">
+      <div className="grid grid-cols-4 m-5 grid-rows-3 gap-3 h-70">
         <label className="row-start-1 flex justify-evenly">Project name:</label>
         <input
           className="col-span-3 placeholder:italic
