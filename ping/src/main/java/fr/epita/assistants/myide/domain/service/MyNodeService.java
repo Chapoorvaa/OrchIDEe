@@ -14,18 +14,13 @@ public class MyNodeService implements NodeService {
 
     @Override
     public Node update(Node node, int from, int to, byte[] insertedContent) {
-        if (from < 0 || from > to ) {
-            throw new IllegalArgumentException("Invalid from or to");
-        }
-
         Path nodePath = node.getPath();
         if (!Files.exists(nodePath) || Files.isDirectory(nodePath)) {
             throw new IllegalArgumentException("File does not exist or is a directory");
         }
 
         try {
-            String content = new String(Files.readAllBytes(nodePath));
-            String newContent = content.substring(0,from) + new String(insertedContent) + content.substring(to);
+            String newContent = new String(insertedContent);
             Files.write(nodePath, newContent.getBytes());
             return node;
         } catch (IOException e) {
