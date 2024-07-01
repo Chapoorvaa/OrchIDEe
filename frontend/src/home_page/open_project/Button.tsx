@@ -93,7 +93,6 @@ const Button: React.FC<ButtonProps> = ({
     }
   };
 
-  console.log(isHighlighted);
   return (
     <button
       className={`w-1/8 h-6/7 text-skin-text-primary ring-2
