@@ -30,7 +30,9 @@ const Tab: React.FC<TabProps> = (prop: TabProps) => {
     }
   }, [prop.path]);
 
-  function handleClick() {
+  function handleClick(event: React.MouseEvent) {
+    event.stopPropagation();
+
     if (prop.tabIndex !== undefined) {
       const newOpenedFiles = prop.opened.filter(
         (_, index) => index !== prop.tabIndex
